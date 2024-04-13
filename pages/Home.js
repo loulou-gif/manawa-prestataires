@@ -2,7 +2,7 @@ import { View, ScrollView, Text, StyleSheet, Image, Pressable } from 'react-nati
 import React from 'react';
 import Header from '../components/customers/Header';
 import { Paniers } from '../data/Paniers';
-
+import Icone from 'react-native-vector-icons/Entypo'
 const Home = () => {
   return (
     <View>
@@ -12,10 +12,13 @@ const Home = () => {
         <View style={styles.container}>
           {Paniers.map((data) => (
             <View style={styles.box} key={data.id}>
-              <Image style={styles.images} source={data.image} />
+                <Icone name='dots-three-horizontal' size={16} color="black" style={{ textAlign:"right", width:150, marginTop:-5, marginRight:-5 }}/>
+              <View style={styles.buttonsContainer}>
+                <Image style={styles.images} source={data.image} />
+              </View>
               <View style={styles.details}>
                 <Text style={styles.text}><Text style={styles.bold}>Service:</Text> {data.name}</Text>
-                <Text style={styles.text}><Text style={styles.bold}>Durée du service:</Text> {data.durée}</Text>
+                <Text style={styles.text}><Text style={styles.bold}>Date:</Text> {data.date}</Text>
                 <Text style={styles.text}><Text style={styles.bold}>Coût:</Text> {data.price}</Text>
                 <View style={styles.buttonsContainer}>
                   <Pressable style={styles.btn_annulation}><Text style={styles.buttonText}>Annuler</Text></Pressable>

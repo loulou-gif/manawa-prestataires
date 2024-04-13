@@ -4,6 +4,7 @@ export const Paniers = [
         name:"coupe de cheveux",
         price:"10.000 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p8.png"),
     },
     {
@@ -11,6 +12,7 @@ export const Paniers = [
         name:"Coupe femme",
         price:"10.500 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p3.jpg"),
     },
     {
@@ -18,6 +20,7 @@ export const Paniers = [
         name:"Maquillage",
         price:"2500 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p7.jpg"),
     },
     {
@@ -25,6 +28,7 @@ export const Paniers = [
         name:"coupe de cheveux",
         price:"10.000 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p8.png"),
     },
     {
@@ -32,6 +36,7 @@ export const Paniers = [
         name:"Coupe femme",
         price:"10.500 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p3.jpg"),
     },
     {
@@ -39,6 +44,7 @@ export const Paniers = [
         name:"Maquillage",
         price:"2500 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p7.jpg"),
     },
     {
@@ -46,6 +52,7 @@ export const Paniers = [
         name:"Coupe femme",
         price:"10.500 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p3.jpg"),
     },
     {
@@ -53,6 +60,7 @@ export const Paniers = [
         name:"Maquillage",
         price:"2500 XOF",
         durée:"25mins",
+        date:"24-04-2024",
         image: require("../assets/images/Profils/p7.jpg"),
     },
 ]
