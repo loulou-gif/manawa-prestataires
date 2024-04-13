@@ -46,20 +46,20 @@ const Home = () => {
                                 </DataTable>
                                 <Pressable onPress={() => setModalVisible(!modalVisible)}><Text>X</Text></Pressable>
                             </Modal>
-                            <Modal transparent={true} style={styles.model} visible={confirm}>
+                            <Modal  animationType="slide"transparent={true} style={styles.model} visible={confirm}>
                                 <View style={styles.model}>
                                     <Text>Voulez-vous prendre cette taches?</Text><View style={styles.buttonsContainer}>
-                                    <Pressable style={styles.btn_annulation} onPress={() =>setConfirm(!confirm)}><Text>Non </Text></Pressable>
-                                    <Pressable style={styles.btn_confirmation} onPress={() =>setConfirm(!confirm)}><Text>Oui </Text></Pressable>
+                                    <Pressable style={styles.btn_annulation} onPress={() =>setConfirm(!confirm)}><Text style={styles.buttonText}>Non </Text></Pressable>
+                                    <Pressable style={styles.btn_confirmation} onPress={() =>setConfirm(!confirm)}><Text style={styles.buttonText}>Oui </Text></Pressable>
                                 </View>
                                 </View>
                             </Modal>
-                            <Modal transparent={true} style={styles.model} visible={confirm}>
+                            <Modal animationType="slide" transparent={true} style={styles.model} visible={annul}>
                                <View style={styles.model}>
                                <Text>Voulez-vous annuler cette taches?</Text>
                                <View style={styles.buttonsContainer}>
-                                <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!confirm)}><Text>Non </Text></Pressable>
-                                <Pressable style={styles.btn_confirmation} onPress={() =>setAnnul(!confirm)}><Text>Oui </Text></Pressable>
+                                <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
+                                <Pressable style={styles.btn_confirmation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Oui </Text></Pressable>
                                 </View>
                                </View>
                             </Modal>
