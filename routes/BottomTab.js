@@ -10,8 +10,8 @@ import Icone from 'react-native-vector-icons/MaterialCommunityIcons'
 const BottomTab = () => {
     const Tab = createMaterialBottomTabNavigator()
   return (
-    <Tab.Navigator initialRouteName='Home' screenOptions={{ headerShown: false}} activeColor='white' inactiveColor='white'  barStyle={{ backgroundColor: '#AB6E12', height:70, borderTopEndRadius:50 }}>
-        <Tab.Screen name="Home" component={Home} options={{ tabBarIcon: () =>( <Icone name='calendar-edit' color='#7A4D09' size={26} />)}} />
+    <Tab.Navigator initialRouteName='Agenda' screenOptions={{ headerShown: false}} activeColor='white' inactiveColor='white'  barStyle={{ backgroundColor: '#AB6E12', height:70, borderTopEndRadius:50 }}>
+        <Tab.Screen name="Agenda" component={Home} options={{ tabBarIcon: () =>( <Icone name='calendar-edit' color='#7A4D09' size={26} />)}} />
         <Tab.Screen name="Services" component={Services} options={{ tabBarIcon: () =>( <Icone name='update' color='#7A4D09' size={26} />)}} />
         <Tab.Screen name='Settings' component={Settings} options={{ tabBarIcon: () =>( <Icone name='account' color='#7A4D09' size={26} />)}} />
     </Tab.Navigator>

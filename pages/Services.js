@@ -1,29 +1,33 @@
-import { View, Text, Pressable, Image, StyleSheet } from 'react-native'
+import { View, Text, Pressable, Image, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
+import Icone from 'react-native-vector-icons/EvilIcons';
 
 const Services = () => {
   return (
     <View>
-      <Header/>
-      <StoreHeader/>
-      <View>
-        <Pressable style={styles.button}>
-            <Text style={styles.btn_text}>Ajouter un service</Text>
-        </Pressable>
-      </View>
-      <View style={styles.card}>
-        <Image style={styles.image} />
-        <View >
-            <Text style={styles.title}>Coupe homme</Text>
-            <Text style={styles.description}>Coiffure de tout genre pour homme</Text>
-        </View>
+      <ScrollView>
+        <Header/>
+        <StoreHeader/>
         <View>
-            <Text>10.000 XOF</Text>
-            <Text>Icone</Text>
+            <Pressable style={styles.button}>
+                <Text style={styles.btn_text}><Icone name='plus' size={20} style={{ marginTop:10}} /> Ajouter un service </Text>
+            </Pressable>
         </View>
-      </View>
+        <View style={styles.card}>
+            <Image style={styles.image} />
+            <View >
+                <Text style={styles.title}>Coupe homme</Text>
+                <Text style={styles.description}>Coiffure de tout genre pour homme</Text>
+            </View>
+            <View>
+                <Text>10.000 XOF</Text>
+                <Text>Icone</Text>
+            </View>
+        </View>
+      </ScrollView>
+      
     </View>
   )
 }
@@ -39,16 +43,16 @@ const styles= StyleSheet.create({
     button:{
         backgroundColor:"#DE9F42",
         marginLeft:9,
-        width:100,
+        width:150,
         height:30,
         margin:10,
         borderRadius:8
     },
     btn_text:{
         color:'#fff', 
-        fontSize:9,
+        fontSize:14,
         textAlign:"center",
-        marginTop:8,       
+        marginTop:4,       
     },
     title:{
         fontSize:14,
