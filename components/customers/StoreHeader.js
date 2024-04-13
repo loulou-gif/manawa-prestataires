@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
+import IconeFeather from 'react-native-vector-icons/Feather'
 
 const StoreHeader = () => {
   return (
@@ -11,11 +12,15 @@ const StoreHeader = () => {
             <View styles={styles.text}>
                 <Text style={styles.title}>Salon de coiffure</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
+                <View styles={styles.icone}>
+                    <IconeFeather name='edit' size={16}/>
+                </View>
             </View>
+            
         </View>
         <View style={styles.flex} >
             <Text styles={styles.menuMain}>Service</Text>
-            <Text styles={styles.menu}>Locaux</Text>
+            <Text styles={styles.menu}>Aperçu</Text>
             <Text styles={styles.menu}>Avis</Text>
         </View>
       </View>
@@ -56,7 +61,13 @@ const styles = StyleSheet.create({
     menuMain:{
         fontSize:16,
         color:"#DE9F42"
-    }
+    },
+    icone:{
+        marginTop:100,
+        backgroundColor:'red',
+        borderWidth:1,
+        borderColor:'red'
+    },
 })
 
 export default StoreHeader

@@ -3,6 +3,8 @@ import React from 'react'
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
+import IconeFeather from 'react-native-vector-icons/Feather'
+import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 
 const Services = () => {
   return (
@@ -23,7 +25,7 @@ const Services = () => {
             </View>
             <View>
                 <Text>10.000 XOF</Text>
-                <Text>Icone</Text>
+                <Text><IconeFeather name='edit' size={20} /> <IconeAntDesign name='delete' size={20} color='red'/> </Text>
             </View>
         </View>
       </ScrollView>
