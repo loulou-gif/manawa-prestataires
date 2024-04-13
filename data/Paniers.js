@@ -1,0 +1,58 @@
+export const Paniers = [
+    {
+        id:1,
+        name:"coupe de cheveux",
+        price:"10.000 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p8.png"),
+    },
+    {
+        id:2,
+        name:"Coupe femme",
+        price:"10.500 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p3.jpg"),
+    },
+    {
+        id:3,
+        name:"Maquillage",
+        price:"2500 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p7.jpg"),
+    },
+    {
+        id:4,
+        name:"coupe de cheveux",
+        price:"10.000 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p8.png"),
+    },
+    {
+        id:5,
+        name:"Coupe femme",
+        price:"10.500 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p3.jpg"),
+    },
+    {
+        id:6,
+        name:"Maquillage",
+        price:"2500 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p7.jpg"),
+    },
+    {
+        id:7,
+        name:"Coupe femme",
+        price:"10.500 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p3.jpg"),
+    },
+    {
+        id:8,
+        name:"Maquillage",
+        price:"2500 XOF",
+        durée:"25mins",
+        image: require("../assets/images/Profils/p7.jpg"),
+    },
+]
