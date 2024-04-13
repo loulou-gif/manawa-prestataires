@@ -1,5 +1,5 @@
-import { View, Text, Pressable, Image, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal } from 'react-native'
+import React, { useState } from 'react';
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
@@ -7,6 +7,7 @@ import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 
 const Services = () => {
+    const [ deleted, setDeleted] = useState(false);
   return (
     <View>
       <ScrollView>
@@ -25,9 +26,18 @@ const Services = () => {
             </View>
             <View>
                 <Text>10.000 XOF</Text>
-                <Text><IconeFeather name='edit' size={20} /> <IconeAntDesign name='delete' size={20} color='red'/> </Text>
+                <Text><IconeFeather name='edit' size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
             </View>
         </View>
+            <Modal transparent={true} style={styles.model} visible={deleted}>
+                <View style={styles.model}>
+                    <Text >Voulez-vous supprimer ce service?</Text>
+                    <View style={styles.buttonsContainer}>
+                        <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Oui</Text></Pressable>
+                        <Pressable style={styles.btn_confirmation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Nom</Text></Pressable>
+                    </View>
+              </View>
+            </Modal>
       </ScrollView>
       
     </View>
@@ -78,6 +88,38 @@ const styles= StyleSheet.create({
     flex:{
         flexDirection:"row",
         justifyContent:"space-between"
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    btn_annulation: {
+        backgroundColor: '#FFA012',
+        width: 75,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5
+    },
+    btn_confirmation: {
+        backgroundColor: '#47300D',
+        width: 75,
+        height: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 5
+    },
+    buttonText: {
+        color: "#fff"
+    },
+    model:{
+        width:300,
+        height:100,
+        backgroundColor:'#fff',
+        alignItems: 'center',
+        marginTop:350,
+        marginLeft:60,
+        paddingTop:10,
     }
 })
 
