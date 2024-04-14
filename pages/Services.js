@@ -29,7 +29,7 @@ const Services = () => {
                 <Text><IconeFeather name='edit' size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
             </View>
         </View>
-            <Modal transparent={true} style={styles.model} visible={deleted}>
+            <Modal animationType="fade" transparent={true} style={styles.model} visible={deleted}>
                 <View style={styles.model}>
                     <Text >Voulez-vous supprimer ce service?</Text>
                     <View style={styles.buttonsContainer}>

@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import Header from '../components/customers/Header';
 import { Paniers } from '../data/Paniers';
 import Icone from 'react-native-vector-icons/Entypo';
+import IconeAntDesign from 'react-native-vector-icons/AntDesign';
+import IconeFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { DataTable } from 'react-native-paper';
+
 
 const Home = () => {
     const [modalVisible, setModalVisible] = useState(false); 
@@ -33,20 +36,58 @@ const Home = () => {
                                     <Pressable style={styles.btn_confirmation} onPress={() => setConfirm(true)}><Text style={styles.buttonText}>Confirmer</Text></Pressable>
                                 </View>
                             </View>
-                            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
-                                <DataTable>
-                                    <DataTable.Header>
-                                        <DataTable.Title>Titre</DataTable.Title>
-                                        <DataTable.Title>Valeur</DataTable.Title>
-                                    </DataTable.Header>
-                                    <DataTable.Row>
-                                        <DataTable.Cell>Test</DataTable.Cell>
-                                        <DataTable.Cell>Valeur test</DataTable.Cell>
-                                    </DataTable.Row>
-                                </DataTable>
-                                <Pressable onPress={() => setModalVisible(!modalVisible)}><Text>X</Text></Pressable>
+                            <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
+                                <View style={styles.model_info}>
+                                 <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:10, marginTop:10, textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
+                                 <View style={styles.box_info}>
+                                    <View style={styles.circle}>
+                                        <Text style={styles.circle_text}>JK</Text>
+                                    </View>
+                                    <View style={styles.info}>
+                                        <Text style={styles.name}>Julius Konan</Text>
+                                        <Text style={styles.id}>IDclient:  52314</Text>
+                                        <Text style={styles.contact}>Contact:  07 98 395 774</Text>
+                                    </View>
+                                    <View style={{ marginRight:10}}>
+                                         <IconeFontAwesome size={26} name='download'/>
+                                    </View>
+                                 </View>
+                                    <DataTable style={styles.table}>
+                                        <DataTable.Header style={styles.table_title}>
+                                            <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Titre</Text></DataTable.Title>
+                                            <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Valeur</Text></DataTable.Title>
+                                        </DataTable.Header>
+                                        <DataTable.Row >
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Text</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Valer test</Text></DataTable.Cell>
+                                        </DataTable.Row>
+                                        <DataTable.Row style={styles.row_table}>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>Text</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>valer test</Text></DataTable.Cell>
+                                        </DataTable.Row>
+                                        <DataTable.Row style={styles.second_row_table}>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Text</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>valeur test</Text></DataTable.Cell>
+                                        </DataTable.Row>
+                                        <DataTable.Row style={styles.row_table}>
+                                            <DataTable.Cell style={styles.second_text_row}><Text style={styles.second_text_row}>Text</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>valeur test</Text></DataTable.Cell>
+                                        </DataTable.Row>
+                                        <DataTable.Row style={styles.second_row_table}>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Text</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>valeur text</Text></DataTable.Cell>
+                                        </DataTable.Row>
+                                    </DataTable>
+                                    <View style={styles.map}>
+                                     <Image style={styles.map} source={require('../assets/images/maps/map.png')} />
+                                    </View>
+                                    <View style={styles.buttonsContainer_info_model}>
+                                        <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
+                                        <Pressable style={styles.btn_confirmation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Oui </Text></Pressable>
+                                    </View>
+                                </View>
                             </Modal>
-                            <Modal  animationType="slide"transparent={true} style={styles.model} visible={confirm}>
+                            <Modal  animationType="fade"transparent={true} style={styles.model} visible={confirm}>
                                 <View style={styles.model}>
                                     <Text>Voulez-vous prendre cette taches?</Text><View style={styles.buttonsContainer}>
                                     <Pressable style={styles.btn_annulation} onPress={() =>setConfirm(!confirm)}><Text style={styles.buttonText}>Non </Text></Pressable>
@@ -54,13 +95,13 @@ const Home = () => {
                                 </View>
                                 </View>
                             </Modal>
-                            <Modal animationType="slide" transparent={true} style={styles.model} visible={annul}>
+                            <Modal animationType="fade" transparent={true} style={styles.model} visible={annul}>
                                <View style={styles.model}>
-                               <Text>Voulez-vous annuler cette taches?</Text>
-                               <View style={styles.buttonsContainer}>
-                                <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
-                                <Pressable style={styles.btn_confirmation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Oui </Text></Pressable>
-                                </View>
+                                    <Text>Voulez-vous annuler cette taches?</Text>
+                                    <View style={styles.buttonsContainer}>
+                                        <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
+                                        <Pressable style={styles.btn_confirmation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Oui </Text></Pressable>
+                                    </View>
                                </View>
                             </Modal>
                         </View>
@@ -145,6 +186,98 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 10, height: 10 },
         shadowOpacity: 0.8,
         shadowRadius: 1,
+    },
+    model_info:{
+        height:650,
+        marginTop:100,
+        backgroundColor:'#fff',
+        width:400,
+        marginLeft:5
+    },
+    table:{
+        marginTop:10,
+        marginLeft:10,
+        width:375
+    },circle:{
+        width:100,
+        height:100,
+        borderRadius:50,
+        backgroundColor:'#7A4D09',
+        marginTop:10,
+        marginLeft:20
+    },
+    circle_text:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 30,
+        textAlign:'center',
+        color:'#fff',
+        fontSize:25
+    },
+    name:{
+        fontSize:20,
+        marginLeft:20,
+        color:'#47300D'
+    },
+    info:{
+        width:190,
+        marginLeft:20
+    },
+    id:{
+        fontSize:15,
+        color:'#8C8B8B',
+        marginLeft:20
+    },
+    contact:{
+        fontSize:15,
+        color:'#8C8B8B',
+        marginLeft:20
+    },
+    table_title:{
+        backgroundColor:'#715D3E',
+        height:35,
+        opacity:0.7
+    },
+    table_text_title:{
+        color:'white',
+        marginTop:-10,
+        fontSize:16
+    },
+    box_info:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 5,
+    },
+    buttonsContainer_info_model: {
+        flexDirection: 'row',
+        marginTop: 10,
+        justifyContent:'center',
+    },
+    row_table:{
+        height:30,
+        backgroundColor:'#715D3E',
+        opacity:0.7
+    },
+    second_row_table:{
+        height:30,
+    },
+    text_row:{
+        fontSize:15
+    },
+    second_text_row:{
+        fontSize:15,
+        color:'#fff'
+    },
+    map:{
+        width:375,
+        height:100,
+        marginLeft:10,
+        marginTop:50,
+        marginBottom:50
     }
 });
 
