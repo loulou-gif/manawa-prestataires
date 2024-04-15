@@ -19,9 +19,9 @@ const StoreHeader = ({navigation}) => {
             
         </View>
         <View style={styles.flex} >
-            <Text styles={styles.menuMain}>Service</Text>
-            <Text styles={styles.menu}>Aperçu</Text>
-            <Text styles={styles.menu}>Avis</Text>
+            <Text styles={styles.cursor} onPress={() => navigation.navigate('Services')} >Service</Text>
+            <Text styles={styles.menu} onPress={() => navigation.navigate('Aperçu')}>Aperçu</Text>
+            <Text styles={styles.menu} onPress={() => navigation.navigate('Avis')}>Avis</Text>
         </View>
       </View>
     </View>
@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
     menu:{
         fontSize:16,
     },
-    menuMain:{
+    cursor:{
         fontSize:16,
-        color:"#DE9F42"
+        color:"#DE9F42",
     },
     icone:{
         marginTop:100,

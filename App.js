@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import CreateServices from './pages/forms/CreateServices';
 import ModifyStore from './pages/forms/ModifyStore';
 import ModifyServices from './pages/forms/ModifyServices';
+import Aperçu from './pages/Aperçu';
+import Avis from './pages/Avis';
 
 export default function App() {
   const Stack = createNativeStackNavigator()
@@ -18,6 +20,8 @@ export default function App() {
         <Stack.Screen name='CreateServices' component={CreateServices} />
         <Stack.Screen name='ModifyStore' component={ModifyStore}/>
         <Stack.Screen name='ModifyServices' component={ModifyServices} />
+        <Stack.Screen name='Aperçu' component={Aperçu} />
+        <Stack.Screen name='Avis' component={Avis} />
       </Stack.Navigator>
     </NavigationContainer>
   );
