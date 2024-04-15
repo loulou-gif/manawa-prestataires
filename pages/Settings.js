@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import Header from '../components/customers/Header'
 
-const Settings = () => {
+const Settings = ({navigation}) => {
   return (
     <View>
-      <Text>Settings</Text>
+      <Header navigation={navigation}/>
     </View>
   )
 }

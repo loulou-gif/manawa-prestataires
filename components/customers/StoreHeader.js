@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import IconeFeather from 'react-native-vector-icons/Feather'
 
-const StoreHeader = () => {
+const StoreHeader = ({navigation}) => {
   return (
     <View>
       <Image style={styles.image} source={require("../../assets/images/servicesBackgrounds/babershop.jpg")}/>
@@ -13,7 +13,7 @@ const StoreHeader = () => {
                 <Text style={styles.title}>Salon de coiffure</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
                 <View styles={styles.icone}>
-                    <IconeFeather name='edit' size={16}/>
+                    <IconeFeather name='edit' onPress={() => navigation.navigate('CreateServices')} size={16}/>
                 </View>
             </View>
             

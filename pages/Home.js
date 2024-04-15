@@ -12,7 +12,12 @@ const Home = () => {
     const [modalVisible, setModalVisible] = useState(false); 
     const [ confirm, setConfirm] = useState(false);
     const [ annul, setAnnul] = useState(false);
+    const [selectedUserData, setSelectedUserData] = useState(null);
 
+    const handleInfoFacture = (userData) =>{
+        setSelectedUserData(userData);
+        setModalVisible(true)
+    }
     return (
         <View>
             <ScrollView>
@@ -21,7 +26,7 @@ const Home = () => {
                 <View style={styles.container}>
                     {Paniers.map((data) => (
                         <View style={styles.box} key={data.id}>
-                            <Icone name='dots-three-horizontal' onPress={() => setModalVisible(true)} size={16} color="black" style={{ textAlign: "right", width: 150, marginTop: -5, marginRight: -5 }} />
+                            <Icone key={data.id} name='dots-three-horizontal' onPress={() => handleInfoFacture(data)} size={16} color="black" style={{ textAlign: "right", width: 150, marginTop: -5, marginRight: -5 }} />
                             <View style={styles.buttonsContainer}>
                                 <Image style={styles.images} source={data.image} />
                             </View>
@@ -37,45 +42,45 @@ const Home = () => {
                                 </View>
                             </View>
                             <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
-                                <View style={styles.model_info}>
+                                {selectedUserData && <View style={styles.model_info}>
                                  <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:10, marginTop:10, textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
                                  <View style={styles.box_info}>
                                     <View style={styles.circle}>
                                         <Text style={styles.circle_text}>JK</Text>
                                     </View>
                                     <View style={styles.info}>
-                                        <Text style={styles.name}>Julius Konan</Text>
-                                        <Text style={styles.id}>IDclient:  52314</Text>
-                                        <Text style={styles.contact}>Contact:  07 98 395 774</Text>
+                                        <Text style={styles.name}>{selectedUserData.client}</Text>
+                                        <Text style={styles.id}>ID client: {selectedUserData.IDclient}</Text>
+                                        <Text style={styles.contact}>Contact: {selectedUserData.contactClient}</Text>
                                     </View>
                                     <View style={{ marginRight:10}}>
-                                         <IconeFontAwesome size={26} name='download'/>
+                                         <IconeFontAwesome size={20} name='download'/>
                                     </View>
                                  </View>
                                     <DataTable style={styles.table}>
                                         <DataTable.Header style={styles.table_title}>
-                                            <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Titre</Text></DataTable.Title>
-                                            <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Valeur</Text></DataTable.Title>
+                                            <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Service</Text></DataTable.Title>
+                                            <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>{selectedUserData.name}</Text></DataTable.Title>
                                         </DataTable.Header>
                                         <DataTable.Row >
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Text</Text></DataTable.Cell>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Valer test</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Durée du service </Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>{selectedUserData.durée}</Text></DataTable.Cell>
                                         </DataTable.Row>
                                         <DataTable.Row style={styles.row_table}>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>Text</Text></DataTable.Cell>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>valer test</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>Coût</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>{selectedUserData.price}</Text></DataTable.Cell>
                                         </DataTable.Row>
                                         <DataTable.Row style={styles.second_row_table}>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Text</Text></DataTable.Cell>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>valeur test</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Date</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>{selectedUserData.date}</Text></DataTable.Cell>
                                         </DataTable.Row>
                                         <DataTable.Row style={styles.row_table}>
-                                            <DataTable.Cell style={styles.second_text_row}><Text style={styles.second_text_row}>Text</Text></DataTable.Cell>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>valeur test</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.second_text_row}><Text style={styles.second_text_row}>Lieu</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.second_text_row}>{selectedUserData.lieu}</Text></DataTable.Cell>
                                         </DataTable.Row>
                                         <DataTable.Row style={styles.second_row_table}>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Text</Text></DataTable.Cell>
-                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>valeur text</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Avance</Text></DataTable.Cell>
+                                            <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>{selectedUserData.avance}</Text></DataTable.Cell>
                                         </DataTable.Row>
                                     </DataTable>
                                     <View style={styles.map}>
@@ -85,7 +90,7 @@ const Home = () => {
                                         <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
                                         <Pressable style={styles.btn_confirmation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Oui </Text></Pressable>
                                     </View>
-                                </View>
+                                </View>}
                             </Modal>
                             <Modal  animationType="fade"transparent={true} style={styles.model} visible={confirm}>
                                 <View style={styles.model}>
@@ -222,8 +227,8 @@ const styles = StyleSheet.create({
         color:'#47300D'
     },
     info:{
-        width:190,
-        marginLeft:20
+        width:205,
+        marginLeft:10
     },
     id:{
         fontSize:15,
@@ -260,10 +265,12 @@ const styles = StyleSheet.create({
     row_table:{
         height:30,
         backgroundColor:'#715D3E',
-        opacity:0.7
+        opacity:0.7,
+        marginTop:-10,
     },
     second_row_table:{
         height:30,
+        marginTop:-10,
     },
     text_row:{
         fontSize:15
@@ -275,7 +282,7 @@ const styles = StyleSheet.create({
     map:{
         width:375,
         height:100,
-        marginLeft:10,
+        marginLeft:5,
         marginTop:50,
         marginBottom:50
     }

@@ -6,16 +6,16 @@ import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 
-const Services = () => {
+const Services = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
   return (
     <View>
       <ScrollView>
         <Header/>
-        <StoreHeader/>
+        <StoreHeader navigation={navigation}/>
         <View>
-            <Pressable style={styles.button}>
-                <Text style={styles.btn_text}><Icone name='plus' size={20} style={{ marginTop:10}} /> Ajouter un service </Text>
+            <Pressable onPress={() => navigation.navigate('CreateServices')} style={styles.button}>
+                <Text style={styles.btn_text}><Icone name='plus'  size={20} style={{ marginTop:10}} /> Ajouter un service </Text>
             </Pressable>
         </View>
         <View style={styles.card}>
@@ -26,7 +26,7 @@ const Services = () => {
             </View>
             <View>
                 <Text>10.000 XOF</Text>
-                <Text><IconeFeather name='edit' size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
+                <Text><IconeFeather name='edit' onPress={() => navigation.navigate('ModifyServices')} size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
             </View>
         </View>
             <Modal animationType="fade" transparent={true} style={styles.model} visible={deleted}>
