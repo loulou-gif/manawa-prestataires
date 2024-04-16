@@ -5,6 +5,7 @@ import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
+import IconeEntypo from 'react-native-vector-icons/Entypo'
 
 const Services = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
@@ -26,19 +27,29 @@ const Services = ({navigation}) => {
             </Pressable>
         </View>
         {create && 
-        <View style={styles.create}>
-            <View style={styles.second_box}>
-                <View style={styles.first_inputs}>
-                    <View style={styles.add_image}></View>
-                    <View style={styles.seconds_input}>
-                        <TextInput style={styles.add_name} placeholder='Nom du service' />
-                        <TextInput style={styles.add_cost} placeholder='Coût'/>
-                    </View>
+        <View >
+            <Text style={styles.titre}>Ajout de services</Text>
+            <View style={styles.card_input}>
+                <View style={styles.image_input}></View>
+                <View >
+                    <TextInput style={styles.title_input} placeholder='Nom du service' />
+                    <TextInput style={styles.description_input} placeholder='Description du services'/>
                 </View>
-                <View style={styles.add_comments} >
-                     <TextInput style={styles.add_comment}  placeholder='Description du services'/>
+                <View>
+                    <TextInput style={styles.price_input}  placeholder='Coût'/>
+                    <Text style={styles.buttonsContainer}><IconeAntDesign name='checksquare' color='green' size={20} onPress={() => handleVisible()}/>  <IconeEntypo name='circle-with-cross' color='red' size={20} onPress={() => handleVisible()}/></Text>
                 </View>
             </View>
+                
+                {/* <View style={styles.buttonsContainer2}>
+                    <Pressable style={styles.btn_annulation} onPress={() => handleVisible()}>
+                        <Text style={styles.buttonText}>Ajouter</Text>
+                    </Pressable>
+                    <Pressable style={styles.btn_confirmation} onPress={() => handleVisible()}>
+                        <Text style={styles.buttonText}>Annuler</Text>
+                    </Pressable>
+                </View> */}
+        
         </View>
         }
         <View style={styles.modify}>
@@ -154,53 +165,52 @@ const styles= StyleSheet.create({
         marginTop:30,
         alignItems:'center'
     },
-    add_comment:{
-        width:310,
-        height:60,
-        borderWidth:1,
-        borderColor:'#ABA9A9',
-        alignItems:'center',
-        borderRadius:8,
-        paddingLeft:10
-    },
-    add_cost:{
-        width:170,
-        height:40,
+    title_input:{
+        fontSize:14,
+        color:"black",
+        width:200,
         borderBottomWidth:1,
         borderColor:'#ABA9A9',
+        borderRadius:8,
+        paddingLeft:10,
     },
-    add_image:{
+    description_input:{
+        fontSize:12,
+        color:"#ABA9A9",
+        borderBottomWidth:1,
+        borderColor:'#ABA9A9',
+        width:200,
+        borderRadius:8,
+        paddingLeft:10,
+    },
+    price_input:{
+        color:'#ABA9A9',
+        borderWidth:1,
+        borderColor:'#ABA9A9',
         width:80,
-        height:80,
-        borderWidth:1,
-        borderColor:'#ABA9A9',
         borderRadius:8,
+        paddingLeft:10,
     },
-    add_name:{
-        width:170,
+    image_input:{
+        width:50,
         height:40,
-        borderBottomWidth:1,
-        borderColor:'#ABA9A9',
+        backgroundColor:'#ABA9A9',
+        borderRadius:8,
+        marginLeft:9
     },
-    create:{
-        alignItems:'center',
-    },
-    first_inputs:{
-       flexDirection:'row',
-       width:350,
-       justifyContent:'space-around' ,
-    },
-    seconds_input:{
-
-    },
-    second_box:{
-        width:350,
-        height:220,
-        marginTop:20,
-        marginBottom:20,
+    card_input:{
         borderWidth:1,
         borderColor:'#ABA9A9',
-        paddingTop:20
+        flexDirection:"row",
+        justifyContent:"space-between",
+        padding:10,
+        marginBottom:30
+    },
+    titre:{
+        fontSize:20,
+        color:'#DE9F42',
+        marginBottom:10,
+        marginLeft:10
     }
 })
 
