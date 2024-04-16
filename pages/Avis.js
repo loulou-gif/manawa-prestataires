@@ -3,22 +3,27 @@ import React from 'react'
 import Header from '../components/customers/Header'
 // import StoreHeader from '../components/customers/StoreHeader'
 import StoreHeaderAvis from '../components/customers/StoreHeaderAvis'
+import { avis, Iconestyles } from '../data/Avis'
 
 const Avis = ({navigation}) => {
   return (
     <View>
       <Header/>
       <StoreHeaderAvis navigation={navigation}/>
-      <View style={styles.card}>
-        <View style={styles.circle}></View>
+      {avis.map((data) => (
+        <View style={styles.card}>
+        <View style={styles.circle}>
+          <Text style={styles.alias}>JK</Text>
+        </View>
         <View style={styles.text}>
-          <Text style={styles.name}>Nom</Text>
-          <Text style={styles.comment}>Commentaire</Text>
+          <Text style={styles.name}>{data.name}</Text>
+          <Text style={styles.comment}>{data.commentaire}</Text>
         </View>
         <View style={styles.stars}>
-          <Text>stars</Text>
+           <Text>{data.icone} </Text>
         </View>
       </View>
+      ))}
     </View>
   )
 }
@@ -26,9 +31,10 @@ const Avis = ({navigation}) => {
 const styles= StyleSheet.create({
   circle:{
     backgroundColor:'#7A4D09',
-    width:70,
-    height:70,
-    borderRadius:40
+    width:60,
+    height:60,
+    borderRadius:30,
+    alignItems:'center',
   },
   card:{
     borderWidth:1,
@@ -46,12 +52,18 @@ const styles= StyleSheet.create({
     fontSize:20,
   },
   comment:{
-    fontSize:14,
+    fontSize:12,
     color:'#8C8B8B',
-    width:180,
+    width:200,
+    height:50
   },
   stars:{
 
+  },
+  alias:{
+    color:'white',
+    fontSize:18,
+    marginTop:15
   }
 })
 
