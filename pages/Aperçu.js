@@ -1,12 +1,13 @@
 import { View, Text, Pressable, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../components/customers/Header'
-import StoreHeader from '../components/customers/StoreHeader'
+// import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
-import IconeFeather from 'react-native-vector-icons/Feather'
-import IconeAntDesign from 'react-native-vector-icons/AntDesign'
+import IconeFeather from 'react-native-vector-icons/Feather';
+import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Aperçus from '../components/customers/Aperçus';
+import StoreHeaderAperçu from '../components/customers/StoreHeaderAperçu';
 
 // lightbulb-on-outline
 
@@ -15,7 +16,7 @@ const Aperçu = ({navigation}) => {
     <ScrollView>
         <View>
             <Header/>
-            <StoreHeader navigation={navigation}/>
+            <StoreHeaderAperçu navigation={navigation}/>
             <View>
                 <View style={styles.center}>
                     <View style={styles.def}>

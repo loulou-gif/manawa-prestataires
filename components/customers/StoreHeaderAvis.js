@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import IconeFeather from 'react-native-vector-icons/Feather'
 
-const StoreHeader = ({navigation}) => {
+const StoreHeaderAvis = ({navigation}) => {
   return (
     <View>
       <Image style={styles.image} source={require("../../assets/images/servicesBackgrounds/babershop.jpg")}/>
@@ -19,9 +19,9 @@ const StoreHeader = ({navigation}) => {
             
         </View>
         <View style={styles.flex} >
-            <Text style={styles.cursor} onPress={() => navigation.navigate('Services')} >Service</Text>
+            <Text style={styles.menu} onPress={() => navigation.navigate('Services')} >Service</Text>
             <Text style={styles.menu} onPress={() => navigation.navigate('Aperçu')}>Aperçu</Text>
-            <Text style={styles.menu} onPress={() => navigation.navigate('Avis')}>Avis</Text>
+            <Text style={styles.cursor} onPress={() => navigation.navigate('Avis')}>Avis</Text>
         </View>
       </View>
     </View>
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default StoreHeader
+export default StoreHeaderAvis
