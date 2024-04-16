@@ -6,23 +6,27 @@ import StoreHeaderAvis from '../components/customers/StoreHeaderAvis'
 import { avis, Iconestyles } from '../data/Avis'
 
 const Avis = ({navigation}) => {
+  const avisWithAlias = avis.map(data => ({
+    ...data,
+    alias: data.name.split(' ').map(word => word.charAt(0)).join('')
+  }));
   return (
     <View>
       <Header/>
       <StoreHeaderAvis navigation={navigation}/>
-      {avis.map((data) => (
-        <View style={styles.card}>
-        <View style={styles.circle}>
-          <Text style={styles.alias}>JK</Text>
-        </View>
-        <View style={styles.text}>
-          <Text style={styles.name}>{data.name}</Text>
-          <Text style={styles.comment}>{data.commentaire}</Text>
-        </View>
-        <View style={styles.stars}>
-           <Text>{data.icone} </Text>
-        </View>
-      </View>
+      {avisWithAlias.map((data) => (
+        <View key={data.id} style={styles.card}>
+          <View style={styles.circle}>
+            <Text style={styles.alias}>{data.alias} </Text>
+          </View>
+          <View style={styles.text}>
+            <Text style={styles.name}>{data.name}</Text>
+            <Text style={styles.comment}>{data.commentaire}</Text>
+          </View>
+          <View style={styles.stars}>
+            <Text>{data.icone} </Text>
+          </View>
+       </View>
       ))}
     </View>
   )
@@ -58,7 +62,7 @@ const styles= StyleSheet.create({
     height:50
   },
   stars:{
-
+    marginTop:10
   },
   alias:{
     color:'white',
