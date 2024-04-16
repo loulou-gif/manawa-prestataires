@@ -9,6 +9,8 @@ import ModifyStore from './pages/forms/ModifyStore';
 import ModifyServices from './pages/forms/ModifyServices';
 import Aperçu from './pages/Aperçu';
 import Avis from './pages/Avis';
+import ModifyAperçu from './pages/forms/ModifyAperçu';
+import CreateAperçu from './pages/forms/CreateAperçu';
 
 export default function App() {
   const Stack = createNativeStackNavigator()
@@ -22,6 +24,8 @@ export default function App() {
         <Stack.Screen name='ModifyServices' component={ModifyServices} />
         <Stack.Screen name='Aperçu' component={Aperçu} />
         <Stack.Screen name='Avis' component={Avis} />
+        <Stack.Screen name='ModifyAperçu' component={ModifyAperçu} />
+        <Stack.Screen name='CreateAperçu' component={CreateAperçu} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -15,7 +15,8 @@ const Services = ({navigation}) => {
         <StoreHeader navigation={navigation}/>
         <View>
             <Pressable onPress={() => navigation.navigate('CreateServices')} style={styles.button}>
-                <Text style={styles.btn_text}><Icone name='plus'  size={20} style={{ marginTop:10}} /> Ajouter un service </Text>
+                <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
+                <Text style={styles.btn_text}> Ajouter un service </Text>
             </Pressable>
         </View>
         <View style={styles.card}>
@@ -58,7 +59,8 @@ const styles= StyleSheet.create({
         width:150,
         height:30,
         margin:10,
-        borderRadius:8
+        borderRadius:8,
+        flexDirection:'row'
     },
     btn_text:{
         color:'#fff', 

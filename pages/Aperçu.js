@@ -24,8 +24,9 @@ const Aperçu = ({navigation}) => {
                     </View>
                 </View>
             </View>
-            <Pressable onPress={() => navigation.navigate('CreateServices')} style={styles.button}>
-                <Text style={styles.btn_text}><Icone name='plus'  size={20} style={{ marginTop:10}} /> Ajouter un Aperçu </Text>
+            <Pressable onPress={() => navigation.navigate('CreateAperçu')} style={styles.button}>
+                <Icone name='plus'  size={20} style={{ marginTop:7, color:'#fff', margin:3}} /> 
+                <Text style={styles.btn_text}>Ajouter un Aperçu </Text>
             </Pressable>
             <Aperçus navigation={navigation}/>
         </View>
@@ -47,7 +48,8 @@ const styles= StyleSheet.create({
         width:150,
         height:30,
         margin:10,
-        borderRadius:8
+        borderRadius:8,
+        flexDirection:'row'
     },
     btn_text:{
         color:'#fff', 

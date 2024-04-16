@@ -6,6 +6,7 @@ import Icone from 'react-native-vector-icons/Entypo';
 import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeFontAwesome from 'react-native-vector-icons/FontAwesome';
 import { DataTable } from 'react-native-paper';
+import InfoStoreBare from '../components/customers/InfoStoreBar';
 
 
 const Home = () => {
@@ -22,7 +23,7 @@ const Home = () => {
         <View>
             <ScrollView>
                 <Header />
-                <Image style={styles.banner} source={require('../assets/images/Profils/p12.jpg')} />
+                <InfoStoreBare />
                 <View style={styles.container}>
                     {Paniers.map((data) => (
                         <View style={styles.box} key={data.id}>
