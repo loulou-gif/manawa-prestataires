@@ -4,13 +4,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTab from './routes/BottomTab';
 import Home from './pages/Home';
-import CreateServices from './pages/forms/CreateServices';
 import ModifyStore from './pages/forms/ModifyStore';
-import ModifyServices from './pages/forms/ModifyServices';
 import Aperçu from './pages/Aperçu';
 import Avis from './pages/Avis';
-import ModifyAperçu from './pages/forms/ModifyAperçu';
-import CreateAperçu from './pages/forms/CreateAperçu';
 
 export default function App() {
   const Stack = createNativeStackNavigator()

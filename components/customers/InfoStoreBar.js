@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import IconeFontAwesome from 'react-native-vector-icons/FontAwesome'
+import IconeFeather from 'react-native-vector-icons/Feather'
 
 const InfoStoreBare = ({navigation}) => {
   return (
@@ -11,6 +12,9 @@ const InfoStoreBare = ({navigation}) => {
             <View styles={styles.text}>
                 <Text style={styles.title}>Salon de coiffure</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
+                <View style={styles.icone}>
+                    <IconeFeather name='edit' onPress={() => navigation.navigate('ModifyStore')} size={16}/>
+                </View>
             </View>
             <View style={styles.points}>
                 <IconeFontAwesome name='money' color="green" size={18}/>  
@@ -59,8 +63,8 @@ const styles = StyleSheet.create({
     },
     icone:{
         marginTop:10,
-        borderWidth:1,
-        flexDirection:'row'
+        // borderWidth:1,
+        // flexDirection:'row'
     },
     points:{
         flexDirection:'row',

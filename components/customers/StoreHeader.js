@@ -16,7 +16,6 @@ const StoreHeader = ({navigation}) => {
                     <IconeFeather name='edit' onPress={() => navigation.navigate('ModifyStore')} size={16}/>
                 </View>
             </View>
-            
         </View>
         <View style={styles.flex} >
             <Text style={styles.cursor} onPress={() => navigation.navigate('Services')} >Service</Text>
