@@ -5,7 +5,6 @@ import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
-import IconeEntypo from 'react-native-vector-icons/Entypo'
 
 const Services = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
@@ -26,32 +25,31 @@ const Services = ({navigation}) => {
                 <Text style={styles.btn_text}> Ajouter un service </Text>
             </Pressable>
         </View>
-        {create && 
-        <View >
-            <Text style={styles.titre}>Ajout de services</Text>
-            <View style={styles.card_input}>
-                <View style={styles.image_input}></View>
-                <View >
-                    <TextInput style={styles.title_input} placeholder='Nom du service' />
-                    <TextInput style={styles.description_input} placeholder='Description du services'/>
-                </View>
-                <View>
-                    <TextInput style={styles.price_input}  placeholder='Coût'/>
-                    <Text style={styles.buttonsContainer}><IconeAntDesign name='checksquare' color='green' size={20} onPress={() => handleVisible()}/>  <IconeEntypo name='circle-with-cross' color='red' size={20} onPress={() => handleVisible()}/></Text>
+        <Modal transparent={true} visible={create}>
+            <View style={styles.create}>
+                <View style={styles.second_box}>
+                    <Text style={styles.titres}>Ajouter un service</Text>
+                    <View style={styles.first_inputs}>
+                        <View style={styles.add_image}></View>
+                        <View style={styles.seconds_input}>
+                            <TextInput style={styles.add_name} placeholder='Nom du service' />
+                            <TextInput style={styles.add_cost} placeholder='Coût'/>
+                        </View>
+                    </View>
+                    <View style={styles.add_comments} >
+                        <TextInput style={styles.add_comment}  placeholder='Description du services'/>
+                    </View>
+                    <View style={styles.buttonsContainer2}>
+                        <Pressable onPress={() => handleVisible()} style={styles.btn_annulation}>
+                            <Text style={styles.buttonText}>Ajouter</Text>
+                        </Pressable>
+                        <Pressable onPress={() => handleVisible()} style={styles.btn_confirmation}>
+                            <Text style={styles.buttonText}>Annuler</Text>
+                        </Pressable>
+                    </View>
                 </View>
             </View>
-                
-                {/* <View style={styles.buttonsContainer2}>
-                    <Pressable style={styles.btn_annulation} onPress={() => handleVisible()}>
-                        <Text style={styles.buttonText}>Ajouter</Text>
-                    </Pressable>
-                    <Pressable style={styles.btn_confirmation} onPress={() => handleVisible()}>
-                        <Text style={styles.buttonText}>Annuler</Text>
-                    </Pressable>
-                </View> */}
-        
-        </View>
-        }
+        </Modal>
         <View style={styles.modify}>
 
         </View>
@@ -165,52 +163,73 @@ const styles= StyleSheet.create({
         marginTop:30,
         alignItems:'center'
     },
-    title_input:{
-        fontSize:14,
-        color:"black",
-        width:200,
+    add_comment:{
+        width:310,
+        height:60,
+        borderLeftWidth:1,
         borderBottomWidth:1,
         borderColor:'#ABA9A9',
+        alignItems:'center',
         borderRadius:8,
-        paddingLeft:10,
+        paddingLeft:10
     },
-    description_input:{
-        fontSize:12,
-        color:"#ABA9A9",
-        borderBottomWidth:1,
-        borderColor:'#ABA9A9',
-        width:200,
-        borderRadius:8,
-        paddingLeft:10,
-    },
-    price_input:{
-        color:'#ABA9A9',
-        borderWidth:1,
-        borderColor:'#ABA9A9',
-        width:80,
-        borderRadius:8,
-        paddingLeft:10,
-    },
-    image_input:{
-        width:50,
+    add_cost:{
+        width:300,
         height:40,
-        backgroundColor:'#ABA9A9',
-        borderRadius:8,
-        marginLeft:9
+        marginTop:10,
+        borderBottomWidth:1,
+        borderColor:'#ABA9A9',
     },
-    card_input:{
+    add_image:{
+        width:80,
+        height:80,
         borderWidth:1,
         borderColor:'#ABA9A9',
-        flexDirection:"row",
-        justifyContent:"space-between",
-        padding:10,
-        marginBottom:30
+        borderRadius:8,
     },
-    titre:{
+    add_name:{
+        width:300,
+        height:40,
+        borderBottomWidth:1,
+        borderColor:'#ABA9A9',
+        marginTop:10,
+    },
+    create:{
+        alignItems:'center',
+        alignContent:'center',
+        marginTop:300
+    },
+    first_inputs:{
+       flexDirection:'column',
+       width:350,
+       marginLeft:20,
+       justifyContent:'center' ,
+    },
+    seconds_input:{
+
+    },
+    second_box:{
+        width:350,
+        height:430,
+        marginTop:10,
+        marginBottom:20,
+        borderWidth:1,
+        borderColor:'#ABA9A9',
+        paddingTop:20,
+        backgroundColor:'#fff'
+    },
+    buttonsContainer2: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginRight:20,
+        justifyContent:'flex-end',
+        marginTop:50,
+    },
+    titres:{
         fontSize:20,
-        color:'#DE9F42',
-        marginBottom:10,
-        marginLeft:10
+        color:'#47300D',
+        textAlign:'center',
+        marginBottom:20
     }
 })
 
