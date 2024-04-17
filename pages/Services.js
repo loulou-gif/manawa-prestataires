@@ -9,9 +9,15 @@ import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 const Services = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
     const [create, setCreate] =useState(false)
+    const [modify, setModify] = useState(false)
+    const [details, setDetails] = useState(null)
 
     const handleVisible =() =>{
         setCreate(!create)
+    }
+    const handleModalModify =(detail) =>{
+        setDetails(detail)
+        setModify(!modify)
     }
 
   return (
@@ -61,9 +67,36 @@ const Services = ({navigation}) => {
             </View>
             <View>
                 <Text>10.000 XOF</Text>
-                <Text><IconeFeather name='edit' onPress={() => navigation.navigate('ModifyServices')} size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
+                <Text><IconeFeather name='edit' onPress={handleModalModify} size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
             </View>
         </View>
+        <Modal transparent={true} visible={modify}>
+            {details && 
+                <View style={styles.create}>
+                <View style={styles.second_box}>
+                    <Text style={styles.titres}>Modifier un service</Text>
+                    <View style={styles.first_inputs}>
+                        <View style={styles.add_image}></View>
+                        <View style={styles.seconds_input}>
+                            <TextInput style={styles.add_name} placeholder='Nom du service'> </TextInput>
+                            <TextInput style={styles.add_cost} placeholder='Coût'/>
+                        </View>
+                    </View>
+                    <View style={styles.add_comments} >
+                        <TextInput style={styles.add_comment}  placeholder='Description du services'/>
+                    </View>
+                    <View style={styles.buttonsContainer2}>
+                        <Pressable onPress={() => handleModalModify()} style={styles.btn_annulation}>
+                            <Text style={styles.buttonText}>Annuler</Text>
+                        </Pressable>
+                        <Pressable onPress={() => handleModalModify()} style={styles.btn_confirmation}>
+                            <Text style={styles.buttonText}>Modifier</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </View>
+            }
+        </Modal>
             <Modal animationType="fade" transparent={true} style={styles.model} visible={deleted}>
                 <View style={styles.model}>
                     <Text >Voulez-vous supprimer ce service?</Text>
