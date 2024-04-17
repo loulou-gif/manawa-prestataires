@@ -19,13 +19,9 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown:false}}>
         <Stack.Screen name='BottomTab' component={BottomTab} />
         <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='CreateServices' component={CreateServices} />
         <Stack.Screen name='ModifyStore' component={ModifyStore}/>
-        <Stack.Screen name='ModifyServices' component={ModifyServices} />
         <Stack.Screen name='Aperçu' component={Aperçu} />
         <Stack.Screen name='Avis' component={Avis} />
-        <Stack.Screen name='ModifyAperçu' component={ModifyAperçu} />
-        <Stack.Screen name='CreateAperçu' component={CreateAperçu} />
       </Stack.Navigator>
     </NavigationContainer>
   );
