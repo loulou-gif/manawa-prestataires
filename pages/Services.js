@@ -1,16 +1,23 @@
-import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput } from 'react-native'
+import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react';
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
+import { Firestore, doc, setDoc } from "firebase/firestore"; 
+import {app, analytics, db} from '../firebase/configs'
 
 const Services = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
     const [create, setCreate] =useState(false)
     const [modify, setModify] = useState(false)
     const [details, setDetails] = useState(null)
+
+    const [name, setName] = useState('')
+    const [cost, setCost] = useState('')
+    const [description, setDescription] = useState('')
+    const [image, setImage] = useState('')
 
     const handleVisible =() =>{
         setCreate(!create)
@@ -19,6 +26,7 @@ const Services = ({navigation}) => {
         setDetails(detail)
         setModify(!modify)
     }
+    
 
   return (
     <View>
