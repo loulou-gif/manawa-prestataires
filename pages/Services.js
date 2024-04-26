@@ -1,11 +1,12 @@
 import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react';
-import ImagePicker from 'react-native-image-picker';
+import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
+import IconeEntypo from 'react-native-vector-icons/Entypo'
 import { Firestore, doc, setDoc } from "firebase/firestore"; 
 import {app, analytics, db} from '../firebase/configs'
 
@@ -14,7 +15,7 @@ const Services = ({navigation}) => {
     const [create, setCreate] =useState(false)
     const [modify, setModify] = useState(false)
     const [details, setDetails] = useState(null)
-    const [photo, setPhoto] = useState(null)
+    const [photo, setPhoto] = useState('')
 
     const [name, setName] = useState('')
     const [cost, setCost] = useState('')
@@ -30,13 +31,15 @@ const Services = ({navigation}) => {
     }
 
     const selectPhoto = () =>{
-        const option= {
+        const options= {
             noData:true,
         };
-        ImagePicker.launchImageLibrary(option, (response) =>{
+        launchImageLibrary(options, (response) =>{
             if(response.uri){
                 setPhoto(response)
-            }
+            }else if (response.error) {
+                console.error('ImagePicker Error:', response.error);
+              }
         })
     }
     
@@ -52,12 +55,18 @@ const Services = ({navigation}) => {
                 <Text style={styles.btn_text}> Ajouter un service </Text>
             </Pressable>
         </View>
-        <Modal transparent={true} visible={create}>
+        <Modal  animationType="fade"  transparent={true} visible={create}>
             <View style={styles.create}>
                 <View style={styles.second_box}>
                     <Text style={styles.titres}>Ajouter un service</Text>
                     <View style={styles.first_inputs}>
-                        <View style={styles.add_image}></View>
+                        <View style={styles.box_image}>
+                             {photo && <Image style={styles.add_image}></Image>}
+                             <Image style={styles.add_image}></Image>
+                            <Pressable style={styles.upload} onPress={selectPhoto}>
+                                <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                            </Pressable>
+                        </View>
                         <View style={styles.seconds_input}>
                             <TextInput style={styles.add_name} placeholder='Nom du service' />
                             <TextInput style={styles.add_cost} placeholder='Coût'/>
@@ -88,18 +97,24 @@ const Services = ({navigation}) => {
             </View>
             <View>
                 <Text>10.000 XOF</Text>
-                <Text><IconeFeather name='edit' onPress={handleModalModify} size={20} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
+                <Text><IconeFeather name='edit' onPress={handleModalModify} size={16} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
             </View>
         </View>
-        <Modal transparent={true} visible={modify}>
+        <Modal  animationType="fade"  transparent={true} visible={modify}>
             {details && 
                 <View style={styles.create}>
                 <View style={styles.second_box}>
                     <Text style={styles.titres}>Modifier un service</Text>
                     <View style={styles.first_inputs}>
-                        {photo && <View style={styles.add_image}></View>}
+                        <View style={styles.box_image}>
+                             {photo && <Image style={styles.add_image}></Image>}
+                             <Image style={styles.add_image}></Image>
+                            <Pressable style={styles.upload} onPress={selectPhoto}>
+                                <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} /> Image</Text>
+                            </Pressable>
+                        </View>
                         <View style={styles.seconds_input}>
-                            <TextInput style={styles.add_name} placeholder='Nom du service'> </TextInput>
+                            <TextInput style={styles.add_name} placeholder='Nom du service'></TextInput>
                             <TextInput style={styles.add_cost} placeholder='Coût'/>
                         </View>
                     </View>
@@ -219,13 +234,12 @@ const styles= StyleSheet.create({
     },
     add_comment:{
         width:310,
-        height:60,
-        borderLeftWidth:1,
-        borderBottomWidth:1,
+        height:90,
+        borderWidth:1,
         borderColor:'#ABA9A9',
         alignItems:'center',
         borderRadius:8,
-        paddingLeft:10
+        paddingLeft:10,
     },
     add_cost:{
         width:300,
@@ -235,11 +249,12 @@ const styles= StyleSheet.create({
         borderColor:'#ABA9A9',
     },
     add_image:{
-        width:80,
+        width:230,
         height:80,
         borderWidth:1,
         borderColor:'#ABA9A9',
         borderRadius:8,
+        
     },
     add_name:{
         width:300,
@@ -251,7 +266,7 @@ const styles= StyleSheet.create({
     create:{
         alignItems:'center',
         alignContent:'center',
-        marginTop:300
+        marginTop:320
     },
     first_inputs:{
        flexDirection:'column',
@@ -265,10 +280,8 @@ const styles= StyleSheet.create({
     second_box:{
         width:350,
         height:430,
-        marginTop:10,
+        marginTop:-10,
         marginBottom:20,
-        borderWidth:1,
-        borderColor:'#ABA9A9',
         paddingTop:20,
         backgroundColor:'#fff'
     },
@@ -284,6 +297,19 @@ const styles= StyleSheet.create({
         color:'#47300D',
         textAlign:'center',
         marginBottom:20
+    },
+    box_image:{
+        flexDirection:'row',
+        width:500
+    },
+    upload:{
+        width:75,
+        height:30,
+        backgroundColor:'#FFA012',
+        margin:8,
+        marginTop:50,
+        justifyContent:'center',
+        alignItems:'center'
     }
 })
 

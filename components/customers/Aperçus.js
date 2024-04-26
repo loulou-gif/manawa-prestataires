@@ -26,7 +26,7 @@ const Aperçus = ({navigation}) => {
                     </View>
                 </View>
             </View>
-            <Modal transparent={true} visible={modify}>
+            <Modal  animationType="fade"  transparent={true} visible={modify}>
             {details && 
                 <View style={styles.create}>
                     <View style={styles.second_box}>

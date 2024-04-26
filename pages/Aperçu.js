@@ -34,7 +34,7 @@ const Aperçu = ({navigation}) => {
                 <Icone name='plus'  size={20} style={{ marginTop:7, color:'#fff', margin:3}} /> 
                 <Text style={styles.btn_text}>Ajouter un Aperçu </Text>
             </Pressable>
-            <Modal transparent={true} visible={create}>
+            <Modal  animationType="fade"  transparent={true} visible={create}>
             <View style={styles.create}>
                 <View style={styles.second_box}>
                     <Text style={styles.titres}>Ajouter un service</Text>
