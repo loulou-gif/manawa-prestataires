@@ -1,5 +1,6 @@
 import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react';
+import ImagePicker from 'react-native-image-picker';
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
@@ -13,6 +14,7 @@ const Services = ({navigation}) => {
     const [create, setCreate] =useState(false)
     const [modify, setModify] = useState(false)
     const [details, setDetails] = useState(null)
+    const [photo, setPhoto] = useState(null)
 
     const [name, setName] = useState('')
     const [cost, setCost] = useState('')
@@ -25,6 +27,17 @@ const Services = ({navigation}) => {
     const handleModalModify =(detail) =>{
         setDetails(detail)
         setModify(!modify)
+    }
+
+    const selectPhoto = () =>{
+        const option= {
+            noData:true,
+        };
+        ImagePicker.launchImageLibrary(option, (response) =>{
+            if(response.uri){
+                setPhoto(response)
+            }
+        })
     }
     
 
@@ -84,7 +97,7 @@ const Services = ({navigation}) => {
                 <View style={styles.second_box}>
                     <Text style={styles.titres}>Modifier un service</Text>
                     <View style={styles.first_inputs}>
-                        <View style={styles.add_image}></View>
+                        {photo && <View style={styles.add_image}></View>}
                         <View style={styles.seconds_input}>
                             <TextInput style={styles.add_name} placeholder='Nom du service'> </TextInput>
                             <TextInput style={styles.add_cost} placeholder='Coût'/>
