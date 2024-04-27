@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react';
-import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
@@ -30,18 +30,18 @@ const Services = ({navigation}) => {
         setModify(!modify)
     }
 
-    const selectPhoto = () =>{
-        const options= {
-            noData:true,
-        };
-        launchImageLibrary(options, (response) =>{
-            if(response.uri){
-                setPhoto(response)
-            }else if (response.error) {
-                console.error('ImagePicker Error:', response.error);
-              }
-        })
-    }
+    const selectPhoto = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          console.log(result);
+        } else {
+          alert('Aucune photo sélectionnée.');
+        }
+      };
     
 
   return (
@@ -61,7 +61,7 @@ const Services = ({navigation}) => {
                     <Text style={styles.titres}>Ajouter un service</Text>
                     <View style={styles.first_inputs}>
                         <View style={styles.box_image}>
-                             {photo && <Image style={styles.add_image}></Image>}
+                             {photo && <Image style={styles.add_image}/>}
                              <Image style={styles.add_image}></Image>
                             <Pressable style={styles.upload} onPress={selectPhoto}>
                                 <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
@@ -266,7 +266,9 @@ const styles= StyleSheet.create({
     create:{
         alignItems:'center',
         alignContent:'center',
-        marginTop:320
+        paddingTop:200,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        height:900,
     },
     first_inputs:{
        flexDirection:'column',
