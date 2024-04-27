@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
-import IconeFeather from 'react-native-vector-icons/Feather'
+import IconeFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
 const StoreHeaderAperçu = ({navigation}) => {
   return (
@@ -13,7 +13,7 @@ const StoreHeaderAperçu = ({navigation}) => {
                 <Text style={styles.title}>Salon de coiffure</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
                 <View style={styles.points}>
-                    <IconeFeather name='edit' onPress={() => navigation.navigate('ModifyStore')} size={16}/>
+                    <IconeFontAwesome5 name='user-edit' onPress={() => navigation.navigate('ModifyStore')} size={16}/>
                 </View>
             </View>
             

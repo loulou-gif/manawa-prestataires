@@ -33,7 +33,7 @@ const Settings = ({navigation}) => {
       </View>
       <View style={styles.settings}>
         <View style={styles.flex}>
-         <Text style={styles.options}><IconeFontAwesome5 name='user-edit' size={24}/> Modifier mon compte</Text>
+         {/* <Text style={styles.options}><IconeFontAwesome5 name='user-edit' size={24}/> Modifier mon compte</Text> */}
         </View>
         <View style={styles.flex}>
          <Text style={styles.options}><IconeEntypo name="price-ribbon" size={24}/> Bonus et reduction</Text>
