@@ -203,7 +203,9 @@ const styles= StyleSheet.create({
     create:{
         alignItems:'center',
         alignContent:'center',
-        marginTop:300
+        paddingTop:200,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        height:900,
     },
     first_inputs:{
        flexDirection:'column',

@@ -53,14 +53,16 @@ const Aperçus = ({navigation}) => {
                 </View>
                 }
             </Modal>
-            <Modal animationType="fade" transparent={true} style={styles.model} visible={deleted}>
-                <View style={styles.model}>
-                    <Text >Voulez-vous supprimer ce service?</Text>
-                    <View style={styles.buttonsContainer}>
-                        <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Oui</Text></Pressable>
-                        <Pressable style={styles.btn_confirmation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Nom</Text></Pressable>
+            <Modal animationType="fade" transparent={true} style={styles.models} visible={deleted}>
+                <View style={styles.models}>
+                    <View style={styles.model}>
+                        <Text >Voulez-vous supprimer ce service?</Text>
+                        <View style={styles.buttonsContainer}>
+                            <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Oui</Text></Pressable>
+                            <Pressable style={styles.btn_confirmation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Nom</Text></Pressable>
+                        </View>
                     </View>
-              </View>
+                </View>
             </Modal>
         </View>
       ))}
@@ -125,9 +127,14 @@ const styles = StyleSheet.create({
         height:100,
         backgroundColor:'#fff',
         alignItems: 'center',
-        marginTop:350,
         marginLeft:60,
         paddingTop:10,
+    },
+    models:{
+        width:415,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        height:900,
     },
     add_comments:{
         width:350,
@@ -169,7 +176,9 @@ const styles = StyleSheet.create({
     create:{
         alignItems:'center',
         alignContent:'center',
-        marginTop:300
+        paddingTop:200,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        height:900,
     },
     first_inputs:{
        flexDirection:'column',

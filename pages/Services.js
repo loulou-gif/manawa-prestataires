@@ -134,13 +134,15 @@ const Services = ({navigation}) => {
             }
         </Modal>
             <Modal animationType="fade" transparent={true} style={styles.model} visible={deleted}>
-                <View style={styles.model}>
-                    <Text >Voulez-vous supprimer ce service?</Text>
-                    <View style={styles.buttonsContainer}>
-                        <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Oui</Text></Pressable>
-                        <Pressable style={styles.btn_confirmation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Nom</Text></Pressable>
+                <View style={styles.models}>
+                    <View style={styles.model}>
+                        <Text >Voulez-vous supprimer ce service?</Text>
+                        <View style={styles.buttonsContainer}>
+                            <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Oui</Text></Pressable>
+                            <Pressable style={styles.btn_confirmation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Nom</Text></Pressable>
+                        </View>
                     </View>
-              </View>
+                </View>
             </Modal>
       </ScrollView>
       
@@ -222,8 +224,6 @@ const styles= StyleSheet.create({
         height:100,
         backgroundColor:'#fff',
         alignItems: 'center',
-        marginTop:350,
-        marginLeft:60,
         paddingTop:10,
     },
     add_comments:{
@@ -312,7 +312,14 @@ const styles= StyleSheet.create({
         marginTop:50,
         justifyContent:'center',
         alignItems:'center'
-    }
+    },
+    models:{
+        width:415,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        height:900,
+        alignItems: 'center',
+    },
 })
 
 export default Services
