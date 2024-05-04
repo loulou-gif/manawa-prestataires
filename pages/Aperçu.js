@@ -1,27 +1,42 @@
-import { View, Text, Pressable, StyleSheet, ScrollView, Modal, TextInput } from 'react-native'
+import { View, Text, Pressable, StyleSheet, ScrollView, Modal, TextInput, Image } from 'react-native'
 import React, {useState} from 'react'
 import Header from '../components/customers/Header'
 // import StoreHeader from '../components/customers/StoreHeader'
 import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather';
-import IconeAntDesign from 'react-native-vector-icons/AntDesign';
+import IconeEntypo from 'react-native-vector-icons/Entypo'
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Aperçus from '../components/customers/Aperçus';
 import StoreHeaderAperçu from '../components/customers/StoreHeaderAperçu';
+import * as ImagePicker from 'expo-image-picker';
 
 // lightbulb-on-outline
 
 const Aperçu = ({navigation}) => {
     const [create, setCreate] =useState(false)
+    const [image, setImage] = useState('')    
+    const [photo, setPhoto] = useState('')
 
     const handleVisible =() =>{
         setCreate(!create)
     }
+    const selectPhoto = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          console.log(result);
+        } else {
+          alert('Aucune photo sélectionnée.');
+        }
+      };
   return (
-    <ScrollView>
-        <View>
-            <Header/>
-            <StoreHeaderAperçu navigation={navigation}/>
+    <View>
+        <Header/>
+        <StoreHeaderAperçu navigation={navigation}/>
+        <ScrollView>
             <View>
                 <View style={styles.center}>
                     <View style={styles.def}>
@@ -39,13 +54,20 @@ const Aperçu = ({navigation}) => {
                 <View style={styles.second_box}>
                     <Text style={styles.titres}>Ajouter un service</Text>
                     <View style={styles.first_inputs}>
-                        <View style={styles.add_image}></View>
+                        <View style={styles.box_image}>
+                             {photo && <Image style={styles.add_image}/>}
+                             <Image style={styles.add_image}></Image>
+                            <Pressable style={styles.upload} onPress={selectPhoto}>
+                                <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                            </Pressable>
+                        </View>
                         <View style={styles.seconds_input}>
                             <TextInput style={styles.add_name} placeholder='Nom du client' />
                         </View>
                     </View>
                     <View style={styles.add_comments} >
-                        <TextInput style={styles.add_comment}  placeholder='commentaire du client'/>
+                        <Text style={styles.labelle}>Impression client</Text>
+                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} />
                     </View>
                     <View style={styles.buttonsContainer2}>
                         <Pressable onPress={() => handleVisible()} style={styles.btn_annulation}>
@@ -59,8 +81,8 @@ const Aperçu = ({navigation}) => {
             </View>
         </Modal>
             <Aperçus navigation={navigation}/>
-        </View>
-    </ScrollView>
+        </ScrollView>
+    </View>
   )
 }
 
@@ -171,13 +193,12 @@ const styles= StyleSheet.create({
     },
     add_comment:{
         width:310,
-        height:60,
-        borderLeftWidth:1,
-        borderBottomWidth:1,
+        height:90,
+        borderWidth:1,
         borderColor:'#ABA9A9',
         alignItems:'center',
         borderRadius:8,
-        paddingLeft:10
+        paddingLeft:10,
     },
     add_cost:{
         width:300,
@@ -238,7 +259,35 @@ const styles= StyleSheet.create({
         color:'#47300D',
         textAlign:'center',
         marginBottom:20
-    }
+    },
+    labelle:{
+        textAlign:'left',
+        marginTop:-20,
+        marginBottom:5,
+        width:310,
+        color:'#ABA9A9'
+    },
+    box_image:{
+        flexDirection:'row',
+        width:500
+    },
+    upload:{
+        width:75,
+        height:30,
+        backgroundColor:'#FFA012',
+        margin:8,
+        marginTop:50,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    add_image:{
+        width:230,
+        height:120,
+        borderWidth:1,
+        borderColor:'#ABA9A9',
+        borderRadius:8,
+        
+    },
 })
 
 export default Aperçu

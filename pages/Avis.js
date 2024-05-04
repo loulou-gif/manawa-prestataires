@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../components/customers/Header'
 // import StoreHeader from '../components/customers/StoreHeader'
@@ -14,20 +14,22 @@ const Avis = ({navigation}) => {
     <View>
       <Header/>
       <StoreHeaderAvis navigation={navigation}/>
-      {avisWithAlias.map((data) => (
-        <View key={data.id} style={styles.card}>
-          <View style={styles.circle}>
-            <Text style={styles.alias}>{data.alias} </Text>
-          </View>
-          <View style={styles.text}>
-            <Text style={styles.name}>{data.name}</Text>
-            <Text style={styles.comment}>{data.commentaire}</Text>
-          </View>
-          <View style={styles.stars}>
-            <Text>{data.icone} </Text>
-          </View>
-       </View>
-      ))}
+      <ScrollView>
+        {avisWithAlias.map((data) => (
+          <View key={data.id} style={styles.card}>
+            <View style={styles.circle}>
+              <Text style={styles.alias}>{data.alias} </Text>
+            </View>
+            <View style={styles.text}>
+              <Text style={styles.name}>{data.name}</Text>
+              <Text style={styles.comment}>{data.commentaire}</Text>
+            </View>
+            <View style={styles.stars}>
+              <Text>{data.icone} </Text>
+            </View>
+        </View>
+        ))}
+      </ScrollView>
     </View>
   )
 }

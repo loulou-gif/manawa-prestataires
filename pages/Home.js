@@ -21,8 +21,8 @@ const Home = () => {
     }
     return (
         <View>
+        <Header />
             <ScrollView>
-                <Header />
                 <InfoStoreBare />
                 <View style={styles.container}>
                     {Paniers.map((data) => (

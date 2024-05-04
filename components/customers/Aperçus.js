@@ -3,15 +3,31 @@ import React, {useState} from 'react'
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import { AperçuData } from '../../data/AperçuData'
+import IconeEntypo from 'react-native-vector-icons/Entypo'
+import * as ImagePicker from 'expo-image-picker';
 const Aperçus = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
     const [modify, setModify] = useState(false)
     const [details, setDetails] = useState(null)
+    const [image, setImage] = useState('')    
+    const [photo, setPhoto] = useState('')
     
     const handleModalModify =(detail) =>{
         setDetails(detail)
         setModify(!modify)
     }
+    const selectPhoto = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+          console.log(result);
+        } else {
+          alert('Aucune photo sélectionnée.');
+        }
+      };
   return (
     <View>
       {AperçuData.map((data) =>(
@@ -32,14 +48,21 @@ const Aperçus = ({navigation}) => {
                     <View style={styles.second_box}>
                         <Text style={styles.titres}>Modifier un Aperçu</Text>
                         <View style={styles.first_inputs}>
-                           <Image style={styles.add_image} source={details.image}/>
+                            <View style={styles.box_image}>
+                                {photo && <Image style={styles.add_image}/>}
+                                <Image style={styles.add_image} source={details.image} />
+                                <Pressable style={styles.upload} onPress={selectPhoto}>
+                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                </Pressable>
+                            </View>
                             <View style={styles.seconds_input}>
                                 <TextInput style={styles.add_name} placeholder='Nom du client'><Text>{details.name}</Text></TextInput>
                                 {/* <TextInput style={styles.add_cost} placeholder='Avis'>{details.commentaire}</TextInput> */}
                             </View>
                         </View>
                         <View style={styles.add_comments} >
-                            <TextInput style={styles.add_comment}  placeholder='Description du services'>{details.commentaire}</TextInput>
+                            <Text style={styles.labelle}>Description du services</Text>
+                            <TextInput style={styles.add_comment} multiline={true} numberOfLines={4}>{details.commentaire}</TextInput>
                         </View>
                         <View style={styles.buttonsContainer2}>
                             <Pressable onPress={() => handleModalModify()} style={styles.btn_annulation}>
@@ -144,13 +167,12 @@ const styles = StyleSheet.create({
     },
     add_comment:{
         width:310,
-        height:60,
-        borderLeftWidth:1,
-        borderBottomWidth:1,
+        height:90,
+        borderWidth:1,
         borderColor:'#ABA9A9',
         alignItems:'center',
         borderRadius:8,
-        paddingLeft:10
+        paddingLeft:10,
     },
     add_cost:{
         width:300,
@@ -211,7 +233,34 @@ const styles = StyleSheet.create({
         color:'#47300D',
         textAlign:'center',
         marginBottom:20
-    }
+    },
+    labelle:{
+        textAlign:'left',
+        marginTop:-20,
+        marginBottom:5,
+        width:310,
+        color:'#ABA9A9'
+    },
+    box_image:{
+        flexDirection:'row',
+        width:500
+    },
+    upload:{
+        width:75,
+        height:30,
+        backgroundColor:'#FFA012',
+        margin:8,
+        marginTop:50,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    add_image:{
+        width:230,
+        height:120,
+        borderWidth:1,
+        borderColor:'#ABA9A9',
+        borderRadius:8,
+    },
 })
 
 export default Aperçus

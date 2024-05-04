@@ -46,9 +46,9 @@ const Services = ({navigation}) => {
 
   return (
     <View>
+    <Header/>
+    <StoreHeader navigation={navigation}/>
       <ScrollView>
-        <Header/>
-        <StoreHeader navigation={navigation}/>
         <View>
             <Pressable onPress={() => handleVisible()} style={styles.button}>
                 <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
@@ -73,7 +73,8 @@ const Services = ({navigation}) => {
                         </View>
                     </View>
                     <View style={styles.add_comments} >
-                        <TextInput style={styles.add_comment}  placeholder='Description du services'/>
+                        <Text style={styles.labelle} >Description du services</Text>
+                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
                     </View>
                     <View style={styles.buttonsContainer2}>
                         <Pressable onPress={() => handleVisible()} style={styles.btn_annulation}>
@@ -119,7 +120,8 @@ const Services = ({navigation}) => {
                         </View>
                     </View>
                     <View style={styles.add_comments} >
-                        <TextInput style={styles.add_comment}  placeholder='Description du services'/>
+                        <Text style={styles.labelle}>Description du services</Text>
+                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
                     </View>
                     <View style={styles.buttonsContainer2}>
                         <Pressable onPress={() => handleModalModify()} style={styles.btn_annulation}>
@@ -320,6 +322,13 @@ const styles= StyleSheet.create({
         height:900,
         alignItems: 'center',
     },
+    labelle:{
+        textAlign:'left',
+        marginTop:-20,
+        marginBottom:5,
+        width:310,
+        color:'#ABA9A9'
+    }
 })
 
 export default Services
