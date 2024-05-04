@@ -8,26 +8,25 @@ import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import { Firestore, doc, setDoc } from "firebase/firestore"; 
-import {app, analytics, db} from '../firebase/configs'
+import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
 
 const Services = ({navigation}) => {
-    const [ deleted, setDeleted] = useState(false);
-    const [create, setCreate] =useState(false)
-    const [modify, setModify] = useState(false)
-    const [details, setDetails] = useState(null)
-    const [photo, setPhoto] = useState('')
+    const [create, setCreate] = useState(false);
+    const [modify, setModify] = useState(false);
+    const [deleted, setDeleted] = useState(false);
+    const [details, setDetails] = useState(null);
+    const [service, setService] = useState('');
+    const [cost, setCost] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState(null);
 
-    const [name, setName] = useState('')
-    const [cost, setCost] = useState('')
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
-
-    const handleVisible =() =>{
-        setCreate(!create)
+    const handleVisible = () => {
+        setCreate(!create);
     }
-    const handleModalModify =(detail) =>{
-        setDetails(detail)
-        setModify(!modify)
+
+    const handleModalModify = (detail) => {
+        setDetails(detail);
+        setModify(!modify);
     }
 
     const selectPhoto = async () => {
@@ -36,121 +35,150 @@ const Services = ({navigation}) => {
           quality: 1,
         });
     
-        if (!result.canceled) {
-          console.log(result);
+        if (!result.cancelled) {
+          setImage(result.uri);
         } else {
-          alert('Aucune photo sélectionnée.');
+          Alert.alert('Aucune photo sélectionnée.');
         }
-      };
-    
+    };
 
-  return (
-    <View>
-    <Header/>
-    <StoreHeader navigation={navigation}/>
-      <ScrollView>
+    const createService = async () => {
+        try {
+            const imageUrl = image ? image : '';
+            const docRef = await addDoc(collection(db, "services"), {
+              service: service,
+              cost: cost,
+              description: description,
+              image: imageUrl
+            });
+          
+            console.log("Document written with ID: ", docRef.id);
+            setCreate(false); // Close modal after creating service
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    const confirmDelete = () => {
+        // Implement delete logic here
+        // setDeleted(false) should be called after deletion is confirmed
+    }
+
+    return (
         <View>
-            <Pressable onPress={() => handleVisible()} style={styles.button}>
-                <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
-                <Text style={styles.btn_text}> Ajouter un service </Text>
-            </Pressable>
-        </View>
-        <Modal  animationType="fade"  transparent={true} visible={create}>
-            <View style={styles.create}>
-                <View style={styles.second_box}>
-                    <Text style={styles.titres}>Ajouter un service</Text>
-                    <View style={styles.first_inputs}>
-                        <View style={styles.box_image}>
-                             {photo && <Image style={styles.add_image}/>}
-                             <Image style={styles.add_image}></Image>
-                            <Pressable style={styles.upload} onPress={selectPhoto}>
-                                <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
-                            </Pressable>
-                        </View>
-                        <View style={styles.seconds_input}>
-                            <TextInput style={styles.add_name} placeholder='Nom du service' />
-                            <TextInput style={styles.add_cost} placeholder='Coût'/>
-                        </View>
-                    </View>
-                    <View style={styles.add_comments} >
-                        <Text style={styles.labelle} >Description du services</Text>
-                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
-                    </View>
-                    <View style={styles.buttonsContainer2}>
-                        <Pressable onPress={() => handleVisible()} style={styles.btn_annulation}>
-                            <Text style={styles.buttonText}>Ajouter</Text>
-                        </Pressable>
-                        <Pressable onPress={() => handleVisible()} style={styles.btn_confirmation}>
-                            <Text style={styles.buttonText}>Annuler</Text>
-                        </Pressable>
-                    </View>
+            <Header/>
+            <StoreHeader navigation={navigation}/>
+            <ScrollView>
+                <View>
+                    <Pressable onPress={handleVisible} style={styles.button}>
+                        <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
+                        <Text style={styles.btn_text}> Ajouter un service </Text>
+                    </Pressable>
                 </View>
-            </View>
-        </Modal>
-        <View style={styles.modify}>
 
-        </View>
-        <View style={styles.card}>
-            <Image style={styles.image} />
-            <View >
-                <Text style={styles.title}>Coupe homme</Text>
-                <Text style={styles.description}>Coiffure de tout genre pour homme</Text>
-            </View>
-            <View>
-                <Text>10.000 XOF</Text>
-                <Text><IconeFeather name='edit' onPress={handleModalModify} size={16} /> <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/> </Text>
-            </View>
-        </View>
-        <Modal  animationType="fade"  transparent={true} visible={modify}>
-            {details && 
-                <View style={styles.create}>
-                <View style={styles.second_box}>
-                    <Text style={styles.titres}>Modifier un service</Text>
-                    <View style={styles.first_inputs}>
-                        <View style={styles.box_image}>
-                             {photo && <Image style={styles.add_image}></Image>}
-                             <Image style={styles.add_image}></Image>
-                            <Pressable style={styles.upload} onPress={selectPhoto}>
-                                <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} /> Image</Text>
-                            </Pressable>
-                        </View>
-                        <View style={styles.seconds_input}>
-                            <TextInput style={styles.add_name} placeholder='Nom du service'></TextInput>
-                            <TextInput style={styles.add_cost} placeholder='Coût'/>
+                <Modal animationType="fade" transparent={true} visible={create}>
+                    <View style={styles.create}>
+                        <View style={styles.second_box}>
+                            <Text style={styles.titres}>Ajouter un service</Text>
+                            <View style={styles.first_inputs}>
+                                <View style={styles.box_image}>
+                                    {image && <Image style={styles.add_image} source={{uri: image}}/>}
+                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                    </Pressable>
+                                </View>
+                                <View style={styles.seconds_input}>
+                                    <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={service} />
+                                    <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)}  value={cost}/>
+                                </View>
+                            </View>
+                            <View style={styles.add_comments} >
+                                <Text style={styles.labelle} >Description du services</Text>
+                                <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
+                            </View>
+                            <View style={styles.buttonsContainer2}>
+                                <Pressable onPress={handleVisible} style={styles.btn_annulation}>
+                                    <Text style={styles.buttonText}>Annuler</Text>
+                                </Pressable>
+                                <Pressable onPress={createService} style={styles.btn_confirmation}>
+                                    <Text style={styles.buttonText}>Créer</Text>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.add_comments} >
-                        <Text style={styles.labelle}>Description du services</Text>
-                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
+                </Modal>
+
+                <View style={styles.modify}></View>
+
+                <View style={styles.card}>
+                    <Image style={styles.image} />
+                    <View >
+                        <Text style={styles.title}>Coupe homme</Text>
+                        <Text style={styles.description}>Coiffure de tout genre pour homme</Text>
                     </View>
-                    <View style={styles.buttonsContainer2}>
-                        <Pressable onPress={() => handleModalModify()} style={styles.btn_annulation}>
-                            <Text style={styles.buttonText}>Annuler</Text>
-                        </Pressable>
-                        <Pressable onPress={() => handleModalModify()} style={styles.btn_confirmation}>
-                            <Text style={styles.buttonText}>Modifier</Text>
-                        </Pressable>
+                    <View>
+                        <Text>10.000 XOF</Text>
+                        <Text>
+                            <IconeFeather name='edit' onPress={() => handleModalModify(details)} size={16} />
+                            <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/>
+                        </Text>
                     </View>
                 </View>
-            </View>
-            }
-        </Modal>
-            <Modal animationType="fade" transparent={true} style={styles.model} visible={deleted}>
-                <View style={styles.models}>
-                    <View style={styles.model}>
-                        <Text >Voulez-vous supprimer ce service?</Text>
-                        <View style={styles.buttonsContainer}>
-                            <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Oui</Text></Pressable>
-                            <Pressable style={styles.btn_confirmation} onPress={() => setDeleted(!deleted)}><Text style={styles.buttonText}>Nom</Text></Pressable>
+
+                <Modal animationType="fade" transparent={true} visible={modify}>
+                    {details && 
+                        <View style={styles.create}>
+                            <View style={styles.second_box}>
+                                <Text style={styles.titres}>Modifier un service</Text>
+                                <View style={styles.first_inputs}>
+                                    <View style={styles.box_image}>
+                                        {image && <Image style={styles.add_image} source={{uri: image}}/>}
+                                        <Pressable style={styles.upload} onPress={selectPhoto}>
+                                            <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} /> Image</Text>
+                                        </Pressable>
+                                    </View>
+                                    <View style={styles.seconds_input}>
+                                        <TextInput style={styles.add_name} placeholder='Nom du service'></TextInput>
+                                        <TextInput style={styles.add_cost} placeholder='Coût'/>
+                                    </View>
+                                </View>
+                                <View style={styles.add_comments} >
+                                    <Text style={styles.labelle}>Description du services</Text>
+                                    <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
+                                </View>
+                                <View style={styles.buttonsContainer2}>
+                                    <Pressable onPress={handleModalModify} style={styles.btn_annulation}>
+                                        <Text style={styles.buttonText}>Annuler</Text>
+                                    </Pressable>
+                                    <Pressable onPress={handleModalModify} style={styles.btn_confirmation}>
+                                        <Text style={styles.buttonText}>Modifier</Text>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        </View>
+                    }
+                </Modal>
+
+                <Modal animationType="fade" transparent={true} visible={deleted}>
+                    <View style={styles.models}>
+                        <View style={styles.model}>
+                            <Text >Voulez-vous supprimer ce service?</Text>
+                            <View style={styles.buttonsContainer}>
+                                <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}>
+                                    <Text style={styles.buttonText}>Non</Text>
+                                </Pressable>
+                                <Pressable style={styles.btn_confirmation} onPress={confirmDelete}>
+                                    <Text style={styles.buttonText}>Oui</Text>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
-                </View>
-            </Modal>
-      </ScrollView>
-      
-    </View>
-  )
+                </Modal>
+            </ScrollView>
+        </View>
+    )
 }
+
 
 const styles= StyleSheet.create({
     card:{
