@@ -5,13 +5,16 @@ import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import { AperçuData } from '../../data/AperçuData'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import * as ImagePicker from 'expo-image-picker';
+import {app, db , collection, addDoc, getFirestore} from '../../firebase/configs'
 const Aperçus = ({navigation}) => {
     const [ deleted, setDeleted] = useState(false);
     const [modify, setModify] = useState(false)
     const [details, setDetails] = useState(null)
     const [image, setImage] = useState('')    
     const [photo, setPhoto] = useState('')
-    
+    const [client, setClient] = useState('')
+    const [comment, setComment] = useState('')
+
     const handleModalModify =(detail) =>{
         setDetails(detail)
         setModify(!modify)
@@ -28,6 +31,49 @@ const Aperçus = ({navigation}) => {
           alert('Aucune photo sélectionnée.');
         }
       };
+      const modifyAperçu = async() =>{
+        try {
+            const docRef = await addDoc(collection(db, "aperçu"), {
+              client: client,
+              comment: comment,
+              image:photo,
+            });
+            console.log("Document written with ID: ", docRef.id);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+          try {
+            const {uri} = await FileSystem.getInfoAsync(photo);
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () =>{
+                    resolve(xhr.response);
+                };
+                xhr.onerror =(e) =>{
+                    reject(new TypeError('Network request failed'));
+                };
+                xhr.responseType = 'blob';
+                xhr.open('GET', uri, true);
+                xhr.send(null);
+            });
+            const filename= image.substing(image.lastIndexOf('/') +1 );
+            const ref = firebase.storage().ref.child(filename);
+
+            await ref.put(blob);
+            setUpload(false);
+            Alert.alert('photo ploaded');
+            setPhoto(null)
+
+      }catch(error) {
+        console.error(error)
+        setUpload(false)
+      }
+      }
+
+    const confirmDelete = () => {
+        // Implement delete logic here
+        // setDeleted(false) should be called after deletion is confirmed
+    }
   return (
     <View>
       {AperçuData.map((data) =>(
@@ -56,19 +102,19 @@ const Aperçus = ({navigation}) => {
                                 </Pressable>
                             </View>
                             <View style={styles.seconds_input}>
-                                <TextInput style={styles.add_name} placeholder='Nom du client'><Text>{details.name}</Text></TextInput>
+                                <TextInput style={styles.add_name} onChangeText={(text) => setService(text)} value={client} placeholder='Nom du client'><Text>{details.name}</Text></TextInput>
                                 {/* <TextInput style={styles.add_cost} placeholder='Avis'>{details.commentaire}</TextInput> */}
                             </View>
                         </View>
                         <View style={styles.add_comments} >
                             <Text style={styles.labelle}>Description du services</Text>
-                            <TextInput style={styles.add_comment} multiline={true} numberOfLines={4}>{details.commentaire}</TextInput>
+                            <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setService(text)} value={comment} numberOfLines={4}>{details.commentaire}</TextInput>
                         </View>
                         <View style={styles.buttonsContainer2}>
                             <Pressable onPress={() => handleModalModify()} style={styles.btn_annulation}>
                                 <Text style={styles.buttonText}>Annuler</Text>
                             </Pressable>
-                            <Pressable onPress={() => handleModalModify()} style={styles.btn_confirmation}>
+                            <Pressable onPress={() => modifyAperçu()} style={styles.btn_confirmation}>
                                 <Text style={styles.buttonText}>Modifier</Text>
                             </Pressable>
                         </View>

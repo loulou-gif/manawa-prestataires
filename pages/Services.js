@@ -22,6 +22,10 @@ const Services = ({navigation}) => {
 
     const handleVisible = () => {
         setCreate(!create);
+        setCost('');
+        setDescription('');
+        setImage('');
+        setService('');
     }
 
     const handleModalModify = (detail) => {
@@ -46,6 +50,7 @@ const Services = ({navigation}) => {
         try {
             const imageUrl = image ? image : '';
             const docRef = await addDoc(collection(db, "services"), {
+              id_prestataire:'',
               service: service,
               cost: cost,
               description: description,
@@ -83,9 +88,6 @@ const Services = ({navigation}) => {
                             <View style={styles.first_inputs}>
                                 <View style={styles.box_image}>
                                     {image && <Image style={styles.add_image} source={{uri: image}}/>}
-                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
-                                    </Pressable>
                                 </View>
                                 <View style={styles.seconds_input}>
                                     <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={service} />
@@ -95,6 +97,11 @@ const Services = ({navigation}) => {
                             <View style={styles.add_comments} >
                                 <Text style={styles.labelle} >Description du services</Text>
                                 <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
+                            </View>
+                            <View style={styles.files} >
+                                <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                </Pressable>
                             </View>
                             <View style={styles.buttonsContainer2}>
                                 <Pressable onPress={handleVisible} style={styles.btn_annulation}>
@@ -133,9 +140,6 @@ const Services = ({navigation}) => {
                                 <View style={styles.first_inputs}>
                                     <View style={styles.box_image}>
                                         {image && <Image style={styles.add_image} source={{uri: image}}/>}
-                                        <Pressable style={styles.upload} onPress={selectPhoto}>
-                                            <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} /> Image</Text>
-                                        </Pressable>
                                     </View>
                                     <View style={styles.seconds_input}>
                                         <TextInput style={styles.add_name} placeholder='Nom du service'></TextInput>
@@ -145,6 +149,11 @@ const Services = ({navigation}) => {
                                 <View style={styles.add_comments} >
                                     <Text style={styles.labelle}>Description du services</Text>
                                     <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
+                                </View>
+                                <View style={styles.files} >
+                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                    </Pressable>
                                 </View>
                                 <View style={styles.buttonsContainer2}>
                                     <Pressable onPress={handleModalModify} style={styles.btn_annulation}>
@@ -284,7 +293,6 @@ const styles= StyleSheet.create({
         borderWidth:1,
         borderColor:'#ABA9A9',
         borderRadius:8,
-        
     },
     add_name:{
         width:300,
@@ -335,13 +343,12 @@ const styles= StyleSheet.create({
         width:500
     },
     upload:{
-        width:75,
+        width:100,
         height:30,
         backgroundColor:'#FFA012',
         margin:8,
-        marginTop:50,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
     },
     models:{
         width:415,
@@ -356,6 +363,12 @@ const styles= StyleSheet.create({
         marginBottom:5,
         width:310,
         color:'#ABA9A9'
+    },
+    files:{
+        width:'auto',
+        marginTop:50,
+        marginBottom:-30,
+        alignItems:'center'
     }
 })
 

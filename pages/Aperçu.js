@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, ScrollView, Modal, TextInput, Image } from 'react-native'
+import { View, Text, Pressable, StyleSheet, ScrollView, Modal, TextInput, Image, Alert } from 'react-native'
 import React, {useState} from 'react'
 import Header from '../components/customers/Header'
 // import StoreHeader from '../components/customers/StoreHeader'
@@ -9,29 +9,72 @@ import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommu
 import Aperçus from '../components/customers/Aperçus';
 import StoreHeaderAperçu from '../components/customers/StoreHeaderAperçu';
 import * as ImagePicker from 'expo-image-picker';
+import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
 
 // lightbulb-on-outline
 
 const Aperçu = ({navigation}) => {
-    const [create, setCreate] =useState(false)
-    const [image, setImage] = useState('')    
-    const [photo, setPhoto] = useState('')
+    const [create, setCreate] = useState(false)
+    const [upload, setUpload] = useState(false)    
+    const [photo, setPhoto] = useState(null)
+    const [client, setClient] = useState('')
+    const [comment, setComment] = useState('')
 
     const handleVisible =() =>{
-        setCreate(!create)
+        setCreate(!create),
+        setClient(''),
+        setComment('')
     }
     const selectPhoto = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
           allowsEditing: true,
           quality: 1,
+        //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+        //   aspect:(4,3)
         });
     
         if (!result.canceled) {
-          console.log(result);
+          setPhoto(result.assets[0].uri)
         } else {
           alert('Aucune photo sélectionnée.');
         }
-      };
+        const uploadImage = async() =>{
+            setUpload(true)
+        }
+    }
+      
+    const createAperçu = async () => {
+        try {
+            const docRef = await addDoc(collection(db, 'aperçu'), {
+                client: client,
+                comment: comment,
+                image: photo
+            });
+            console.log('Document written with ID: ', docRef.id);
+    
+            // Handle image upload
+            if (photo) {
+                const response = await fetch(photo);
+                const blob = await response.blob();
+    
+                const filename = photo.substring(photo.lastIndexOf('/') + 1);
+                const ref = firebase.storage().ref().child(filename); // Utilisez firebase.storage()
+    
+                await ref.put(blob);
+                setUpload(false);
+                Alert.alert('Photo uploaded');
+                setPhoto(null);
+            } else {
+                setUpload(false);
+                Alert.alert('Aucune photo sélectionnée.');
+            }
+        } catch (error) {
+            console.error('Error creating aperçu: ', error);
+            setUpload(false);
+            // Alert.alert('Erreur lors de la création de l\'aperçu.');
+        }
+    };
+    
   return (
     <View>
         <Header/>
@@ -55,26 +98,25 @@ const Aperçu = ({navigation}) => {
                     <Text style={styles.titres}>Ajouter un service</Text>
                     <View style={styles.first_inputs}>
                         <View style={styles.box_image}>
-                             {photo && <Image style={styles.add_image}/>}
-                             <Image style={styles.add_image}></Image>
+                             {photo && <Image style={styles.add_image} source={photo}/>}
                             <Pressable style={styles.upload} onPress={selectPhoto}>
                                 <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
                             </Pressable>
                         </View>
                         <View style={styles.seconds_input}>
-                            <TextInput style={styles.add_name} placeholder='Nom du client' />
+                            <TextInput style={styles.add_name} value={client} onChangeText={(text) => setClient(text)} placeholder='Nom du client'  />
                         </View>
                     </View>
                     <View style={styles.add_comments} >
                         <Text style={styles.labelle}>Impression client</Text>
-                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} />
+                        <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} value={comment} onChangeText={(text) => setComment(text)} />
                     </View>
                     <View style={styles.buttonsContainer2}>
                         <Pressable onPress={() => handleVisible()} style={styles.btn_annulation}>
-                            <Text style={styles.buttonText}>Ajouter</Text>
-                        </Pressable>
-                        <Pressable onPress={() => handleVisible()} style={styles.btn_confirmation}>
                             <Text style={styles.buttonText}>Annuler</Text>
+                        </Pressable>
+                        <Pressable onPress={() => createAperçu()} style={styles.btn_confirmation}>
+                            <Text style={styles.buttonText}>Créer</Text>
                         </Pressable>
                     </View>
                 </View>
