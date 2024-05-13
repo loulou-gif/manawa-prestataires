@@ -102,13 +102,13 @@ const Aperçus = ({navigation}) => {
                                 </Pressable>
                             </View>
                             <View style={styles.seconds_input}>
-                                <TextInput style={styles.add_name} onChangeText={(text) => setService(text)} value={client} placeholder='Nom du client'><Text>{details.name}</Text></TextInput>
+                                <TextInput style={styles.add_name} onChangeText={(text) => setService(text)}  placeholder='Nom du client'><Text>{details.name}</Text></TextInput>
                                 {/* <TextInput style={styles.add_cost} placeholder='Avis'>{details.commentaire}</TextInput> */}
                             </View>
                         </View>
                         <View style={styles.add_comments} >
                             <Text style={styles.labelle}>Description du services</Text>
-                            <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setService(text)} value={comment} numberOfLines={4}>{details.commentaire}</TextInput>
+                            <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setService(text)}  numberOfLines={4}>{details.commentaire}</TextInput>
                         </View>
                         <View style={styles.buttonsContainer2}>
                             <Pressable onPress={() => handleModalModify()} style={styles.btn_annulation}>

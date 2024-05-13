@@ -9,6 +9,7 @@ import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import { Firestore, doc, setDoc } from "firebase/firestore"; 
 import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
+import {services} from '../data/services'
 
 const Services = ({navigation}) => {
     const [create, setCreate] = useState(false);
@@ -44,6 +45,12 @@ const Services = ({navigation}) => {
         } else {
           Alert.alert('Aucune photo sélectionnée.');
         }
+    };
+    const renderSelectedImage = () => {
+        if (image) {
+            return <Image style={styles.add_image} source={{ uri: image }} />;
+        }
+        return null;
     };
 
     const createService = async () => {
@@ -114,24 +121,22 @@ const Services = ({navigation}) => {
                         </View>
                     </View>
                 </Modal>
-
-                <View style={styles.modify}></View>
-
-                <View style={styles.card}>
-                    <Image style={styles.image} />
+                {services.map((d) =>(
+                    <View>
+                        <View style={styles.card} key={d.id}>
+                    <Image style={styles.image} source={d.image} />
                     <View >
-                        <Text style={styles.title}>Coupe homme</Text>
-                        <Text style={styles.description}>Coiffure de tout genre pour homme</Text>
+                        <Text style={styles.title}>{d.name}</Text>
+                        <Text style={styles.description}>{d.description}</Text>
                     </View>
                     <View>
-                        <Text>10.000 XOF</Text>
+                        <Text>{d.cost} XOF</Text>
                         <Text>
-                            <IconeFeather name='edit' onPress={() => handleModalModify(details)} size={16} />
+                            <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
                             <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/>
                         </Text>
                     </View>
                 </View>
-
                 <Modal animationType="fade" transparent={true} visible={modify}>
                     {details && 
                         <View style={styles.create}>
@@ -139,22 +144,23 @@ const Services = ({navigation}) => {
                                 <Text style={styles.titres}>Modifier un service</Text>
                                 <View style={styles.first_inputs}>
                                     <View style={styles.box_image}>
-                                        {image && <Image style={styles.add_image} source={{uri: image}}/>}
+                                        <Image style={styles.add_image} source={details.image}/>
+                                        <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                            <Text style={styles.buttonText}><IconeEntypo name="upload" size={16} />Image</Text>
+                                        </Pressable>
                                     </View>
                                     <View style={styles.seconds_input}>
-                                        <TextInput style={styles.add_name} placeholder='Nom du service'></TextInput>
-                                        <TextInput style={styles.add_cost} placeholder='Coût'/>
+                                        <TextInput style={styles.add_name} placeholder='Nom du service' value={details.name}/>
+                                        <TextInput style={styles.add_cost} placeholder='Coût' value={details.cost} />
                                     </View>
                                 </View>
                                 <View style={styles.add_comments} >
                                     <Text style={styles.labelle}>Description du services</Text>
-                                    <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder=''/>
+                                    <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder='' value={details.description} />
                                 </View>
-                                <View style={styles.files} >
-                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
-                                    </Pressable>
-                                </View>
+                                {/* <View style={styles.files} >
+                                    
+                                </View> */}
                                 <View style={styles.buttonsContainer2}>
                                     <Pressable onPress={handleModalModify} style={styles.btn_annulation}>
                                         <Text style={styles.buttonText}>Annuler</Text>
@@ -168,6 +174,8 @@ const Services = ({navigation}) => {
                     }
                 </Modal>
 
+                    </View>
+                ))}
                 <Modal animationType="fade" transparent={true} visible={deleted}>
                     <View style={styles.models}>
                         <View style={styles.model}>
@@ -176,7 +184,7 @@ const Services = ({navigation}) => {
                                 <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}>
                                     <Text style={styles.buttonText}>Non</Text>
                                 </Pressable>
-                                <Pressable style={styles.btn_confirmation} onPress={confirmDelete}>
+                                <Pressable style={styles.btn_confirmation} onPress={()=> confirmDelete}>
                                     <Text style={styles.buttonText}>Oui</Text>
                                 </Pressable>
                             </View>
@@ -305,7 +313,7 @@ const styles= StyleSheet.create({
         alignItems:'center',
         alignContent:'center',
         paddingTop:200,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         height:900,
     },
     first_inputs:{
@@ -343,7 +351,7 @@ const styles= StyleSheet.create({
         width:500
     },
     upload:{
-        width:100,
+        width:80,
         height:30,
         backgroundColor:'#FFA012',
         margin:8,
