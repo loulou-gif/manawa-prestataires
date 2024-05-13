@@ -12,7 +12,8 @@ const Header = () => {
 const styles = StyleSheet.create({
     header:{
       backgroundColor:"#DE9F42",
-      height:47
+      height:47,
+      marginTop:20
     },
     logo:{
       color:"#fff",

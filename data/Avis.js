@@ -26,4 +26,28 @@ export const avis =[
         icone:<Text  ><IconeFontAwesome   name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star-o' size={18}color="#DE9F42"/></Text>,
         icones:3
     },
+    {
+        id:4,
+        name:"Jared betsaleel",
+        commentaire:"Konan JuliusKonan JuliusKonan JuliusKonan JuliusKonan JuliusKonan JuliusKonan Julius",
+        image: require("../assets/images/Profils/p8.png"),
+        icone:<Text  ><IconeFontAwesome   name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star-o' size={18}color="#DE9F42"/></Text>,
+        icones:3
+    },
+    {
+        id:5,
+        name:"Jared betsaleel",
+        commentaire:"Konan JuliusKonan JuliusKonan JuliusKonan JuliusKonan JuliusKonan JuliusKonan Julius",
+        image: require("../assets/images/Profils/p8.png"),
+        icone:<Text  ><IconeFontAwesome   name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star-o' size={18}color="#DE9F42"/></Text>,
+        icones:3
+    },
+    {
+        id:6,
+        name:"Jared betsaleel",
+        commentaire:"Konan JuliusKonan JuliusKonan JuliusKonan JuliusKonan JuliusKonan JuliusKonan Julius",
+        image: require("../assets/images/Profils/p8.png"),
+        icone:<Text  ><IconeFontAwesome   name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star' size={18}color="#DE9F42"/><IconeFontAwesome  name='star-o' size={18}color="#DE9F42"/></Text>,
+        icones:3
+    },
 ]

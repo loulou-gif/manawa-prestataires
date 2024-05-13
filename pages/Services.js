@@ -77,17 +77,16 @@ const Services = ({navigation}) => {
     }
 
     return (
-        <View>
+        <ScrollView>
             <Header/>
             <StoreHeader navigation={navigation}/>
-            <ScrollView>
+            <View contentContainerStyle={{flexGrow:1}}>
                 <View>
                     <Pressable onPress={handleVisible} style={styles.button}>
                         <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
                         <Text style={styles.btn_text}> Ajouter un service </Text>
                     </Pressable>
                 </View>
-
                 <Modal animationType="fade" transparent={true} visible={create}>
                     <View style={styles.create}>
                         <View style={styles.second_box}>
@@ -95,6 +94,9 @@ const Services = ({navigation}) => {
                             <View style={styles.first_inputs}>
                                 <View style={styles.box_image}>
                                     {image && <Image style={styles.add_image} source={{uri: image}}/>}
+                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                    </Pressable>
                                 </View>
                                 <View style={styles.seconds_input}>
                                     <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={service} />
@@ -105,11 +107,8 @@ const Services = ({navigation}) => {
                                 <Text style={styles.labelle} >Description du services</Text>
                                 <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
                             </View>
-                            <View style={styles.files} >
-                                <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
-                                </Pressable>
-                            </View>
+                            {/* <View style={styles.files} >
+                            </View> */}
                             <View style={styles.buttonsContainer2}>
                                 <Pressable onPress={handleVisible} style={styles.btn_annulation}>
                                     <Text style={styles.buttonText}>Annuler</Text>
@@ -173,8 +172,7 @@ const Services = ({navigation}) => {
                         </View>
                     }
                 </Modal>
-
-                    </View>
+                </View>
                 ))}
                 <Modal animationType="fade" transparent={true} visible={deleted}>
                     <View style={styles.models}>
@@ -191,8 +189,8 @@ const Services = ({navigation}) => {
                         </View>
                     </View>
                 </Modal>
-            </ScrollView>
-        </View>
+            </View>
+        </ScrollView>
     )
 }
 
