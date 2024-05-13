@@ -150,13 +150,13 @@ const Services = ({navigation}) => {
                                         </Pressable>
                                     </View>
                                     <View style={styles.seconds_input}>
-                                        <TextInput style={styles.add_name} placeholder='Nom du service' value={details.name}/>
-                                        <TextInput style={styles.add_cost} placeholder='Coût' value={details.cost} />
+                                        <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={details.name}/>
+                                        <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)} value={details.cost} />
                                     </View>
                                 </View>
                                 <View style={styles.add_comments} >
                                     <Text style={styles.labelle}>Description du services</Text>
-                                    <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder='' value={details.description} />
+                                    <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder='' onChangeText={(text) => setDescription(text)} value={details.description} />
                                 </View>
                                 {/* <View style={styles.files} >
                                     
