@@ -77,7 +77,6 @@ const Aperçu = ({navigation}) => {
     
   return (
     <View>
-        <Header/>
         <StoreHeaderAperçu navigation={navigation}/>
         <ScrollView>
             <View>

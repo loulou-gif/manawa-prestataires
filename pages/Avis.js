@@ -12,7 +12,6 @@ const Avis = ({navigation}) => {
   }));
   return (
     <View>
-      <Header/>
       <StoreHeaderAvis navigation={navigation}/>
       <ScrollView>
         {avisWithAlias.map((data) => (

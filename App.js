@@ -12,8 +12,8 @@ export default function App() {
   const Stack = createNativeStackNavigator()
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown:false}}>
-        <Stack.Screen name='BottomTab' component={BottomTab} />
+      <Stack.Navigator >
+        <Stack.Screen name='BottomTab' component={BottomTab} options={{ headerShown: false }}/>
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='ModifyStore' component={ModifyStore}/>
         <Stack.Screen name='Aperçu' component={Aperçu} />
