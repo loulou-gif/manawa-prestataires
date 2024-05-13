@@ -13,7 +13,7 @@ const InfoStoreBare = ({navigation}) => {
                 <Text style={styles.title}>Salon de coiffure</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
                 <View style={styles.icone}>
-                    <IconeFeather name='edit' onPress={() => navigation.navigate('ModifyStore')} size={16}/>
+                    <IconeFeather name='edit' onPress={() => navigation.push('ModifyStore')} size={16}/>
                 </View>
             </View>
             <View style={styles.points}>

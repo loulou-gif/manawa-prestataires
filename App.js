@@ -14,10 +14,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator >
         <Stack.Screen name='BottomTab' component={BottomTab} options={{ headerShown: false }}/>
-        <Stack.Screen name='Home' component={Home} />
-        <Stack.Screen name='ModifyStore' component={ModifyStore}/>
-        <Stack.Screen name='Aperçu' component={Aperçu} />
-        <Stack.Screen name='Avis' component={Avis} />
+        <Stack.Screen name='Home' component={Home} options={{headerStyle:{backgroundColor:'#DE9F42'}}} />
+        <Stack.Screen name='ModifyStore' component={ModifyStore} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
+        <Stack.Screen name='Aperçu' component={Aperçu} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
+        <Stack.Screen name='Avis' component={Avis} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
