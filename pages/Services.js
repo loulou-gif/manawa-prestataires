@@ -1,5 +1,5 @@
 import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import Header from '../components/customers/Header'
 import StoreHeader from '../components/customers/StoreHeader'
@@ -7,8 +7,9 @@ import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
-import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
+import {app, db , collection, addDoc, query, getDocs} from '../firebase/configs'
 import {services} from '../data/services'
+import { where } from 'firebase/firestore';
 
 
 const Services = ({navigation}) => {
@@ -20,7 +21,7 @@ const Services = ({navigation}) => {
     const [cost, setCost] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
-    // const [test, setTest] = useState(false)
+    const [servicesData, setServicesData] = useState([]);
     // const [upload, setUpload] = useState(false)
 
     const handleVisible = () => {
@@ -71,49 +72,25 @@ const Services = ({navigation}) => {
     }
     
     
-    // const uploadImage = async () => {
-    //     setUpload(true);
-    //     console.log("Starting image upload...");
-    
-    //     try {
-    //         // Vérifiez d'abord si une image est sélectionnée
-    //         if (!image) {
-    //             throw new Error("No image selected");
-    //         }
-    
-    //         // Récupérez l'URI de l'image
-    //         const uri = image.uri;
-    
-    //         // Utilisez 'fetch' pour récupérer l'image depuis l'URI
-    //         const response = await fetch(uri);
-    //         console.log("Fetch response:", response);
-    
-    //         // Convertissez la réponse en blob
-    //         const blob = await response.blob();
-    //         console.log("Blob:", blob);
-    
-    //         // Obtenez le nom du fichier à partir de l'URI de l'image
-    //         const filename = uri.substring(uri.lastIndexOf('/') + 1);
-    //         console.log("Filename:", filename);
-    
-    //         // Obtenez une référence au référentiel de stockage
-    //         const ref = db.storage().ref().child(filename);
-    //         console.log("Storage reference:", ref);
-    
-    //         // Mettez le blob dans le référentiel de stockage
-    //         const snapshot = await ref.put(blob);
-    //         console.log("Upload snapshot:", snapshot);
-    
-    //         console.log("Image uploaded successfully!");
-    //         Alert.alert('Photo uploaded!');
-    //         setImage(null);
-    //     } catch (error) {
-    //         console.log("Error uploading image:", error);
-    //         Alert.alert('Error uploading image. Please try again.');
-    //     }
-    
-    //     setUpload(false);
-    // }
+    const printData = async () => {
+        const q = query(collection(db, 'services'), where('id_prestataire', '==', '0001'));
+        try {
+            const querySnapshot = await getDocs(q);
+            const services = [];
+            querySnapshot.forEach((doc) => {
+                // Ajoutez chaque document à un tableau services
+                services.push({ id: doc.id, ...doc.data() });
+            });
+            // Mettez à jour l'état avec les données des services
+            setServicesData(services);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // Appelez printData une seule fois après le rendu initial
+    useEffect(() => {
+        printData();
+    }, []);
     
     const confirmDelete = () => {
         // Implement delete logic here
@@ -192,12 +169,12 @@ const Services = ({navigation}) => {
                         </View>
                     </View>
                 </Modal>
-                {services.map((d) =>(
+                {servicesData.map((d) =>(
                     <View key={d.id}>
                         <View style={styles.card}>
                             <Image style={styles.image} source={d.image} />
-                            <View >
-                                <Text style={styles.title}>{d.name}</Text>
+                            <View style={styles.add_comments}>
+                                <Text style={styles.title}>{d.service}</Text>
                                 <Text style={styles.description}>{d.description}</Text>
                             </View>
                             <View>
@@ -344,10 +321,8 @@ const styles= StyleSheet.create({
         paddingTop:10,
     },
     add_comments:{
-        width:350,
+        width:230,
         height:50,
-        marginTop:30,
-        alignItems:'center'
     },
     add_comment:{
         width:310,
