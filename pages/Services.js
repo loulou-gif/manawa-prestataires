@@ -152,7 +152,7 @@ const Services = ({navigation}) => {
                 {servicesData.map((d) =>(
                     <View key={d.id}>
                         <View style={styles.card}>
-                            <Image style={styles.image} source={{uri: service.imageUrl}} />
+                            <Image style={styles.image} source={{uri: d.imageUrl}} />
                             <View style={styles.add_comment}>
                                 <Text style={styles.title}>{d.service}</Text>
                                 <Text style={styles.description}>{d.description}</Text>

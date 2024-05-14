@@ -14,8 +14,7 @@ import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
 // lightbulb-on-outline
 
 const Aperçu = ({navigation}) => {
-    const [create, setCreate] = useState(false)
-    const [upload, setUpload] = useState(false)    
+    const [create, setCreate] = useState(false)  
     const [photo, setPhoto] = useState(null)
     const [client, setClient] = useState('')
     const [comment, setComment] = useState('')
