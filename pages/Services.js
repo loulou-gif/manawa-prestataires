@@ -78,10 +78,11 @@ const Services = ({navigation}) => {
             const querySnapshot = await getDocs(q);
             const services = [];
             querySnapshot.forEach((doc) => {
-                // Ajoutez chaque document à un tableau services
-                services.push({ id: doc.id, ...doc.data() });
+                const { service, cost, description, image } = doc.data();
+                const limitedDescription = description.length > 70 ? description.substring(0, 50) + '...' : description;
+                const imageUrl = image;
+                services.push({ id: doc.id, service, cost, description: limitedDescription, imageUrl });
             });
-            // Mettez à jour l'état avec les données des services
             setServicesData(services);
         } catch (error) {
             console.log(error);
@@ -107,37 +108,7 @@ const Services = ({navigation}) => {
                         <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
                         <Text style={styles.btn_text}> Ajouter un service </Text>
                     </Pressable>
-                    {/* <Pressable onPress={imageTest} style={styles.button}>
-                        <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
-                        <Text style={styles.btn_text}> test photo</Text>
-                    </Pressable> */}
                 </View>
-                {/* <Modal animationType='fade' transparent={true} visible={test}>
-                    <View style={styles.create}>
-                        <View style={styles.second_box}>
-                            <Text style={styles.titres}>Test</Text>
-                            <View style={styles.first_inputs}>
-                                <View style={styles.box_image}>
-                                    {image && <Image style={styles.add_image} source={{uri: image}}/>}
-                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
-                                    </Pressable>
-                                    <Pressable style={styles.upload}  onPress={uploadImage}>
-                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Send</Text>
-                                    </Pressable>
-                                </View>
-                                <View style={styles.buttonsContainer2}>
-                                    <Pressable onPress={imageTest} style={styles.btn_annulation}>
-                                        <Text style={styles.buttonText}>Annuler</Text>
-                                    </Pressable>
-                                    <Pressable onPress={createService} style={styles.btn_confirmation}>
-                                        <Text style={styles.buttonText}>Créer</Text>
-                                    </Pressable>
-                                </View> 
-                            </View>
-                        </View>
-                    </View>
-                </Modal> */}
                 <Modal animationType="fade" transparent={true} visible={create}>
                     <View style={styles.create}>
                         <View style={styles.second_box}>
@@ -156,7 +127,7 @@ const Services = ({navigation}) => {
                             </View>
                             <View style={styles.add_comments} >
                                 <Text style={styles.labelle} >Description du services</Text>
-                                <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
+                                <TextInput style={styles.add_description} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
                             </View>
                             <View style={styles.buttonsContainer2}>
                                 <Pressable onPress={handleVisible} style={styles.btn_annulation}>
@@ -172,8 +143,8 @@ const Services = ({navigation}) => {
                 {servicesData.map((d) =>(
                     <View key={d.id}>
                         <View style={styles.card}>
-                            <Image style={styles.image} source={d.image} />
-                            <View style={styles.add_comments}>
+                            <Image style={styles.image} source={{uri: service.imageUrl}} />
+                            <View style={styles.add_comment}>
                                 <Text style={styles.title}>{d.service}</Text>
                                 <Text style={styles.description}>{d.description}</Text>
                             </View>
@@ -198,13 +169,13 @@ const Services = ({navigation}) => {
                                                 </Pressable>
                                             </View>
                                             <View style={styles.seconds_input}>
-                                                <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={details.name}/>
+                                                <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={details.service}/>
                                                 <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)} value={details.cost} />
                                             </View>
                                         </View>
                                         <View style={styles.add_comments} >
                                             <Text style={styles.labelle}>Description du services</Text>
-                                            <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder='' onChangeText={(text) => setDescription(text)} value={details.description} />
+                                            <TextInput style={styles.add_description} multiline={true} numberOfLines={4} placeholder='' onChangeText={(text) => setDescription(text)} value={details.description} />
                                         </View>
                                         {/* <View style={styles.files} >
                                             
@@ -280,8 +251,8 @@ const styles= StyleSheet.create({
         color:'black',
     },
     image:{
-        width:50,
-        height:40,
+        width:60,
+        height:50,
         backgroundColor:'#ABA9A9',
         borderRadius:8,
         marginLeft:9
@@ -323,8 +294,15 @@ const styles= StyleSheet.create({
     add_comments:{
         width:230,
         height:50,
+        marginTop:20,
+        marginLeft:20
     },
     add_comment:{
+        width:240,
+        height:50,
+        marginLeft:20
+    },
+    add_description:{
         width:310,
         borderWidth:1,
         borderColor:'#ABA9A9',
