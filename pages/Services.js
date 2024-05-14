@@ -7,9 +7,9 @@ import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
-import { Firestore, doc, setDoc } from "firebase/firestore"; 
 import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
 import {services} from '../data/services'
+
 
 const Services = ({navigation}) => {
     const [create, setCreate] = useState(false);
@@ -20,6 +20,8 @@ const Services = ({navigation}) => {
     const [cost, setCost] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
+    const [test, setTest] = useState(false)
+    const [upload, setUpload] = useState(false)
 
     const handleVisible = () => {
         setCreate(!create);
@@ -36,41 +38,83 @@ const Services = ({navigation}) => {
 
     const selectPhoto = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing: true,
-          quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4,3],
+            quality: 1
         });
+        const source = result.assets[0].uri
+        console.log(source)
+        setImage(source)
+    };
     
-        if (!result.cancelled) {
-          setImage(result.uri);
-        } else {
-          Alert.alert('Aucune photo sélectionnée.');
-        }
-    };
-    const renderSelectedImage = () => {
-        if (image) {
-            return <Image style={styles.add_image} source={{ uri: image }} />;
-        }
-        return null;
-    };
-
     const createService = async () => {
         try {
-            const imageUrl = image ? image : '';
+            // Vérifier si une image est sélectionnée
+            let imageUrl = image;
+            // if (image && image.uri) {
+            //     imageUrl = image.uri; // Si l'image et son URI sont définis
+            // }
             const docRef = await addDoc(collection(db, "services"), {
-              id_prestataire:'',
-              service: service,
-              cost: cost,
-              description: description,
-              image: imageUrl
+                id_prestataire: '0001',
+                service: service,
+                cost: cost,
+                description: description,
+                image: imageUrl // Utiliser l'URL de l'image
             });
-          
+    
             console.log("Document written with ID: ", docRef.id);
-            setCreate(false); // Close modal after creating service
-        } catch (e) {
-            console.error("Error adding document: ", e);
+            setCreate(false); // Fermer la modal après la création du service
+        } catch (error) {
+            console.error("Error adding document: ", error);
         }
     }
-
+    
+    
+    const uploadImage = async () => {
+        setUpload(true);
+        console.log("Starting image upload...");
+    
+        try {
+            // Vérifiez d'abord si une image est sélectionnée
+            if (!image) {
+                throw new Error("No image selected");
+            }
+    
+            // Récupérez l'URI de l'image
+            const uri = image.uri;
+    
+            // Utilisez 'fetch' pour récupérer l'image depuis l'URI
+            const response = await fetch(uri);
+            console.log("Fetch response:", response);
+    
+            // Convertissez la réponse en blob
+            const blob = await response.blob();
+            console.log("Blob:", blob);
+    
+            // Obtenez le nom du fichier à partir de l'URI de l'image
+            const filename = uri.substring(uri.lastIndexOf('/') + 1);
+            console.log("Filename:", filename);
+    
+            // Obtenez une référence au référentiel de stockage
+            const ref = db.storage().ref().child(filename);
+            console.log("Storage reference:", ref);
+    
+            // Mettez le blob dans le référentiel de stockage
+            const snapshot = await ref.put(blob);
+            console.log("Upload snapshot:", snapshot);
+    
+            console.log("Image uploaded successfully!");
+            Alert.alert('Photo uploaded!');
+            setImage(null);
+        } catch (error) {
+            console.log("Error uploading image:", error);
+            Alert.alert('Error uploading image. Please try again.');
+        }
+    
+        setUpload(false);
+    }
+    
     const confirmDelete = () => {
         // Implement delete logic here
         // setDeleted(false) should be called after deletion is confirmed
@@ -86,7 +130,37 @@ const Services = ({navigation}) => {
                         <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
                         <Text style={styles.btn_text}> Ajouter un service </Text>
                     </Pressable>
+                    {/* <Pressable onPress={imageTest} style={styles.button}>
+                        <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
+                        <Text style={styles.btn_text}> test photo</Text>
+                    </Pressable> */}
                 </View>
+                {/* <Modal animationType='fade' transparent={true} visible={test}>
+                    <View style={styles.create}>
+                        <View style={styles.second_box}>
+                            <Text style={styles.titres}>Test</Text>
+                            <View style={styles.first_inputs}>
+                                <View style={styles.box_image}>
+                                    {image && <Image style={styles.add_image} source={{uri: image}}/>}
+                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                    </Pressable>
+                                    <Pressable style={styles.upload}  onPress={uploadImage}>
+                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Send</Text>
+                                    </Pressable>
+                                </View>
+                                <View style={styles.buttonsContainer2}>
+                                    <Pressable onPress={imageTest} style={styles.btn_annulation}>
+                                        <Text style={styles.buttonText}>Annuler</Text>
+                                    </Pressable>
+                                    <Pressable onPress={createService} style={styles.btn_confirmation}>
+                                        <Text style={styles.buttonText}>Créer</Text>
+                                    </Pressable>
+                                </View> 
+                            </View>
+                        </View>
+                    </View>
+                </Modal> */}
                 <Modal animationType="fade" transparent={true} visible={create}>
                     <View style={styles.create}>
                         <View style={styles.second_box}>
@@ -107,8 +181,6 @@ const Services = ({navigation}) => {
                                 <Text style={styles.labelle} >Description du services</Text>
                                 <TextInput style={styles.add_comment} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
                             </View>
-                            {/* <View style={styles.files} >
-                            </View> */}
                             <View style={styles.buttonsContainer2}>
                                 <Pressable onPress={handleVisible} style={styles.btn_annulation}>
                                     <Text style={styles.buttonText}>Annuler</Text>
@@ -121,58 +193,58 @@ const Services = ({navigation}) => {
                     </View>
                 </Modal>
                 {services.map((d) =>(
-                    <View>
-                        <View style={styles.card} key={d.id}>
-                    <Image style={styles.image} source={d.image} />
-                    <View >
-                        <Text style={styles.title}>{d.name}</Text>
-                        <Text style={styles.description}>{d.description}</Text>
-                    </View>
-                    <View>
-                        <Text>{d.cost} XOF</Text>
-                        <Text>
-                            <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
-                            <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/>
-                        </Text>
-                    </View>
-                </View>
-                <Modal animationType="fade" transparent={true} visible={modify}>
-                    {details && 
-                        <View style={styles.create}>
-                            <View style={styles.second_box}>
-                                <Text style={styles.titres}>Modifier un service</Text>
-                                <View style={styles.first_inputs}>
-                                    <View style={styles.box_image}>
-                                        <Image style={styles.add_image} source={details.image}/>
-                                        <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                            <Text style={styles.buttonText}><IconeEntypo name="upload" size={16} />Image</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={styles.seconds_input}>
-                                        <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={details.name}/>
-                                        <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)} value={details.cost} />
-                                    </View>
-                                </View>
-                                <View style={styles.add_comments} >
-                                    <Text style={styles.labelle}>Description du services</Text>
-                                    <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder='' onChangeText={(text) => setDescription(text)} value={details.description} />
-                                </View>
-                                {/* <View style={styles.files} >
-                                    
-                                </View> */}
-                                <View style={styles.buttonsContainer2}>
-                                    <Pressable onPress={handleModalModify} style={styles.btn_annulation}>
-                                        <Text style={styles.buttonText}>Annuler</Text>
-                                    </Pressable>
-                                    <Pressable onPress={handleModalModify} style={styles.btn_confirmation}>
-                                        <Text style={styles.buttonText}>Modifier</Text>
-                                    </Pressable>
-                                </View>
+                    <View key={d.id}>
+                        <View style={styles.card}>
+                            <Image style={styles.image} source={d.image} />
+                            <View >
+                                <Text style={styles.title}>{d.name}</Text>
+                                <Text style={styles.description}>{d.description}</Text>
+                            </View>
+                            <View>
+                                <Text>{d.cost} XOF</Text>
+                                <Text>
+                                    <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
+                                    <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/>
+                                </Text>
                             </View>
                         </View>
-                    }
-                </Modal>
-                </View>
+                        <Modal animationType="fade" transparent={true} visible={modify}>
+                            {details && 
+                                <View style={styles.create}>
+                                    <View style={styles.second_box}>
+                                        <Text style={styles.titres}>Modifier un service</Text>
+                                        <View style={styles.first_inputs}>
+                                            <View style={styles.box_image}>
+                                                <Image style={styles.add_image} source={details.image}/>
+                                                <Pressable style={styles.upload}  onPress={selectPhoto}>
+                                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={16} />Image</Text>
+                                                </Pressable>
+                                            </View>
+                                            <View style={styles.seconds_input}>
+                                                <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={details.name}/>
+                                                <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)} value={details.cost} />
+                                            </View>
+                                        </View>
+                                        <View style={styles.add_comments} >
+                                            <Text style={styles.labelle}>Description du services</Text>
+                                            <TextInput style={styles.add_comment} multiline={true} numberOfLines={4} placeholder='' onChangeText={(text) => setDescription(text)} value={details.description} />
+                                        </View>
+                                        {/* <View style={styles.files} >
+                                            
+                                        </View> */}
+                                        <View style={styles.buttonsContainer2}>
+                                            <Pressable onPress={handleModalModify} style={styles.btn_annulation}>
+                                                <Text style={styles.buttonText}>Annuler</Text>
+                                            </Pressable>
+                                            <Pressable onPress={handleModalModify} style={styles.btn_confirmation}>
+                                                <Text style={styles.buttonText}>Modifier</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </View>
+                            }
+                        </Modal>
+                    </View>
                 ))}
                 <Modal animationType="fade" transparent={true} visible={deleted}>
                     <View style={styles.models}>
@@ -279,7 +351,6 @@ const styles= StyleSheet.create({
     },
     add_comment:{
         width:310,
-        height:90,
         borderWidth:1,
         borderColor:'#ABA9A9',
         alignItems:'center',
@@ -294,8 +365,8 @@ const styles= StyleSheet.create({
         borderColor:'#ABA9A9',
     },
     add_image:{
-        width:230,
-        height:80,
+        width:200,
+        height:130,
         borderWidth:1,
         borderColor:'#ABA9A9',
         borderRadius:8,
@@ -336,7 +407,6 @@ const styles= StyleSheet.create({
         marginTop: 10,
         marginRight:20,
         justifyContent:'flex-end',
-        marginTop:50,
     },
     titres:{
         fontSize:20,
