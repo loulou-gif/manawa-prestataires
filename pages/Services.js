@@ -65,29 +65,38 @@ const Services = ({navigation}) => {
             });
     
             console.log("Document written with ID: ", docRef.id);
-            setCreate(false); // Fermer la modal après la création du service
+            setCreate(false); // Fermer la modal après la création du service            
+            printData();
         } catch (error) {
             console.error("Error adding document: ", error);
         }
     }
-    
-    
-    const printData = async () => {
+
+    const getServices = async () => {
         const q = query(collection(db, 'services'), where('id_prestataire', '==', '0001'));
         try {
             const querySnapshot = await getDocs(q);
             const services = [];
             querySnapshot.forEach((doc) => {
                 const { service, cost, description, image } = doc.data();
-                const limitedDescription = description.length > 70 ? description.substring(0, 50) + '...' : description;
+                const limitLength = description.length > 50 ? description.substring(0, 50) + '...' : description;
                 const imageUrl = image;
-                services.push({ id: doc.id, service, cost, description: limitedDescription, imageUrl });
+                services.push({ id: doc.id, service, cost, description: limitLength, imageUrl });
             });
-            setServicesData(services);
+            return services;
         } catch (error) {
             console.log(error);
+            return [];
         }
     }
+    
+    
+    
+    const printData = async () => {
+        const services = await getServices();
+        setServicesData(services);
+    }
+    
     // Appelez printData une seule fois après le rendu initial
     useEffect(() => {
         printData();
