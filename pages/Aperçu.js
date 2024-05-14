@@ -27,51 +27,35 @@ const Aperçu = ({navigation}) => {
     }
     const selectPhoto = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          allowsEditing: true,
-          quality: 1,
-        //   mediaTypes: ImagePicker.MediaTypeOptions.All,
-        //   aspect:(4,3)
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4,3],
+            quality: 1
         });
-    
-        if (!result.canceled) {
-          setPhoto(result.assets[0].uri)
-        } else {
-          alert('Aucune photo sélectionnée.');
-        }
-        const uploadImage = async() =>{
-            setUpload(true)
-        }
+        const source = result.assets[0].uri
+        console.log(source)
+        setPhoto(source)
     }
       
     const createAperçu = async () => {
         try {
-            const docRef = await addDoc(collection(db, 'aperçu'), {
+            // Vérifier si une image est sélectionnée
+            let imageUrl = photo;
+            // if (image && image.uri) {
+            //     imageUrl = image.uri; // Si l'image et son URI sont définis
+            // }
+            const docRef = await addDoc(collection(db, "aperçu"), {
+                id_prestataire: '0001',
                 client: client,
                 comment: comment,
-                image: photo
+                image: imageUrl // Utiliser l'URL de l'image
             });
-            console.log('Document written with ID: ', docRef.id);
     
-            // Handle image upload
-            if (photo) {
-                const response = await fetch(photo);
-                const blob = await response.blob();
-    
-                const filename = photo.substring(photo.lastIndexOf('/') + 1);
-                const ref = firebase.storage().ref().child(filename); // Utilisez firebase.storage()
-    
-                await ref.put(blob);
-                setUpload(false);
-                Alert.alert('Photo uploaded');
-                setPhoto(null);
-            } else {
-                setUpload(false);
-                Alert.alert('Aucune photo sélectionnée.');
-            }
+            console.log("Document written with ID: ", docRef.id);
+            setCreate(false); // Fermer la modal après la création du service
+            setPhoto(null)
         } catch (error) {
-            console.error('Error creating aperçu: ', error);
-            setUpload(false);
-            // Alert.alert('Erreur lors de la création de l\'aperçu.');
+            console.error("Error adding document: ", error);
         }
     };
     
@@ -94,10 +78,10 @@ const Aperçu = ({navigation}) => {
             <Modal  animationType="fade"  transparent={true} visible={create}>
             <View style={styles.create}>
                 <View style={styles.second_box}>
-                    <Text style={styles.titres}>Ajouter un service</Text>
+                    <Text style={styles.titres}>Ajouter un Aperçu</Text>
                     <View style={styles.first_inputs}>
                         <View style={styles.box_image}>
-                             {photo && <Image style={styles.add_image} source={photo}/>}
+                             {photo && <Image style={styles.add_image} source={{uri: photo}}/>}
                             <Pressable style={styles.upload} onPress={selectPhoto}>
                                 <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
                             </Pressable>
@@ -234,7 +218,6 @@ const styles= StyleSheet.create({
     },
     add_comment:{
         width:310,
-        height:90,
         borderWidth:1,
         borderColor:'#ABA9A9',
         alignItems:'center',

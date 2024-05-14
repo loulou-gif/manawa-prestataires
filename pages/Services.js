@@ -20,8 +20,8 @@ const Services = ({navigation}) => {
     const [cost, setCost] = useState('');
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
-    const [test, setTest] = useState(false)
-    const [upload, setUpload] = useState(false)
+    // const [test, setTest] = useState(false)
+    // const [upload, setUpload] = useState(false)
 
     const handleVisible = () => {
         setCreate(!create);
@@ -71,49 +71,49 @@ const Services = ({navigation}) => {
     }
     
     
-    const uploadImage = async () => {
-        setUpload(true);
-        console.log("Starting image upload...");
+    // const uploadImage = async () => {
+    //     setUpload(true);
+    //     console.log("Starting image upload...");
     
-        try {
-            // Vérifiez d'abord si une image est sélectionnée
-            if (!image) {
-                throw new Error("No image selected");
-            }
+    //     try {
+    //         // Vérifiez d'abord si une image est sélectionnée
+    //         if (!image) {
+    //             throw new Error("No image selected");
+    //         }
     
-            // Récupérez l'URI de l'image
-            const uri = image.uri;
+    //         // Récupérez l'URI de l'image
+    //         const uri = image.uri;
     
-            // Utilisez 'fetch' pour récupérer l'image depuis l'URI
-            const response = await fetch(uri);
-            console.log("Fetch response:", response);
+    //         // Utilisez 'fetch' pour récupérer l'image depuis l'URI
+    //         const response = await fetch(uri);
+    //         console.log("Fetch response:", response);
     
-            // Convertissez la réponse en blob
-            const blob = await response.blob();
-            console.log("Blob:", blob);
+    //         // Convertissez la réponse en blob
+    //         const blob = await response.blob();
+    //         console.log("Blob:", blob);
     
-            // Obtenez le nom du fichier à partir de l'URI de l'image
-            const filename = uri.substring(uri.lastIndexOf('/') + 1);
-            console.log("Filename:", filename);
+    //         // Obtenez le nom du fichier à partir de l'URI de l'image
+    //         const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    //         console.log("Filename:", filename);
     
-            // Obtenez une référence au référentiel de stockage
-            const ref = db.storage().ref().child(filename);
-            console.log("Storage reference:", ref);
+    //         // Obtenez une référence au référentiel de stockage
+    //         const ref = db.storage().ref().child(filename);
+    //         console.log("Storage reference:", ref);
     
-            // Mettez le blob dans le référentiel de stockage
-            const snapshot = await ref.put(blob);
-            console.log("Upload snapshot:", snapshot);
+    //         // Mettez le blob dans le référentiel de stockage
+    //         const snapshot = await ref.put(blob);
+    //         console.log("Upload snapshot:", snapshot);
     
-            console.log("Image uploaded successfully!");
-            Alert.alert('Photo uploaded!');
-            setImage(null);
-        } catch (error) {
-            console.log("Error uploading image:", error);
-            Alert.alert('Error uploading image. Please try again.');
-        }
+    //         console.log("Image uploaded successfully!");
+    //         Alert.alert('Photo uploaded!');
+    //         setImage(null);
+    //     } catch (error) {
+    //         console.log("Error uploading image:", error);
+    //         Alert.alert('Error uploading image. Please try again.');
+    //     }
     
-        setUpload(false);
-    }
+    //     setUpload(false);
+    // }
     
     const confirmDelete = () => {
         // Implement delete logic here
