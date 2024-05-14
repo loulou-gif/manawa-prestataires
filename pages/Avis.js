@@ -11,9 +11,9 @@ const Avis = ({navigation}) => {
     alias: data.name.split(' ').map(word => word.charAt(0)).join('')
   }));
   return (
-    <View>
+    <View style={{flex:1}}>
       <StoreHeaderAvis navigation={navigation}/>
-      <ScrollView>
+      <ScrollView >
         {avisWithAlias.map((data) => (
           <View key={data.id} style={styles.card}>
             <View style={styles.circle}>
@@ -44,7 +44,6 @@ const styles= StyleSheet.create({
   card:{
     borderWidth:1,
     borderColor:'#D9D9D9',
-    marginTop:10,
     flexDirection:'row',
     padding:10,
   },
