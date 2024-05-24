@@ -1,4 +1,7 @@
-import {StyleSheet, View, Text,Button, ImageBackground } from 'react-native';
+import {StyleSheet
+  ,View
+  ,Text,Button
+  ,ImageBackground } from 'react-native';
 import * as Font from 'expo-font';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react'
@@ -8,18 +11,17 @@ const Start = ({navigation}) => {
   return (
     <View style={{ backgroundColor: "#fff" }}>
       <View>
-        <ImageBackground source={image} style={{width: "auto", height: '100%'}} resizeMode="cover">
-            <View style={{ width: 400, height: 200,borderRadius:150, marginLeft:-80, marginTop: -55 }}></View>
-            <View style={{ width:268, height:189,flexDirection: 'row', flexWrap: 'wrap', justifyContent: "center", alignItems:'center', marginTop: -5, borderTopRightRadius: 5060,borderBottomRightRadius: 5060}}>
-                <Text style={styles.textStyle}>A CHACUN SON <Text style={styles.text}>MANAWA</Text></Text>
+        <ImageBackground source={image} style={{width: "auto",height: '100%'}} resizeMode="cover">
+            <View style={styles.first}>
+              <View style={styles.second}>
+                  <Text style={styles.textStyle}>A CHACUN SON <Text style={styles.text}>MANAWA</Text></Text>
+              </View>
+              <View></View>
+              <View style={styles.boutton}>
+                  <Button title="COMMENCER " color="#DE9F42" onPress={()=> navigation.push("Signup")} />
+              </View>
             </View>
             
-            <View style={{ width:250, height:200,  borderRadius:50, borderRadius:150, marginLeft:-80, marginTop: -10 }}></View>
-            <View style={{ width:200, height:200,  borderRadius:50, borderRadius:150, marginLeft:-80, marginTop: -10 }}></View>
-            <View style={{ width: 50, height: 90, borderTopRightRadius:150, marginTop:-10, borderBottomRightRadius:100, marginLeft:-18 }}></View>
-            <View style={{width: "auto", height: 53, alignItems: "flex-end", margin: 15, marginTop: -5 }}>
-                <Button title="COMMENCEr " color="#DE9F42" onPress={()=> navigation.push("Signup")} />
-            </View>
         </ImageBackground>
       </View>
     </View>
@@ -46,6 +48,56 @@ const styles = StyleSheet.create({
     text:{
       fontWeight:"bold",
       fontSize: 50
+    },
+    first:{
+      width: '100%',
+      height: '100%',
+      borderRadius:150,
+      // borderWidth:1 ,
+      justifyContent:'center',
+    },
+    second:{
+      width:"65%",
+      height:'40%',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: "center",
+      alignItems:'center',
+      marginTop: '40%',
+      // borderWidth:1 
+    },
+    // third:{
+    //   height:200,
+    //    borderRadius:50,
+    //   borderRadius:150,
+    //   marginLeft:-80,
+    //   marginTop: -10,
+    //    width:250
+    // },
+    fourth:{
+      height:200,
+       borderRadius:50,
+      borderRadius:150,
+      marginLeft:-80,
+      marginTop: -10,
+       width:200
+    },
+    fith:{
+      width: 50,
+      height: 90,
+      borderTopRightRadius:150,
+      marginTop:-10,
+      borderBottomRightRadius:100,
+      marginLeft:-18 
+    },
+    boutton:{
+      width: "auto",
+      alignItems: "flex-end",
+      margin: 15,
+      // borderWidth:1,
+      height:'40%',
+      alignContent:'flex-end',
+      paddingTop:'70%'  
     }
 
   });
