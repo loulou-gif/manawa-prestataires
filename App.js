@@ -10,12 +10,13 @@ import Avis from './pages/Avis';
 import Signup from './pages/Signup';
 import Start from './pages/Start';
 import Otpcode from './pages/Otpcode';
+import Login from './pages/Login';
 
 export default function App() {
   const Stack = createNativeStackNavigator()
   return (
     <NavigationContainer>
-      <Stack.Navigator >
+      <Stack.Navigator initialRouteName='Start' >
         <Stack.Screen name='BottomTab' component={BottomTab} options={{ headerShown: false }}/>
         <Stack.Screen name='Home' component={Home} options={{headerStyle:{backgroundColor:'#DE9F42'}}} />
         <Stack.Screen name='ModifyStore' component={ModifyStore} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name='Signup' component={Signup} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
         <Stack.Screen name='Start' component={Start} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
         <Stack.Screen name='Otpcode' component={Otpcode} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
+        <Stack.Screen name='Login' component={Login} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

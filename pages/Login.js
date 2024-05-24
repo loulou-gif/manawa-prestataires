@@ -1,39 +1,38 @@
-// Signup.js
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, ImageBackground, TextInput, Pressable, TouchableOpacity, Modal, ScrollView } from 'react-native';
-import IndicatorSearch from '../components/customers/indicatorSearch.js';
-import {app, analytics, auth, RecaptchaVerifier} from '../firebase/configs.js'
+import { View, Text,StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, Modal, ScrollView } from 'react-native'
+import React ,{useState} from 'react';
+import IndicatorSearch from '../components/customers/indicatorSearch';
+// import PhoneInput from 'react-native-phone-number-input';
 
-const Signup = ({navigation}) => {
-  const image = require("../assets/images/background/second.png");
+const Login = ({navigation}) => {
+  const image = require("../assets/images/background/third.png");
   const [phone, setPhone] = useState(false)
+  const [number, setNumber] = useState(null)
   const handleVisible =()=> {
     setPhone(!phone)
   }
   return (
     <View style={{}}>
-      <ImageBackground source={image} style={{ width:"auto", height:'100%'}} resizeMode="cover">
+      <ImageBackground source={image} style={{ width:"auto", height:900}} resizeMode="cover">
         <View style={styles.display} >
           <View style={styles.header}>
-            <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>Inscription |</Text><Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>Connexion</Text>
+          <Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>Connexion |</Text>
+          <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>Inscription</Text>
           </View>
         </View>
         <View style={styles.display}>
-          <Text style={styles.p}>Veillez renseigner le formulaire ci-dessous.</Text>
+          <Text style={styles.p}>Veillez renseigner votre numéro téléphonique</Text>
         </View>
         <View style={styles.display}  >
           <View style={styles.input}>
-            {/* <TextInput style={styles.inputs} placeholder='Nom de famille'/>
-            <TextInput style={styles.inputs}  placeholder='Prénoms'/> */}
-            {/* <PhoneInput placeholder='' />             */}
+            {/* <TextInput style={styles.inputs} placeholder='OTP CODE'/> */}
+            {/* <TextInput style={styles.inputs}  placeholder='Prénoms'/> */}
             <View style={styles.phone}>
               <TouchableOpacity onPress={handleVisible} style={styles.indicator}><Text style={styles.color}>+225</Text></TouchableOpacity>
               <TextInput style={styles.phone_input} keyboardType='phone-pad'/>
-            </View>
+            </View>    
           </View>
-          <View style={styles.button}>
-            {/* <Button title="SUIVANT" color="#DE9F42" onPress={() => navigation.navigate("Otpconnexion")} /> */}
-            <Pressable style={styles.buttons} onPress={() => navigation.navigate("Otpcode")}><Text style={styles.textButton}>SUIVANT</Text></Pressable>
+          <View style={styles.input}>
+            <Button title="SUIVANT" color="#DE9F42" onPress={() => navigation.navigate("Otpcode")} />
           </View>
         </View>
         <Modal animationType='fade' transparent={true} visible={phone}>
@@ -57,12 +56,12 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
   },
   inscriptionColor:{
-    color: "#FFA012",
+    color: "#4E4E4E",
     fontSize: 26,
     fontWeight:"bold",
   },
   connexionColor:{
-    color: "#FFFFFF",
+    color: "#FFA012",
     fontSize: 26,
     fontWeight:"bold",
   },
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     height:37,
     textAlign:"center",
     fontSize:16,
-    color:"#E5E5E5",
+    color:"#4E4E4E",
     marginTop:10,
   },
   display:{
@@ -90,9 +89,9 @@ const styles = StyleSheet.create({
     width:330,
     height:50,
     // backgroundColor: "#E5E5E5",
-    marginTop: 130,
+    marginTop: 115,
     borderRadius: 8,
-    marginBottom:10,
+    marginBottom:-80,
   },
   inputs:{
     // borderWidth:1,
@@ -100,33 +99,10 @@ const styles = StyleSheet.create({
     height:50,
     backgroundColor: "#fff",
     // marginTop: 150,
-    borderRadius: 8,
-    marginBottom:10,
+    // borderRadius: 8,
+    // marginBottom:10,
     paddingLeft: 20,
-    marginBottom: 20
-  },
-  button:{
-    // borderWidth:1,
-    width:330,
-    height:50,
-    // backgroundColor: "#E5E5E5",
-    marginTop: '5%',
-    borderRadius: 8,
-    marginBottom:10,
-  },
-  textButton:{
-    textAlign:"center",
-    color: "#fff",
-    alignItems:"center",
-    alignContent:"center",
-    flex:1,
-    justifyContent:"center",
-    margin:15
-  },
-  buttons:{
-    backgroundColor: "#DE9F42",
-    height:50,
-    borderRadius:8
+    textAlign: "center"
   },
   phone:{
     width:330,
@@ -136,7 +112,9 @@ const styles = StyleSheet.create({
     // padding:5,
     // justifyContent:'center',
     alignItems:'center',
-    borderRadius:8
+    borderRadius:8,
+    borderWidth:1,
+    borderColor:'#ABA9A9'
   },
   indicator:{
     width:75,
@@ -180,6 +158,8 @@ const styles = StyleSheet.create({
   color:{
     color:'#ABA9A9'
   }
+
 })
 
-export default Signup;
+
+export default Login
