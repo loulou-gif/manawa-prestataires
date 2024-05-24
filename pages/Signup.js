@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, ImageBackground, TextInput, Pressable, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import IndicatorSearch from '../components/customers/indicatorSearch.js';
-import {app, analytics, auth, RecaptchaVerifier} from '../firebase/configs.js'
+import {app, auth} from '../firebase/configs.js'
+import Recaptcha from 'react-native-recaptcha-v3';
 
 const Signup = ({navigation}) => {
   const image = require("../assets/images/background/second.png");
+  
   const [phone, setPhone] = useState(false)
   const handleVisible =()=> {
     setPhone(!phone)

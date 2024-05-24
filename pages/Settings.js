@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Header from '../components/customers/Header'
 import InfoStoreBare from '../components/customers/InfoStoreBar'
@@ -42,7 +42,9 @@ const Settings = ({navigation}) => {
         <Text style={styles.options}><IconeAntDesign name='customerservice' size={24}/> Services clients</Text>
         </View>
         <View style={styles.flex}>
-          <Text style={styles.options}><IconeMaterialCommunityIcons name='logout' size={24}/> Déconnexion</Text>
+          <TouchableOpacity onPress={()=> navigation.push('Start')} >
+              <Text style={styles.options} ><IconeMaterialCommunityIcons  name='logout' size={24}/> Déconnexion</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

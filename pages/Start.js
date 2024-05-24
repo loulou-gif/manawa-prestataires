@@ -18,7 +18,7 @@ const Start = ({navigation}) => {
             <View style={{ width:200, height:200,  borderRadius:50, borderRadius:150, marginLeft:-80, marginTop: -10 }}></View>
             <View style={{ width: 50, height: 90, borderTopRightRadius:150, marginTop:-10, borderBottomRightRadius:100, marginLeft:-18 }}></View>
             <View style={{width: "auto", height: 53, alignItems: "flex-end", margin: 15, marginTop: -5 }}>
-                <Button title="COMMENCEr " color="#DE9F42" onPress={()=> navigation.push("Login")} />
+                <Button title="COMMENCEr " color="#DE9F42" onPress={()=> navigation.push("Signup")} />
             </View>
         </ImageBackground>
       </View>
