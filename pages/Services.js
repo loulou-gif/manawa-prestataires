@@ -1,18 +1,16 @@
-import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, Alert } from 'react-native'
+import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import Header from '../components/customers/Header'
-import StoreHeader from '../components/customers/StoreHeader'
+import Header from '../components/customers/Header';
+import StoreHeader from '../components/customers/StoreHeader';
 import Icone from 'react-native-vector-icons/EvilIcons';
-import IconeFeather from 'react-native-vector-icons/Feather'
-import IconeAntDesign from 'react-native-vector-icons/AntDesign'
-import IconeEntypo from 'react-native-vector-icons/Entypo'
-import {app, db , collection, addDoc, query, getDocs} from '../firebase/configs'
-import {services} from '../data/services'
-import { where } from 'firebase/firestore';
+import IconeFeather from 'react-native-vector-icons/Feather';
+import IconeAntDesign from 'react-native-vector-icons/AntDesign';
+import IconeEntypo from 'react-native-vector-icons/Entypo';
+import { app, db, collection, addDoc, query, getDocs, where } from '../firebase/configs';
+import Message from '../components/customers/Message';
 
-
-const Services = ({navigation}) => {
+const Services = ({ navigation }) => {
     const [create, setCreate] = useState(false);
     const [modify, setModify] = useState(false);
     const [deleted, setDeleted] = useState(false);
@@ -22,7 +20,6 @@ const Services = ({navigation}) => {
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
     const [servicesData, setServicesData] = useState([]);
-    // const [upload, setUpload] = useState(false)
 
     const handleVisible = () => {
         setCreate(!create);
@@ -41,31 +38,25 @@ const Services = ({navigation}) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4,3],
+            aspect: [4, 3],
             quality: 1
         });
-        const source = result.assets[0].uri
-        console.log(source)
-        setImage(source)
+        if (!result.canceled) {
+            const source = result.assets[0].uri;
+            setImage(source);
+        }
     };
-    
+
     const createService = async () => {
         try {
-            // Vérifier si une image est sélectionnée
-            let imageUrl = image;
-            // if (image && image.uri) {
-            //     imageUrl = image.uri; // Si l'image et son URI sont définis
-            // }
             const docRef = await addDoc(collection(db, "services"), {
                 id_prestataire: '0001',
                 service: service,
                 cost: cost,
                 description: description,
-                image: imageUrl // Utiliser l'URL de l'image
+                image: image
             });
-    
-            console.log("Document written with ID: ", docRef.id);
-            setCreate(false); // Fermer la modal après la création du service            
+            setCreate(false);
             printData();
         } catch (error) {
             console.error("Error adding document: ", error);
@@ -80,8 +71,7 @@ const Services = ({navigation}) => {
             querySnapshot.forEach((doc) => {
                 const { service, cost, description, image } = doc.data();
                 const limitLength = description.length > 50 ? description.substring(0, 50) + '...' : description;
-                const imageUrl = image;
-                services.push({ id: doc.id, service, cost, description: limitLength, imageUrl });
+                services.push({ id: doc.id, service, cost, description: limitLength, image });
             });
             return services;
         } catch (error) {
@@ -89,186 +79,147 @@ const Services = ({navigation}) => {
             return [];
         }
     }
-    
-    
-    
+
     const printData = async () => {
         const services = await getServices();
         setServicesData(services);
     }
-    
-    // Appelez printData une seule fois après le rendu initial
+
     useEffect(() => {
         printData();
     }, []);
-    
+
     const confirmDelete = () => {
         // Implement delete logic here
         // setDeleted(false) should be called after deletion is confirmed
     }
 
     return (
-        <ScrollView>
-            <Header/>
-            <StoreHeader navigation={navigation}/>
-            <View contentContainerStyle={{flexGrow:1}}>
-                <View>
-                    <Pressable onPress={handleVisible} style={styles.button}>
-                        <Icone name='plus'  size={20} style={{ marginTop:6, marginLeft:2, color:'#fff'}} />
-                        <Text style={styles.btn_text}> Ajouter un service </Text>
-                    </Pressable>
-                </View>
-                <Modal animationType="fade" transparent={true} visible={create}>
-                    <View style={styles.create}>
-                        <View style={styles.second_box}>
-                            <Text style={styles.titres}>Ajouter un service</Text>
-                            <View style={styles.first_inputs}>
-                                <View style={styles.box_image}>
-                                    {image && <Image style={styles.add_image} source={{uri: image}}/>}
-                                    <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                        <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
-                                    </Pressable>
-                                </View>
-                                <View style={styles.seconds_input}>
-                                    <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={service} />
-                                    <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)}  value={cost}/>
-                                </View>
-                            </View>
-                            <View style={styles.add_comments} >
-                                <Text style={styles.labelle} >Description du services</Text>
-                                <TextInput style={styles.add_description} multiline={true} onChangeText={(text) => setDescription(text)}  numberOfLines={4} value={description}/>
-                            </View>
-                            <View style={styles.buttonsContainer2}>
-                                <Pressable onPress={handleVisible} style={styles.btn_annulation}>
-                                    <Text style={styles.buttonText}>Annuler</Text>
-                                </Pressable>
-                                <Pressable onPress={createService} style={styles.btn_confirmation}>
-                                    <Text style={styles.buttonText}>Créer</Text>
+        <View style={{ flex: 1 }}>
+            <Header />
+            <StoreHeader navigation={navigation} />
+            <Pressable onPress={handleVisible} style={styles.button}>
+                <Icone name='plus' size={20} style={{ marginTop: 6, marginLeft: 2, color: '#fff' }} />
+                <Text style={styles.btn_text}> Ajouter un service </Text>
+            </Pressable>
+            <Modal animationType="fade" transparent={true} visible={create}>
+                <View style={styles.create}>
+                    <View style={styles.second_box}>
+                        <Text style={styles.titres}>Ajouter un service</Text>
+                        <View style={styles.first_inputs}>
+                            <View style={styles.box_image}>
+                                {image && <Image style={styles.add_image} source={{ uri: image }} />}
+                                <Pressable style={styles.upload} onPress={selectPhoto}>
+                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
                                 </Pressable>
                             </View>
+                            <View style={styles.seconds_input}>
+                                <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={service} />
+                                <TextInput style={styles.add_cost} placeholder='Coût' keyboardType='phone-pad' onChangeText={(text) => setCost(text)} value={cost} />
+                            </View>
+                        </View>
+                        <View style={styles.add_comments}>
+                            <Text style={styles.labelle}>Description du service</Text>
+                            <TextInput style={styles.add_description} multiline={true} onChangeText={(text) => setDescription(text)} numberOfLines={4} value={description} />
+                        </View>
+                        <View style={styles.buttonsContainer2}>
+                            <Pressable onPress={handleVisible} style={styles.btn_annulation}>
+                                <Text style={styles.buttonText}>Annuler</Text>
+                            </Pressable>
+                            <Pressable onPress={createService} style={styles.btn_confirmation}>
+                                <Text style={styles.buttonText}>Créer</Text>
+                            </Pressable>
                         </View>
                     </View>
-                </Modal>
-                {servicesData.map((d) =>(
-                    <View key={d.id}>
-                        <View style={styles.card}>
-                            <Image style={styles.image} source={{uri: d.imageUrl}} />
-                            <View style={styles.add_comment}>
-                                <Text style={styles.title}>{d.service}</Text>
-                                <Text style={styles.description}>{d.description}</Text>
-                            </View>
-                            <View>
-                                <Text>{d.cost} XOF</Text>
-                                <Text>
-                                    <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
-                                    <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red'/>
-                                </Text>
-                            </View>
+                </View>
+            </Modal>
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                {servicesData.map((d) => (
+                    <View key={d.id} style={styles.card}>
+                        <Image style={styles.image} source={{ uri: d.image }} />
+                        <View style={styles.add_comment}>
+                            <Text style={styles.title}>{d.service}</Text>
+                            <Text style={styles.description}>{d.description}</Text>
                         </View>
-                        <Modal animationType="fade" transparent={true} visible={modify}>
-                            {details && 
-                                <View style={styles.create}>
-                                    <View style={styles.second_box}>
-                                        <Text style={styles.titres}>Modifier un service</Text>
-                                        <View style={styles.first_inputs}>
-                                            <View style={styles.box_image}>
-                                                <Image style={styles.add_image} source={details.image}/>
-                                                <Pressable style={styles.upload}  onPress={selectPhoto}>
-                                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={16} />Image</Text>
-                                                </Pressable>
-                                            </View>
-                                            <View style={styles.seconds_input}>
-                                                <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={details.service}/>
-                                                <TextInput style={styles.add_cost} placeholder='Coût' onChangeText={(text) => setCost(text)} value={details.cost} />
-                                            </View>
-                                        </View>
-                                        <View style={styles.add_comments} >
-                                            <Text style={styles.labelle}>Description du services</Text>
-                                            <TextInput style={styles.add_description} multiline={true} numberOfLines={4} placeholder='' onChangeText={(text) => setDescription(text)} value={details.description} />
-                                        </View>
-                                        {/* <View style={styles.files} >
-                                            
-                                        </View> */}
-                                        <View style={styles.buttonsContainer2}>
-                                            <Pressable onPress={handleModalModify} style={styles.btn_annulation}>
-                                                <Text style={styles.buttonText}>Annuler</Text>
-                                            </Pressable>
-                                            <Pressable onPress={handleModalModify} style={styles.btn_confirmation}>
-                                                <Text style={styles.buttonText}>Modifier</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </View>
-                            }
-                        </Modal>
+                        <View>
+                            <Text>{d.cost} XOF</Text>
+                            <Text>
+                                <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
+                                <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red' />
+                            </Text>
+                        </View>
                     </View>
                 ))}
-                <Modal animationType="fade" transparent={true} visible={deleted}>
-                    <View style={styles.models}>
-                        <View style={styles.model}>
-                            <Text >Voulez-vous supprimer ce service?</Text>
-                            <View style={styles.buttonsContainer}>
-                                <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}>
-                                    <Text style={styles.buttonText}>Non</Text>
-                                </Pressable>
-                                <Pressable style={styles.btn_confirmation} onPress={()=> confirmDelete}>
-                                    <Text style={styles.buttonText}>Oui</Text>
-                                </Pressable>
-                            </View>
+            </ScrollView>
+            <Message navigation={navigation}/>
+            <Modal animationType="fade" transparent={true} visible={deleted}>
+                <View style={styles.models}>
+                    <View style={styles.model}>
+                        <Text>Voulez-vous supprimer ce service?</Text>
+                        <View style={styles.buttonsContainer}>
+                            <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}>
+                                <Text style={styles.buttonText}>Non</Text>
+                            </Pressable>
+                            <Pressable style={styles.btn_confirmation} onPress={confirmDelete}>
+                                <Text style={styles.buttonText}>Oui</Text>
+                            </Pressable>
                         </View>
                     </View>
-                </Modal>
-            </View>
-        </ScrollView>
-    )
+                </View>
+            </Modal>
+        </View>
+    );
 }
 
-
-const styles= StyleSheet.create({
-    card:{
-        borderWidth:1,
-        borderColor:'#ABA9A9',
-        flexDirection:"row",
-        justifyContent:"space-between",
-        padding:10,
+const styles = StyleSheet.create({
+    scrollView: {
+        flexGrow: 1,
+        paddingBottom: 20
     },
-    button:{
-        backgroundColor:"#DE9F42",
-        marginLeft:9,
-        width:150,
-        height:30,
-        margin:10,
-        borderRadius:8,
-        flexDirection:'row'
+    card: {
+        borderBottomWidth: 1,
+        borderColor: '#ABA9A9',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: 10,
     },
-    btn_text:{
-        color:'#fff', 
-        fontSize:14,
-        textAlign:"center",
-        marginTop:4,       
+    button: {
+        backgroundColor: "#DE9F42",
+        marginLeft: 9,
+        width: 150,
+        height: 30,
+        margin: 10,
+        borderRadius: 8,
+        flexDirection: 'row'
     },
-    title:{
-        fontSize:14,
-        color:"black",
-        width:150
+    btn_text: {
+        color: '#fff',
+        fontSize: 14,
+        textAlign: "center",
+        marginTop: 4,
     },
-    description:{
-        fontSize:12,
-        color:"#ABA9A9",
+    title: {
+        fontSize: 14,
+        color: "black",
+        width: 150
     },
-    price:{
-        color:'black',
+    description: {
+        fontSize: 12,
+        color: "#ABA9A9",
     },
-    image:{
-        width:60,
-        height:50,
-        backgroundColor:'#ABA9A9',
-        borderRadius:8,
-        marginLeft:9
+    price: {
+        color: 'black',
     },
-    flex:{
-        flexDirection:"row",
-        justifyContent:"space-between"
+    image: {
+        width: 60,
+        height: 50,
+        backgroundColor: '#ABA9A9',
+        borderRadius: 8,
+        marginLeft: 9
+    },
+    flex: {
+        flexDirection: "row",
+        justifyContent: "space-between"
     },
     buttonsContainer: {
         flexDirection: 'row',
@@ -293,121 +244,119 @@ const styles= StyleSheet.create({
     buttonText: {
         color: "#fff"
     },
-    model:{
-        width:300,
-        height:100,
-        backgroundColor:'#fff',
+    model: {
+        width: 300,
+        height: 100,
+        backgroundColor: '#fff',
         alignItems: 'center',
-        paddingTop:10,
+        paddingTop: 10,
     },
-    add_comments:{
-        width:230,
-        height:50,
-        marginTop:20,
-        marginLeft:20
+    add_comments: {
+        width: 230,
+        height: 50,
+        marginTop: 20,
+        marginLeft: 20
     },
-    add_comment:{
-        width:240,
-        height:50,
-        marginLeft:20
+    add_comment: {
+        width: 240,
+        height: 50,
+        marginLeft: 20
     },
-    add_description:{
-        width:310,
-        borderWidth:1,
-        borderColor:'#ABA9A9',
-        alignItems:'center',
-        borderRadius:8,
-        paddingLeft:10,
+    add_description: {
+        width: 310,
+        borderWidth: 1,
+        borderColor: '#ABA9A9',
+        alignItems: 'center',
+        borderRadius: 8,
+        paddingLeft: 10,
     },
-    add_cost:{
-        width:300,
-        height:40,
-        marginTop:10,
-        borderBottomWidth:1,
-        borderColor:'#ABA9A9',
+    add_cost: {
+        width: 300,
+        height: 40,
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderColor: '#ABA9A9',
     },
-    add_image:{
-        width:200,
-        height:130,
-        borderWidth:1,
-        borderColor:'#ABA9A9',
-        borderRadius:8,
+    add_image: {
+        width: 200,
+        height: 130,
+        borderWidth: 1,
+        borderColor: '#ABA9A9',
+        borderRadius: 8,
     },
-    add_name:{
-        width:300,
-        height:40,
-        borderBottomWidth:1,
-        borderColor:'#ABA9A9',
-        marginTop:10,
+    add_name: {
+        width: 300,
+        height: 40,
+        borderBottomWidth: 1,
+        borderColor: '#ABA9A9',
+        marginTop: 10,
     },
-    create:{
-        alignItems:'center',
-        alignContent:'center',
-        paddingTop:200,
+    create: {
+        alignItems: 'center',
+        alignContent: 'center',
+        paddingTop: 200,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height:900,
+        height: '100%',
     },
-    first_inputs:{
-       flexDirection:'column',
-       width:350,
-       marginLeft:20,
-       justifyContent:'center' ,
+    first_inputs: {
+        flexDirection: 'column',
+        width: 350,
+        marginLeft: 20,
+        justifyContent: 'center',
     },
-    seconds_input:{
-
-    },
-    second_box:{
-        width:350,
-        height:430,
-        marginTop:-10,
-        marginBottom:20,
-        paddingTop:20,
-        backgroundColor:'#fff'
+    seconds_input: {},
+    second_box: {
+        width: 350,
+        height: 430,
+        marginTop: -10,
+        marginBottom: 20,
+        paddingTop: 20,
+        backgroundColor: '#fff'
     },
     buttonsContainer2: {
         flexDirection: 'row',
         marginTop: 10,
-        marginRight:20,
-        justifyContent:'flex-end',
+        marginRight: 20,
+        justifyContent: 'flex-end',
     },
-    titres:{
-        fontSize:20,
-        color:'#47300D',
-        textAlign:'center',
-        marginBottom:20
+    titres: {
+        fontSize: 20,
+        color: '#47300D',
+        textAlign: 'center',
+        marginBottom: 20
     },
-    box_image:{
-        flexDirection:'row',
-        width:500
+    box_image: {
+        flexDirection: 'row',
+        width: 500
     },
-    upload:{
-        width:80,
-        height:30,
-        backgroundColor:'#FFA012',
-        margin:8,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    models:{
-        width:415,
+    upload: {
+        width: 80,
+        height: 30,
+        backgroundColor: '#FFA012',
+        margin: 8,
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.2)',
-        height:900,
         alignItems: 'center',
     },
-    labelle:{
-        textAlign:'left',
-        marginTop:-20,
-        marginBottom:5,
-        width:310,
-        color:'#ABA9A9'
+    models: {
+        width: '100%',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        height: '100%',
+        alignItems: 'center',
     },
-    files:{
-        width:'auto',
-        marginTop:50,
-        marginBottom:-30,
-        alignItems:'center'
+    labelle: {
+        textAlign: 'left',
+        marginTop: -20,
+        marginBottom: 5,
+        width: 310,
+        color: '#ABA9A9'
+    },
+    files: {
+        width: 'auto',
+        marginTop: 50,
+        marginBottom: -30,
+        alignItems: 'center'
     }
-})
+});
 
-export default Services
+export default Services;

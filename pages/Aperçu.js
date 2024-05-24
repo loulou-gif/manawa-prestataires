@@ -10,6 +10,7 @@ import Aperçus from '../components/customers/Aperçus';
 import StoreHeaderAperçu from '../components/customers/StoreHeaderAperçu';
 import * as ImagePicker from 'expo-image-picker';
 import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
+import Message from '../components/customers/Message';
 
 // lightbulb-on-outline
 
@@ -106,6 +107,7 @@ const Aperçu = ({navigation}) => {
         </Modal>
             <Aperçus navigation={navigation}/>
         </ScrollView>
+        <Message navigation={navigation}/>
     </View>
   )
 }

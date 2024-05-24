@@ -7,6 +7,9 @@ import Home from './pages/Home';
 import ModifyStore from './pages/forms/ModifyStore';
 import Aperçu from './pages/Aperçu';
 import Avis from './pages/Avis';
+import Signup from './pages/Signup';
+import Start from './pages/Start';
+import Otpcode from './pages/Otpcode';
 
 export default function App() {
   const Stack = createNativeStackNavigator()
@@ -18,6 +21,9 @@ export default function App() {
         <Stack.Screen name='ModifyStore' component={ModifyStore} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
         <Stack.Screen name='Aperçu' component={Aperçu} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
         <Stack.Screen name='Avis' component={Avis} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
+        <Stack.Screen name='Signup' component={Signup} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
+        <Stack.Screen name='Start' component={Start} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
+        <Stack.Screen name='Otpcode' component={Otpcode} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
