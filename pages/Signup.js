@@ -13,28 +13,22 @@ const Signup = ({navigation}) => {
     setPhone(!phone)
   }
   return (
-    <View style={{}}>
-      <ImageBackground source={image} style={{ width:"auto", height:'100%'}} resizeMode="cover">
+    <View style={styles.Card}>
+      <ImageBackground source={image} style={styles.background} resizeMode="cover">
         <View style={styles.display} >
           <View style={styles.header}>
             <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>Inscription |</Text><Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>Connexion</Text>
           </View>
-        </View>
-        <View style={styles.display}>
           <Text style={styles.p}>Veillez renseigner le formulaire ci-dessous.</Text>
         </View>
-        <View style={styles.display}  >
+        <View style={styles.box_inputs}  >
           <View style={styles.input}>
-            {/* <TextInput style={styles.inputs} placeholder='Nom de famille'/>
-            <TextInput style={styles.inputs}  placeholder='Prénoms'/> */}
-            {/* <PhoneInput placeholder='' />             */}
             <View style={styles.phone}>
               <TouchableOpacity onPress={handleVisible} style={styles.indicator}><Text style={styles.color}>+225</Text></TouchableOpacity>
               <TextInput style={styles.phone_input} keyboardType='phone-pad'/>
             </View>
           </View>
           <View style={styles.button}>
-            {/* <Button title="SUIVANT" color="#DE9F42" onPress={() => navigation.navigate("Otpconnexion")} /> */}
             <Pressable style={styles.buttons} onPress={() => navigation.navigate("Otpcode")}><Text style={styles.textButton}>SUIVANT</Text></Pressable>
           </View>
         </View>
@@ -69,10 +63,9 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
   },
   header:{
-    marginTop: 150,
     justifyContent:"space-around",
     flexDirection:"row",
-    width:290,
+    width:'75%',
     height:30,
   },
   p:{
@@ -85,7 +78,10 @@ const styles = StyleSheet.create({
   },
   display:{
     alignItems:"center",
-    // height:30,
+    marginTop:'-60%'
+  },
+  box_inputs:{
+    alignItems:"center",
   },
   input:{
     // borderWidth:1,
@@ -117,18 +113,15 @@ const styles = StyleSheet.create({
     marginBottom:10,
   },
   textButton:{
-    textAlign:"center",
     color: "#fff",
-    alignItems:"center",
-    alignContent:"center",
-    flex:1,
-    justifyContent:"center",
-    margin:15
+    fontSize:18
   },
   buttons:{
     backgroundColor: "#DE9F42",
     height:50,
-    borderRadius:8
+    borderRadius:8,
+    alignItems:'center',
+    justifyContent:'center',
   },
   phone:{
     width:330,
@@ -181,6 +174,17 @@ const styles = StyleSheet.create({
   },
   color:{
     color:'#ABA9A9'
+  },
+  Card:{
+    borderWidth:1,
+    height:'100%',
+    width:'100%'
+  },
+  background:{
+    width:"100%",
+    height:'100%',
+    alignItems:'center',
+    justifyContent:'center',
   }
 })
 

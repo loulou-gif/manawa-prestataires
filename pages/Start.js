@@ -1,7 +1,4 @@
-import {StyleSheet
-  ,View
-  ,Text,Button
-  ,ImageBackground } from 'react-native';
+import {StyleSheet,View ,Text,Button,ImageBackground } from 'react-native';
 import * as Font from 'expo-font';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react'
@@ -9,19 +6,17 @@ import React from 'react'
 const Start = ({navigation}) => {
     const image = require("../assets/images/background/first.png");
   return (
-    <View style={{ backgroundColor: "#fff" }}>
+    <View style={styles.container}>
       <View>
         <ImageBackground source={image} style={{width: "auto",height: '100%'}} resizeMode="cover">
             <View style={styles.first}>
               <View style={styles.second}>
                   <Text style={styles.textStyle}>A CHACUN SON <Text style={styles.text}>MANAWA</Text></Text>
               </View>
-              <View></View>
               <View style={styles.boutton}>
                   <Button title="COMMENCER " color="#DE9F42" onPress={()=> navigation.push("Signup")} />
               </View>
             </View>
-            
         </ImageBackground>
       </View>
     </View>
@@ -32,7 +27,7 @@ const Start = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 20,
+      // padding: 20,
     },
     textStyle:{
         fontSize: 20,
