@@ -16,6 +16,7 @@ const Message = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={handleVisible} style={styles.circle}>
+                <View style={styles.notif}><Text style={styles.text_notif}>1</Text></View>
                 <Text style={styles.icone}>
                     <IconeMaterialCommunityIcons name="message" size={30} />
                 </Text>
@@ -99,6 +100,21 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#7A4D09',
         marginTop: 20,
+    },
+    notif:{
+        width:'40%',
+        height:'40%',
+        backgroundColor:'#DE9F42',
+        borderRadius:25,
+        alignItems:'center',
+        marginTop:'-30%',
+        marginBottom:'-10%',
+        marginLeft:'70%'
+    },
+    text_notif:{
+        color:'white',
+        fontWeight:'bold',
+        fontSize:18,
     },
 });
 
