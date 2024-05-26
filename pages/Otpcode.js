@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   Card:{
-    borderWidth:1,
     height:'100%',
     width:'100%'
   },

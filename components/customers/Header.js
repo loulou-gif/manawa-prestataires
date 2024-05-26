@@ -12,8 +12,8 @@ const Header = () => {
 const styles = StyleSheet.create({
     header:{
       backgroundColor:"#DE9F42",
-      height:47,
-      marginTop:20
+      height:50,
+      justifyContent:'center'
     },
     logo:{
       color:"#fff",
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
       fontStyle: "italic",
       fontWeight:"bold",
       fontSize:20,
-      marginTop: 10
     }
 })
 

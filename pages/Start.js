@@ -1,4 +1,4 @@
-import {StyleSheet,View ,Text,Button,ImageBackground } from 'react-native';
+import {StyleSheet,View ,Text,Button,ImageBackground, Pressable, TouchableOpacity } from 'react-native';
 import * as Font from 'expo-font';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react'
@@ -14,7 +14,9 @@ const Start = ({navigation}) => {
                   <Text style={styles.textStyle}>A CHACUN SON <Text style={styles.text}>MANAWA</Text></Text>
               </View>
               <View style={styles.boutton}>
-                  <Button title="COMMENCER " color="#DE9F42" onPress={()=> navigation.push("Signup")} />
+                <TouchableOpacity style={styles.buttons}>
+                  <Pressable onPress={()=> navigation.push("Login")}><Text style={styles.textButton}>COMMENCER</Text></Pressable>
+                </TouchableOpacity>  
               </View>
             </View>
         </ImageBackground>
@@ -93,7 +95,20 @@ const styles = StyleSheet.create({
       height:'40%',
       alignContent:'flex-end',
       paddingTop:'70%'  
-    }
+    },
+    buttons:{
+    backgroundColor: "#DE9F42",
+    height:'75%',
+    width:'40%',
+    borderRadius:8,
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  textButton:{
+    color: "#fff",
+    fontSize:16,
+    fontStyle:'italic',
+  },
 
   });
 export default Start

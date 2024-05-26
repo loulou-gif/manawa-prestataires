@@ -1,12 +1,37 @@
-import { View, Text,StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, Modal, ScrollView } from 'react-native'
+import { View, Text,StyleSheet, Button, ImageBackground, TextInput, TouchableOpacity, Modal, ScrollView, Pressable } from 'react-native'
 import React ,{useState} from 'react';
 import IndicatorSearch from '../components/customers/indicatorSearch';
 // import PhoneInput from 'react-native-phone-number-input';
+import { auth, signInWithPhoneNumber, storage } from '../firebase/configs';
 
 const Login = ({navigation}) => {
   const image = require("../assets/images/background/third.png");
   const [phone, setPhone] = useState(false)
-  const [number, setNumber] = useState(null)
+  const [number, setNumber] = useState('')
+  const [code, setCode] = useState('')
+  const [confirm, setConfirm] = useState(null)
+  const SignIn = async()=>{
+    try{
+      const confirmation = await signInWithPhoneNumber(number);
+      setConfirm(confirmation)
+    }catch(error){
+      console.log('erreur code:', error);
+    }
+  }
+
+  const confirmCode = async() =>{
+    try{
+      const userCredential =await confirm.confirm(code);
+      const user =userCredential.user
+      const userDocument = await storage().collection('users').doc(user.uid).get()
+
+      if (userDocument.exists){
+        navigation.push('Otpcode')
+      }
+    }catch(error){
+      console.log('error code:', error)
+    }
+  }
   const handleVisible =()=> {
     setPhone(!phone)
   }
@@ -32,7 +57,9 @@ const Login = ({navigation}) => {
             </View>    
           </View>
           <View style={styles.input}>
-            <Button title="SUIVANT" color="#DE9F42" onPress={() => navigation.navigate("Otpcode")} />
+            <TouchableOpacity style={styles.buttons}>
+              <Pressable onPress={()=> navigation.push("Otpcode")}><Text style={styles.textButton}>Se connecter</Text></Pressable>
+            </TouchableOpacity>
           </View>
         </View>
         <Modal animationType='fade' transparent={true} visible={phone}>
@@ -157,7 +184,18 @@ const styles = StyleSheet.create({
   },
   color:{
     color:'#ABA9A9'
-  }
+  },
+  textButton:{
+    color: "#fff",
+    fontSize:18
+  },
+  buttons:{
+    backgroundColor: "#DE9F42",
+    height:50,
+    borderRadius:8,
+    alignItems:'center',
+    justifyContent:'center',
+  },
 
 })
 

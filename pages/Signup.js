@@ -9,6 +9,8 @@ const Signup = ({navigation}) => {
   const image = require("../assets/images/background/second.png");
   
   const [phone, setPhone] = useState(false)
+  const [code, setCode] = useState('')
+  const [number, setNumber] = useState('')
   const handleVisible =()=> {
     setPhone(!phone)
   }
@@ -176,7 +178,6 @@ const styles = StyleSheet.create({
     color:'#ABA9A9'
   },
   Card:{
-    borderWidth:1,
     height:'100%',
     width:'100%'
   },

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "485663881489",
+    "firebase_url": "https://manawa-test-default-rtdb.firebaseio.com",
+    "project_id": "manawa-test",
+    "storage_bucket": "manawa-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485663881489:android:b03b7803b04a4e5c32f4b0",
+        "android_client_info": {
+          "package_name": "com.kadmiel.Manawaprestataires"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxPzo7xBbqYyO-dzEBupmDSg_QhA65VF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
