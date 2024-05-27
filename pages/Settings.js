@@ -10,7 +10,7 @@ import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 
 const Settings = ({navigation}) => {
   return (
-    <View>
+    <View style={{height:'100%', flex:1}}>
       <Header navigation={navigation}/>
       <InfoStoreBare navigation={navigation}/>
       <View style={styles.stat}>

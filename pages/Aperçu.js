@@ -60,7 +60,7 @@ const Aperçu = ({navigation}) => {
     };
     
   return (
-    <View style={{flex:1}}>
+    <View style={{flex:1, height:'100%'}}>
         <StoreHeaderAperçu navigation={navigation}/>
         <ScrollView >
             <View>

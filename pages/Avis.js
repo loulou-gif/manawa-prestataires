@@ -11,7 +11,7 @@ const Avis = ({navigation}) => {
     alias: data.name.split(' ').map(word => word.charAt(0)).join('')
   }));
   return (
-    <View style={{flex:1}}>
+    <View style={{flex:1, height:'100%'}}>
       <StoreHeaderAvis navigation={navigation}/>
       <ScrollView >
         {avisWithAlias.map((data) => (

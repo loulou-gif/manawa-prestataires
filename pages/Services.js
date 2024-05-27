@@ -95,7 +95,7 @@ const Services = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, height:'100%' }}>
             <Header />
             <StoreHeader navigation={navigation} />
             <Pressable onPress={handleVisible} style={styles.button}>

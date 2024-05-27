@@ -20,7 +20,7 @@ const Home = () => {
         setModalVisible(true)
     }
     return (
-        <View>
+        <View style={{height:'100%', flex:1}}>
         <Header />
             <ScrollView>
                 <InfoStoreBare />
