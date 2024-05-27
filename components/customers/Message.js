@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     modal: {
-        height: 1485,
+        height: '635%',
         backgroundColor: 'rgba(0,0,0, 0.3)',
     },
     all_conversation: {

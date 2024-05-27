@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   conversation: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0,0,0 0.1)',
     padding: 10,
   },
   backgroundImage: {
