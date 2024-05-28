@@ -2,81 +2,67 @@ import { View, Text,StyleSheet, Button, ImageBackground, TextInput, TouchableOpa
 import React ,{useState} from 'react';
 import IndicatorSearch from '../components/customers/indicatorSearch';
 // import PhoneInput from 'react-native-phone-number-input';
-import { auth, signInWithEmailAndPassword, storage } from '../firebase/configs';
-// import auth from '@react-native-firebase/auth'
+import { auth, signInWithPhoneNumber, storage } from '../firebase/configs';
 
-const Login = ({navigation}) => {
+const UsersDetails = ({navigation}) => {
   const image = require("../assets/images/background/third.png");
-  const [phone, setPhone] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  // const [code, setCode] = useState('')
-
-  // const sendOtp = async()=>{
-  //   try{
-  //     const tel = '+225'+ number
-  //     const confirmation = await signInWithPhoneNumber(tel);
-  //     setConfirm(confirmation) 
-  //     console.log(confirmation)
-  //     navigation.push('Otpcode')
-  //   }catch(error){
-  //     console.log('erreur code:', error);
-  //   }
-  // }
-
-    const signin = async () =>{
-      try{
-        const userCredential = await signInWithEmailAndPassword(auth, email, password)
-        const user = userCredential.user;
-        console.log('Message: User connected with success')
-        navigation.push('BottomTab', {id: user.uid});
-      }catch(error){
-        console.log('Message',error)
-      }
+//   const [phone, setPhone] = useState(false)
+  const [number, setNumber] = useState('')
+  const [code, setCode] = useState('')
+  const [confirm, setConfirm] = useState(null)
+  const SignIn = async()=>{
+    try{
+      const confirmation = await signInWithPhoneNumber(number);
+      setConfirm(confirmation)
+    }catch(error){
+      console.log('erreur code:', error);
     }
+  }
 
-  // const confirmCode = async() =>{
-  //   try{
-  //     const userCredential =await confirm.confirm(code);
-  //     const user =userCredential.user
-  //     const userDocument = await storage().collection('users').doc(user.uid).get()
+  const confirmCode = async() =>{
+    try{
+      const userCredential =await confirm.confirm(code);
+      const user =userCredential.user
+      const userDocument = await storage().collection('users').doc(user.uid).get()
 
-  //     if (userDocument.exists){
-  //       navigation.push('Otpcode')
-  //     }else{
-  //       navigation.push('UsersDatails', {uid: user.id})
-  //     }
-  //   }catch(error){
-  //     console.log('error code:', error)
-  //   }
-  // }
+      if (userDocument.exists){
+        navigation.push('Otpcode')
+      }
+    }catch(error){
+      console.log('error code:', error)
+    }
+  }
   const handleVisible =()=> {
     setPhone(!phone)
   }
   return (
     <View style={{}}>
-      <ImageBackground source={image} style={{ width:"auto", height:900}} resizeMode="cover">
+      <ImageBackground source={image} style={{ width:"auto", height:'100%'}} resizeMode="cover">
         <View style={styles.display} >
           <View style={styles.header}>
           <Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>Connexion |</Text>
           <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>Inscription</Text>
           </View>
-          <Text style={styles.p}>Veillez renseigner votre numéro téléphonique</Text>
+        </View>
+        <View style={styles.display}>
+          <Text style={styles.p}>Veillez renseigner votre nom et prénom</Text>
         </View>
         <View style={styles.display}  >
           <View style={styles.input}>
-            <TextInput style={styles.phone} value={email} onChangeText={(text)=> setEmail(text)} keyboardType='email-address'  placeholder='Email'/>
-            <TextInput style={styles.phone} value={password} onChangeText={(text)=> setPassword(text)}  secureTextEntry={true} placeholder='Mot de passe'/>
+            <TextInput style={styles.inputs} placeholder='Nom'/>
+            <TextInput style={styles.inputs}  placeholder='Prénoms'/>
             {/* <View style={styles.phone}>
               <TouchableOpacity onPress={handleVisible} style={styles.indicator}><Text style={styles.color}>+225</Text></TouchableOpacity>
-              <TextInput style={styles.phone_input} value={number} onChangeText={setNumber} keyboardType='phone-pad'/>
-            </View> */}
-            <TouchableOpacity onPress={signin} style={styles.buttons}>
-              <Pressable ><Text style={styles.textButton}>Se connecter</Text></Pressable>
-            </TouchableOpacity>    
+              <TextInput style={styles.phone_input} keyboardType='phone-pad'/>
+            </View>     */}
+          </View>
+          <View style={styles.input}>
+            <TouchableOpacity style={styles.buttons}>
+              <Pressable onPress={()=> navigation.push("Otpcode")}><Text style={styles.textButton}>Se connecter</Text></Pressable>
+            </TouchableOpacity>
           </View>
         </View>
-        <Modal animationType='fade' transparent={true} visible={phone}>
+        {/* <Modal animationType='fade' transparent={true} visible={phone}>
             <View style={styles.container}>
               <View style={styles.box}>
                   <IndicatorSearch/>
@@ -85,7 +71,7 @@ const Login = ({navigation}) => {
                   </ScrollView>
               </View>
             </View>
-        </Modal>
+        </Modal> */}
       </ImageBackground>
     </View>
   )
@@ -146,18 +132,16 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   phone:{
-    width:'100%',
+    width:330,
     height:50,
     backgroundColor:'white',
     flexDirection:'row',
-    paddingLeft:'5%',
     // padding:5,
     // justifyContent:'center',
     alignItems:'center',
     borderRadius:8,
     borderWidth:1,
-    borderColor:'#ABA9A9',
-    marginBottom:'5%'
+    borderColor:'#ABA9A9'
   },
   indicator:{
     width:75,
@@ -216,4 +200,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Login
+export default UsersDetails

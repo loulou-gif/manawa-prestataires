@@ -7,8 +7,20 @@ import IconeFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
+import {signOut, auth} from '../firebase/configs';
 
 const Settings = ({navigation}) => {
+
+  const logout = async() =>{
+    try{
+      await signOut(auth)
+      navigation.push('Start')
+    }catch(error){
+      console.log('Erreur Message: ', error)
+    }
+
+  }
+
   return (
     <View style={{height:'100%', flex:1}}>
       <Header navigation={navigation}/>
@@ -42,7 +54,7 @@ const Settings = ({navigation}) => {
         <Text style={styles.options}><IconeAntDesign name='customerservice' size={24}/> Services clients</Text>
         </View>
         <View style={styles.flex}>
-          <TouchableOpacity onPress={()=> navigation.push('Start')} >
+          <TouchableOpacity onPress={logout} >
               <Text style={styles.options} ><IconeMaterialCommunityIcons  name='logout' size={24}/> Déconnexion</Text>
           </TouchableOpacity>
         </View>

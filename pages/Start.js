@@ -15,7 +15,7 @@ const Start = ({navigation}) => {
               </View>
               <View style={styles.boutton}>
                 <TouchableOpacity style={styles.buttons}>
-                  <Pressable onPress={()=> navigation.push("Login")}><Text style={styles.textButton}>COMMENCER</Text></Pressable>
+                  <Pressable onPress={()=> navigation.push("Signup")}><Text style={styles.textButton}>COMMENCER</Text></Pressable>
                 </TouchableOpacity>  
               </View>
             </View>

@@ -1,9 +1,26 @@
-import { View, Text,StyleSheet, Button, ImageBackground, TextInput, Pressable } from 'react-native'
-import React from 'react'
-// import PhoneInput from 'react-native-phone-number-input';
+import { View, Text,StyleSheet, Button, ImageBackground, TextInput, Pressable, TouchableOpacity } from 'react-native'
+import React, {useState} from 'react'
+import { auth, signInWithPhoneNumber, storage } from '../firebase/configs';
 
 const Otpcode = ({navigation}) => {
   const image = require("../assets/images/background/third.png");
+  const [code, setCode] = useState('')
+
+  const confirmCode = async() =>{
+    try{
+      const userCredential =await confirm.confirm(code);
+      const user =userCredential.user
+      const userDocument = await storage().collection('users').doc(user.uid).get()
+
+      if (userDocument.exists){
+        navigation.push('BottomTab', {uid: user.id})
+      }else{
+        navigation.push('UsersDetails', {uid: user.id})
+      }
+    }catch(error){
+      console.log('error code:', error)
+    }
+  }
   return (
     <View style={styles.Card}>
     <ImageBackground source={image} style={styles.background} resizeMode="cover">
@@ -15,13 +32,13 @@ const Otpcode = ({navigation}) => {
         </View>
         <View style={styles.box_inputs}>
           <View style={styles.input}>
-            <TextInput style={styles.inputs} keyboardType='phone-pad' placeholder='OTP CODE'/>
+            <TextInput style={styles.inputs} value={code} onChangeText={setCode} keyboardType='phone-pad' placeholder='OTP CODE'/>
             {/* <TextInput style={styles.inputs}  placeholder='Prénoms'/> */}
             {/* <PhoneInput placeholder='' />             */}
           </View>
-          <View style={styles.input}>
-           <Pressable style={styles.buttons} onPress={() => navigation.navigate("BottomTab")} ><Text style={styles.textButton}>SUIVANT</Text></Pressable>
-          </View>
+          <TouchableOpacity onPress={confirmCode} style={styles.input}>
+           <Pressable style={styles.buttons}  ><Text style={styles.textButton}>SUIVANT</Text></Pressable>
+          </TouchableOpacity>
         </View>
           
       </ImageBackground>

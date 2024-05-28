@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, addDoc, getDocs, query, where} from "firebase/firestore";
 import { getStorage, ref } from "firebase/storage";
-import { getAuth, RecaptchaVerifier , signInWithPhoneNumber} from "firebase/auth";
+import { getAuth, RecaptchaVerifier , signOut, signInWithPhoneNumber, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,4 +27,4 @@ const db = getFirestore(app);
 const storage = getStorage(app, 'gs://manawa-test.appspot.com')
 const auth = getAuth(app)
 
-export { storage, ref ,app, db , collection, addDoc, getFirestore, getDocs, query, where, auth, RecaptchaVerifier, signInWithPhoneNumber}
+export { storage, ref ,app, db,signOut ,createUserWithEmailAndPassword,signInWithEmailAndPassword, collection, addDoc, getFirestore, getDocs, query, where, auth, RecaptchaVerifier, signInWithPhoneNumber}
