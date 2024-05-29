@@ -17,7 +17,7 @@ export default function App() {
   const Stack = createNativeStackNavigator()
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Start' >
+      <Stack.Navigator initialRouteName='BottomTab' >
         <Stack.Screen name='BottomTab' component={BottomTab} options={{ headerShown: false }}/>
         <Stack.Screen name='Home' component={Home} options={{headerStyle:{backgroundColor:'#DE9F42'}}} />
         <Stack.Screen name='ModifyStore' component={ModifyStore} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
