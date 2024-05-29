@@ -7,13 +7,14 @@ import IconeFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
-import {signOut, auth} from '../firebase/configs';
+import {signOut, auth} from '../firebase/configs'
 
 const Settings = ({navigation}) => {
 
   const logout = async() =>{
     try{
       await signOut(auth)
+      console.log('Message: User Disconnect successfully')
       navigation.push('Start')
     }catch(error){
       console.log('Erreur Message: ', error)
