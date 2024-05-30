@@ -14,8 +14,8 @@ const Start = ({navigation}) => {
                   <Text style={styles.textStyle}>A CHACUN SON <Text style={styles.text}>MANAWA</Text></Text>
               </View>
               <View style={styles.boutton}>
-                <TouchableOpacity style={styles.buttons}>
-                  <Pressable onPress={()=> navigation.push("Signup")}><Text style={styles.textButton}>COMMENCER</Text></Pressable>
+                <TouchableOpacity onPress={()=> navigation.push("Signup")} style={styles.buttons}>
+                  <Text style={styles.textButton}>COMMENCER</Text>
                 </TouchableOpacity>  
               </View>
             </View>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
       marginLeft:-18 
     },
     boutton:{
-      width: "auto",
+      width: "100%",
       alignItems: "flex-end",
       margin: 15,
       // borderWidth:1,

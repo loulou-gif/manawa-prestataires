@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Platform } from 'react-native';
-import { app, db, collection, addDoc, doc, setDoc, getDoc, auth } from '../../firebase/configs';
+import { app, db, collection, addDoc, getDoc, doc, setDoc, auth } from '../../firebase/configs';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
