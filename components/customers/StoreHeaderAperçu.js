@@ -1,24 +1,51 @@
 import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import IconeFeather from 'react-native-vector-icons/Feather'
 import { TextInput } from 'react-native-paper'
 import StoreEdit from './StoreEdit'
+import {doc, db, getDoc, getDocFromCache, auth} from '../../firebase/configs'
 
 const StoreHeaderAperçu = ({navigation}) => {
+    const userId = auth.currentUser.uid
     const [modif, setModif] = useState(false)
+    const [datas, setDatas] = useState({})
+
+    const getInfo = async() =>{
+        const docRef = doc(db, 'Store', userId)
+        try{
+            const docSnap = await getDoc(docRef)
+            if(docSnap.exists()) {
+                setDatas(docSnap.data())
+                // console.log(docSnap.data())
+            } else {
+                // docSnap.data() will be undefined in this case
+                console.log("No such document!");
+              }
+        }catch(error){
+            console.log( 'message: ', error)
+        }
+    }
+    useEffect(() => {
+        getInfo()
+    }, [userId])
 
     const handleVisible = () =>{
         setModif(!modif)
     }
+    const formatTime =(typeFormat)=>{
+        const date = new Date(typeFormat)
+        return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+    }
+
   return (
     <View>
       <Image style={styles.image} />
       <View style={styles.bottom}>
         <View style={styles.flex}>
-            <Image style={styles.profil} />
+            {datas.logoUri ? (<Image style={styles.profil} source={{uri: datas.logoUri}} />): <Image style={styles.profil} />}
             <View styles={styles.text}>
-                <Text style={styles.title}>Salon de coiffure</Text>
-                <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
+                <Text style={styles.title}>{datas.name ? datas.name :'Nom du store'}  </Text>
+                <Text style={styles.state}>Ouvert ({ datas.openingTime ? formatTime(datas.openingTime) :'08:00' } - { datas.closingTime ? formatTime(datas.closingTime) :'17:00' })</Text>
                 <View style={styles.points}>
                     {/* <IconeFeather name='edit' onPress={handleVisible} size={16}/> */}
                 </View>
