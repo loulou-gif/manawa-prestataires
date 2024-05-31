@@ -9,7 +9,7 @@ import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommu
 import Aperçus from '../components/customers/Aperçus';
 import StoreHeaderAperçu from '../components/customers/StoreHeaderAperçu';
 import * as ImagePicker from 'expo-image-picker';
-import {app, db , collection, addDoc, getFirestore} from '../firebase/configs'
+import {app, db , collection, addDoc, getFirestore, auth} from '../firebase/configs'
 import Message from '../components/customers/Message';
 
 // lightbulb-on-outline
@@ -44,8 +44,9 @@ const Aperçu = ({navigation}) => {
             // if (image && image.uri) {
             //     imageUrl = image.uri; // Si l'image et son URI sont définis
             // }
+            const userId= auth.currentUser.uid
             const docRef = await addDoc(collection(db, "aperçu"), {
-                id_prestataire: '0001',
+                id_prestataire: userId,
                 client: client,
                 comment: comment,
                 image: imageUrl // Utiliser l'URL de l'image

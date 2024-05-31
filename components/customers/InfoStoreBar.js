@@ -8,13 +8,13 @@ const InfoStoreBare = ({navigation}) => {
     <View>
       <View style={styles.bottom}>
         <View style={styles.flex}>
-            <Image source={require('../../assets/images/Profils/p8.png')} />
+            <Image style={styles.profil}  source={require('../../assets/images/Profils/p8.png')} />
             <View styles={styles.text}>
-                <Text style={styles.title}>Salon de coiffure</Text>
+                <Text style={styles.title}>Nom de la boutique</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
-                <View style={styles.icone}>
+                {/* <View style={styles.icone}>
                     <IconeFeather name='edit' onPress={() => navigation.push('ModifyStore')} size={16}/>
-                </View>
+                </View> */}
             </View>
             <View style={styles.points}>
                 <IconeFontAwesome name='money' color="green" size={18}/>  
@@ -77,7 +77,13 @@ const styles = StyleSheet.create({
         width:100,
         justifyContent:'space-between',
         height:30
-    }    
+    },
+    profil:{
+        width:'20%',
+        height:70,
+        backgroundColor:'#ABA9A9',
+        borderRadius:8
+    },    
 })
 
 export default InfoStoreBare

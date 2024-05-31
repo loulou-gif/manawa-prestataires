@@ -7,7 +7,7 @@ import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather';
 import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeEntypo from 'react-native-vector-icons/Entypo';
-import { app, db, collection, addDoc, query, getDocs, where } from '../firebase/configs';
+import { app, db, collection, addDoc, query, getDocs, where, auth } from '../firebase/configs';
 import Message from '../components/customers/Message';
 
 const Services = ({ navigation }) => {
@@ -49,8 +49,9 @@ const Services = ({ navigation }) => {
 
     const createService = async () => {
         try {
+            const userId = auth.currentUser.uid
             const docRef = await addDoc(collection(db, "services"), {
-                id_prestataire: '0001',
+                id_prestataire: userId,
                 service: service,
                 cost: cost,
                 description: description,
@@ -64,7 +65,9 @@ const Services = ({ navigation }) => {
     }
 
     const getServices = async () => {
-        const q = query(collection(db, 'services'), where('id_prestataire', '==', '0001'));
+        
+        const userId = auth.currentUser.uid
+        const q = query(collection(db, 'services'), where('id_prestataire', '==', userId));
         try {
             const querySnapshot = await getDocs(q);
             const services = [];

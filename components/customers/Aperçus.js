@@ -4,7 +4,7 @@ import IconeFeather from 'react-native-vector-icons/Feather';
 import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeEntypo from 'react-native-vector-icons/Entypo';
 import * as ImagePicker from 'expo-image-picker';
-import { app, db, collection, addDoc, getDocs, query, where } from '../../firebase/configs';
+import { app, db, collection, addDoc, getDocs, query, where, auth } from '../../firebase/configs';
 
 const Aperçus = ({ navigation }) => {
     const [deleted, setDeleted] = useState(false);
@@ -53,7 +53,8 @@ const Aperçus = ({ navigation }) => {
     };
 
     const printData = async () => {
-        const q = query(collection(db, 'aperçu'), where('id_prestataire', '==', '0001'));
+        const userId = auth.currentUser.uid
+        const q = query(collection(db, 'aperçu'), where('id_prestataire', '==', userId));
         try {
             const querySnapshot = await getDocs(q);
             const apercu = [];

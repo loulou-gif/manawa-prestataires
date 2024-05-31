@@ -20,7 +20,7 @@ const StoreHeaderAvis = ({navigation}) => {
                 <Text style={styles.title}>Salon de coiffure</Text>
                 <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
                 <View style={styles.points}>
-                    <IconeFeather name='edit' onPress={handleVisible} size={16}/>
+                    {/* <IconeFeather name='edit' onPress={handleVisible} size={16}/> */}
                 </View>
             </View>
         </View>

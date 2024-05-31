@@ -18,11 +18,8 @@ const Login = ({ navigation }) => {
       const storeRef = doc(db, 'Store', user.uid);
       const storeDoc = await getDoc(storeRef);
       
-      if (storeDoc.exists()) {
-        navigation.push('BottomTab', { id: user.uid });
-      } else {
-        navigation.push('StoreDetails', { id: user.uid });
-      }
+      navigation.push('BottomTab', { id: user.uid });
+     
     } catch (error) {
       console.log('Message', error);
     }
