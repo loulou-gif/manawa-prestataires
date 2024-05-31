@@ -7,14 +7,14 @@ import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather';
 import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeEntypo from 'react-native-vector-icons/Entypo';
-import { app, db, collection, addDoc, query, getDocs, where, auth } from '../firebase/configs';
+import { app, db, collection, updateDoc, addDoc, query, getDocs, where, auth, doc } from '../firebase/configs';
 import Message from '../components/customers/Message';
 
 const Services = ({ navigation }) => {
     const [create, setCreate] = useState(false);
     const [modify, setModify] = useState(false);
     const [deleted, setDeleted] = useState(false);
-    const [details, setDetails] = useState(null);
+    const [details, setDetails] = useState(null);  // Change to store details object
     const [service, setService] = useState('');
     const [cost, setCost] = useState('');
     const [description, setDescription] = useState('');
@@ -27,10 +27,15 @@ const Services = ({ navigation }) => {
         setDescription('');
         setImage('');
         setService('');
+        setDetails(null);
     }
 
     const handleModalModify = (detail) => {
         setDetails(detail);
+        setService(detail.service);
+        setCost(detail.cost);
+        setDescription(detail.description);
+        setImage(detail.image);
         setModify(!modify);
     }
 
@@ -49,7 +54,7 @@ const Services = ({ navigation }) => {
 
     const createService = async () => {
         try {
-            const userId = auth.currentUser.uid
+            const userId = auth.currentUser.uid;
             const docRef = await addDoc(collection(db, "services"), {
                 id_prestataire: userId,
                 service: service,
@@ -65,8 +70,7 @@ const Services = ({ navigation }) => {
     }
 
     const getServices = async () => {
-        
-        const userId = auth.currentUser.uid
+        const userId = auth.currentUser.uid;
         const q = query(collection(db, 'services'), where('id_prestataire', '==', userId));
         try {
             const querySnapshot = await getDocs(q);
@@ -92,13 +96,29 @@ const Services = ({ navigation }) => {
         printData();
     }, []);
 
+    const modifyService = async () => {
+        try {
+            const serviceDoc = doc(db, 'services', details.id);  // Use details.id to get the document ID
+            await updateDoc(serviceDoc, {
+                service: service,
+                cost: cost,
+                description: description,
+                image: image
+            });
+            setModify(false);
+            printData();
+        } catch (error) {
+            console.log('Le message: ', error);
+        }
+    }
+
     const confirmDelete = () => {
         // Implement delete logic here
         // setDeleted(false) should be called after deletion is confirmed
     }
 
     return (
-        <View style={{ flex: 1, height:'100%' }}>
+        <View style={{ flex: 1, height: '100%' }}>
             <Header />
             <StoreHeader navigation={navigation} />
             <Pressable onPress={handleVisible} style={styles.button}>
@@ -138,23 +158,58 @@ const Services = ({ navigation }) => {
             </Modal>
             <ScrollView contentContainerStyle={styles.scrollView}>
                 {servicesData.map((d) => (
-                    <View key={d.id} style={styles.card}>
-                        <Image style={styles.image} source={{ uri: d.image }} />
-                        <View style={styles.add_comment}>
-                            <Text style={styles.title}>{d.service}</Text>
-                            <Text style={styles.description}>{d.description}</Text>
+                    <View key={d.id}>
+                        <View style={styles.card}>
+                            <Image style={styles.image} source={{ uri: d.image }} />
+                            <View style={styles.add_comment}>
+                                <Text style={styles.title}>{d.service}</Text>
+                                <Text style={styles.description}>{d.description}</Text>
+                            </View>
+                            <View>
+                                <Text>{d.cost} XOF</Text>
+                                <Text>
+                                    <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
+                                    <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red' />
+                                </Text>
+                            </View>
                         </View>
-                        <View>
-                            <Text>{d.cost} XOF</Text>
-                            <Text>
-                                <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
-                                <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red' />
-                            </Text>
-                        </View>
+                        {modify && details && details.id === d.id && 
+                            <Modal animationType='fade' transparent={true} visible={modify}>
+                                <View style={styles.create}>
+                                    <View style={styles.second_box}>
+                                        <Text style={styles.titres}>Modifier le service</Text>
+                                        <View style={styles.first_inputs}>
+                                            <View style={styles.box_image}>
+                                                {image && <Image style={styles.add_image} source={{ uri: image }} />}
+                                                <Pressable style={styles.upload} onPress={selectPhoto}>
+                                                    <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
+                                                </Pressable>
+                                            </View>
+                                            <View style={styles.seconds_input}>
+                                                <TextInput style={styles.add_name} placeholder='Nom du service' onChangeText={(text) => setService(text)} value={service} />
+                                                <TextInput style={styles.add_cost} placeholder='Coût' keyboardType='phone-pad' onChangeText={(text) => setCost(text)} value={cost} />
+                                            </View>
+                                        </View>
+                                        <View style={styles.add_comments}>
+                                            <Text style={styles.labelle}>Description du service</Text>
+                                            <TextInput style={styles.add_description} multiline={true} onChangeText={(text) => setDescription(text)} numberOfLines={4} value={description} />
+                                        </View>
+                                        <View style={styles.buttonsContainer2}>
+                                            <Pressable onPress={() => setModify(!modify)} style={styles.btn_annulation}>
+                                                <Text style={styles.buttonText}>Annuler</Text>
+                                            </Pressable>
+                                            <Pressable onPress={modifyService} style={styles.btn_confirmation}>
+                                                <Text style={styles.buttonText}>Modifier</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </View>
+                            </Modal>
+                        }
                     </View>
                 ))}
             </ScrollView>
-            <Message navigation={navigation}/>
+            <Message navigation={navigation} />
             <Modal animationType="fade" transparent={true} visible={deleted}>
                 <View style={styles.models}>
                     <View style={styles.model}>

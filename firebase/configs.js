@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, addDoc, getDocs, query, where, doc, getDoc, setDoc} from "firebase/firestore";
+import { getFirestore, collection, addDoc,updateDoc, getDocs, query, where, doc,getDocFromCache, getDoc, setDoc} from "firebase/firestore";
 import { getStorage, ref  } from "firebase/storage";
 import { getAuth, RecaptchaVerifier , signOut, signInWithPhoneNumber, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -27,4 +27,26 @@ const db = getFirestore(app);
 const storage = getStorage(app, 'gs://manawa-test.appspot.com')
 const auth = getAuth(app)
 
-export { setDoc, doc, getDoc, storage, ref ,app, db,signOut ,createUserWithEmailAndPassword,signInWithEmailAndPassword, collection, addDoc, getFirestore, getDocs, query, where, auth, RecaptchaVerifier, signInWithPhoneNumber}
+export {
+   setDoc,
+   doc, 
+   getDoc, 
+   storage,
+   updateDoc, 
+   ref ,
+   app,
+    db,
+    signOut ,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+     collection,
+      addDoc, 
+      getFirestore, 
+      getDocs, 
+      query, 
+      where, 
+      auth, 
+      RecaptchaVerifier, 
+      signInWithPhoneNumber,
+      getDocFromCache
+    }

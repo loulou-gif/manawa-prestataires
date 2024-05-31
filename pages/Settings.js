@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Header from '../components/customers/Header'
 import InfoStoreBare from '../components/customers/InfoStoreBar'
 import IconeFontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -7,10 +7,11 @@ import IconeFontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
-import {signOut, auth} from '../firebase/configs'
+import {signOut, auth, db, collection, getDoc, getDocFromCache} from '../firebase/configs'
 
 const Settings = ({navigation}) => {
-
+  const userId = auth.currentUser.uid;
+  const [datas, setDatas] = useState({})
   const logout = async() =>{
     try{
       await signOut(auth)
@@ -20,6 +21,22 @@ const Settings = ({navigation}) => {
       console.log('Erreur Message: ', error)
     }
 
+  }
+
+  const getInfo = async() =>{
+    const docRef =  doc(db, 'Store', userId)
+    try {
+      const docSnap = await getDocFromCache(docRef)
+      if (docSnap.exists()) {
+        setDatas(docSnap.data())
+        console.log("Document data:", docSnap.data());
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }catch(error){
+
+    }
   }
 
   return (

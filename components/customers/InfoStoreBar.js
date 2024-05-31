@@ -1,24 +1,55 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState}  from 'react'
 import IconeFontAwesome from 'react-native-vector-icons/FontAwesome'
 import IconeFeather from 'react-native-vector-icons/Feather'
+import {signOut, doc, auth, db, collection, getDoc, getDocFromCache} from '../../firebase/configs'
 
 const InfoStoreBare = ({navigation}) => {
+    const userId = auth.currentUser.uid;
+    const [datas, setDatas] = useState({})
+    const getInfo = async() =>{
+        const docRef =  doc(db, 'Store', userId)
+        try {
+          const docSnap = await getDoc(docRef)
+          if (docSnap.exists()) {
+            setDatas(docSnap.data())
+            console.log("Document data:", docSnap.data());
+          } else {
+            // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        }catch(error){
+            console.log('Message: ', error)
+        }
+      }
+      useEffect(() => {
+        getInfo();
+      }, [userId]);
+
+      const formatTime = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      };
   return (
     <View>
       <View style={styles.bottom}>
         <View style={styles.flex}>
-            <Image style={styles.profil}  source={require('../../assets/images/Profils/p8.png')} />
+            {datas.logoUri ? 
+                (<Image style={styles.profil} source={{uri: datas.logoUri}}/>)  :
+                (<Image style={styles.profil}  />)  
+            }
             <View styles={styles.text}>
-                <Text style={styles.title}>Nom de la boutique</Text>
-                <Text style={styles.state}>Ouvert (09:00 - 20:30)</Text>
-                {/* <View style={styles.icone}>
+                <Text style={styles.title}>{datas.name ? datas.name: 'Nom de la boutique'} </Text>
+                <Text style={styles.state}>
+                    Ouvert ({datas.openingTime ? formatTime(datas.openingTime) : '09:00'} - {datas.closingTime ? formatTime(datas.closingTime) : '20:30'})
+                </Text>
+                <View style={styles.icone}>
                     <IconeFeather name='edit' onPress={() => navigation.push('ModifyStore')} size={16}/>
-                </View> */}
+                </View>
             </View>
             <View style={styles.points}>
-                <IconeFontAwesome name='money' color="green" size={18}/>  
-                <Text>35 pts</Text>
+                {/* <IconeFontAwesome name='money' color="green" size={18}/>  
+                <Text>35 pts</Text> */}
             </View>
         </View>
       </View>
@@ -53,6 +84,9 @@ const styles = StyleSheet.create({
     },
     text:{
         marginBottom:50,
+        borderWidth:1,
+        width:'75%',
+        borderColo:'red'
     },
     menu:{
         fontSize:16,
@@ -69,7 +103,7 @@ const styles = StyleSheet.create({
     points:{
         flexDirection:'row',
         borderColor:'#ABA9A9',
-        borderWidth:1,
+        // borderWidth:1,
         marginTop:5,
         padding:5,
         borderRadius:8,

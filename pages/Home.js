@@ -23,7 +23,7 @@ const Home = () => {
         <View style={{height:'100%', flex:1}}>
         <Header />
             <ScrollView>
-                <InfoStoreBare />
+                {/* <InfoStoreBare /> */}
                 <View style={styles.container}>
                     {Paniers.map((data) => (
                         <View style={styles.box} key={data.id}>
