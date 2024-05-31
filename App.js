@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTab from './routes/BottomTab';
 import Home from './pages/Home';
@@ -13,23 +13,37 @@ import Otpcode from './pages/Otpcode';
 import Login from './pages/Login';
 import UsersDetails from './pages/UsersDetails';
 import StoreDetails from './pages/StoreDetails';
+import { useState, useEffect } from 'react';
 
 export default function App() {
-  const Stack = createNativeStackNavigator()
+  const Stack = createNativeStackNavigator();
+  const [isLogged, setIsLogged] = useState(false);
+
+  // Vous pouvez utiliser useEffect pour vérifier l'état de la connexion ici
+  useEffect(() => {
+    // Exemple : vérifier l'état de l'authentification
+    // Remplacer cette logique par votre logique d'authentification réelle
+    const checkAuth = async () => {
+      const userLoggedIn = false; // Remplacez ceci par votre logique réelle
+      setIsLogged(userLoggedIn);
+    };
+    checkAuth();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='BottomTab' >
-        <Stack.Screen name='BottomTab' component={BottomTab} options={{ headerShown: false }}/>
-        <Stack.Screen name='Home' component={Home} options={{headerStyle:{backgroundColor:'#DE9F42'}}} />
-        <Stack.Screen name='ModifyStore' component={ModifyStore} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='Aperçu' component={Aperçu} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='Avis' component={Avis} options={{headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='Signup' component={Signup} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='Start' component={Start} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='Otpcode' component={Otpcode} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='Login' component={Login} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='UsersDetails' component={UsersDetails} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
-        <Stack.Screen name='StoreDetails' component={StoreDetails} options={{  headerShown: false, headerStyle:{backgroundColor:'#DE9F42'}}}/>
+      <Stack.Navigator initialRouteName={isLogged ? 'BottomTab' : 'Start'}>
+        <Stack.Screen name='BottomTab' component={BottomTab} options={{ headerShown: false }} />
+        <Stack.Screen name='Home' component={Home} options={{ headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='ModifyStore' component={ModifyStore} options={{ headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='Aperçu' component={Aperçu} options={{ headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='Avis' component={Avis} options={{ headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='Signup' component={Signup} options={{ headerShown: false, headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='Start' component={Start} options={{ headerShown: false, headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='Otpcode' component={Otpcode} options={{ headerShown: false, headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='Login' component={Login} options={{ headerShown: false, headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='UsersDetails' component={UsersDetails} options={{ headerShown: false, headerStyle: { backgroundColor: '#DE9F42' } }} />
+        <Stack.Screen name='StoreDetails' component={StoreDetails} options={{ headerShown: false, headerStyle: { backgroundColor: '#DE9F42' } }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
