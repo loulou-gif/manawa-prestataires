@@ -32,30 +32,30 @@ const Signup = ({navigation}) => {
       <ImageBackground source={image} style={styles.background} resizeMode="cover">
         <View style={styles.display} >
           <View style={styles.header}>
-            <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>Inscription |</Text><Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>Connexion</Text>
+            <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>INCSRIPTION</Text>
           </View>
-          <Text style={styles.p}>Veillez renseigner le formulaire ci-dessous.</Text>
+          {/* <Text style={styles.first_p}>Veillez renseigner le formulaire ci-dessous.</Text> */}
         </View>
         <View style={styles.box_inputs}  >
-          <View style={styles.input}>
-            {/* <View style={styles.phone}>
-              <TouchableOpacity onPress={handleVisible} style={styles.indicator}><Text style={styles.color}>+225</Text></TouchableOpacity>
-              <TextInput style={styles.phone_input} keyboardType='phone-pad'/>
-            </View> */}
-            <View style={styles.phone}>
-              <TextInput style={styles.phone_input} value={email} keyboardType='email-address' onChangeText={(text)=> setEmail(text)} placeholder='Email'/>
+            <View style={styles.input}>
+              {/* <View style={styles.phone}>
+                <TouchableOpacity onPress={handleVisible} style={styles.indicator}><Text style={styles.color}>+225</Text></TouchableOpacity>
+                <TextInput style={styles.phone_input} keyboardType='phone-pad'/>
+              </View> */}
+              <View style={styles.phone}>
+                <TextInput style={styles.phone_input} value={email} keyboardType='email-address' onChangeText={(text)=> setEmail(text)} placeholder='Email'/>
+              </View>
+              <View style={styles.phone}>
+                <TextInput style={styles.phone_input} value={password} secureTextEntry={true} onChangeText={(text)=> setPassword(text)} placeholder='Mot de passe' />
+              </View>
+                <Pressable style={styles.buttons} onPress={signup}><Text style={styles.textButton}>SUIVANT</Text></Pressable>
+                
+              <View style={styles.text}>
+                <Text style={styles.p}>Déjà un compte?<Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}> Connectez-vous</Text></Text>
+              </View>
             </View>
-            <View style={styles.phone}>
-              <TextInput style={styles.phone_input} value={password} secureTextEntry={true} onChangeText={(text)=> setPassword(text)} placeholder='Mot de passe' />
-            </View>
-            
-              <Pressable style={styles.buttons} onPress={signup}><Text style={styles.textButton}>SUIVANT</Text></Pressable>
-            {/* </TouchableOpacity> */}
-          </View>
-          <View style={styles.button}>
-          </View>
         </View>
-        <Modal animationType='fade' transparent={true} visible={phone}>
+        {/* <Modal animationType='fade' transparent={true} visible={phone}>
             <View style={styles.container}>
               <View style={styles.box}>
                   <IndicatorSearch/>
@@ -64,7 +64,7 @@ const Signup = ({navigation}) => {
                   </ScrollView>
               </View>
             </View>
-        </Modal>
+        </Modal> */}
       </ImageBackground>
     </View>
   )
@@ -76,21 +76,28 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
   },
   inscriptionColor:{
-    color: "#FFA012",
-    fontSize: 26,
+    color: "#fff",
+    fontSize: 30,
     fontWeight:"bold",
   },
   connexionColor:{
-    color: "#FFFFFF",
-    fontSize: 26,
-    fontWeight:"bold",
+    color: "#FFA012",
+    fontSize: 18,
   },
   header:{
-    marginTop: 150,
-    justifyContent:"space-around",
-    flexDirection:"row",
-    width:290,
-    height:30,
+    // marginTop: 150,
+    justifyContent:"center",
+    // flexDirection:"row",
+    width:330,
+    height:50,
+    // borderWidth:1,
+  },
+  first_p:{
+    width:330,
+    height:37,
+    fontSize:16,
+    color:"#E5E5E5",
+    marginTop:10,
   },
   p:{
     width:272,
@@ -102,7 +109,10 @@ const styles = StyleSheet.create({
   },
   display:{
     alignItems:"center",
-    marginTop:'-60%'
+    marginTop:'-70%'
+  },
+  text:{
+    alignItems:"center",
   },
   box_inputs:{
     alignItems:"center",
@@ -206,7 +216,7 @@ const styles = StyleSheet.create({
   },
   background:{
     width:"100%",
-    height:'100%',
+    height:900,
     alignItems:'center',
     justifyContent:'center',
   }

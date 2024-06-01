@@ -10,13 +10,29 @@ import InfoStoreBare from '../components/customers/InfoStoreBar';
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 // import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import IconeFeather from 'react-native-vector-icons/Feather'
+import SearchBar from '../components/customers/SearchBar';
 
-const Home = () => {
+const Home = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false); 
     const [ confirm, setConfirm] = useState(false);
     const [ annul, setAnnul] = useState(false);
     const [selectedUserData, setSelectedUserData] = useState(null);
     const [columns , setColumns] = useState(false)
+    const [searchPhrase, setSearchPhrase] = useState("");
+
+    // Fonction de gestion de la recherche
+    const handleSearch = (text) => {
+        setSearchPhrase(text);
+    };
+
+    // Fonction de filtrage
+    const filterData = (data, searchTerm) => {
+        return data.filter(item =>
+            item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    };
+
+    const filteredStore = searchPhrase ? filterData(Paniers, searchPhrase) : Paniers;
 
     const handleInfoFacture = (userData) =>{
         setSelectedUserData(userData);
@@ -29,7 +45,7 @@ const Home = () => {
         <View style={{height:'100%', flex:1}}>
         <Header />
             <ScrollView>
-                {/* <InfoStoreBare /> */}
+                <SearchBar searchPhrase={searchPhrase} setSearchPhrase={setSearchPhrase} onChangeText={handleSearch} navigation={navigation}/>
                 {
                     columns ?
                     (
@@ -47,7 +63,7 @@ const Home = () => {
                 {
                     columns ?
                     (<View style={styles.container}>
-                        {Paniers.map((data) => (
+                        {filteredStore.map((data) => (
                             <View style={styles.box} key={data.id}>
                                 <Icone key={data.id} name='dots-three-horizontal' onPress={() => handleInfoFacture(data)} size={16} color="black" style={{ textAlign: "right", width: 150, marginTop: -5, marginRight: -5 }} />
                                 <View style={styles.buttonsContainer}>
@@ -144,7 +160,7 @@ const Home = () => {
                     </View>
                     ):(
                         <View style={styles.container}>
-                            {Paniers.map((data) => (
+                            {filteredStore.map((data) => (
                                 <TouchableOpacity onPress={() => handleInfoFacture(data)} style={styles.second_box} key={data.id}>
                                     {/* <Icone key={data.id} name='dots-three-horizontal'  size={16} color="black" style={{ textAlign: "right", width: 150, marginTop: -5, marginRight: -5 }} /> */}
                                     <View >

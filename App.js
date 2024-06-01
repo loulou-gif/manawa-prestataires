@@ -14,21 +14,35 @@ import Login from './pages/Login';
 import UsersDetails from './pages/UsersDetails';
 import StoreDetails from './pages/StoreDetails';
 import { useState, useEffect } from 'react';
+import { auth } from './firebase/configs';
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(null);
 
-  // Vous pouvez utiliser useEffect pour vérifier l'état de la connexion ici
+  // Utiliser useEffect pour vérifier l'état de la connexion ici
   useEffect(() => {
-    // Exemple : vérifier l'état de l'authentification
-    // Remplacer cette logique par votre logique d'authentification réelle
-    const checkAuth = async () => {
-      const userLoggedIn = false; // Remplacez ceci par votre logique réelle
-      setIsLogged(userLoggedIn);
-    };
-    checkAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLogged(true);
+      } else {
+        setIsLogged(false);
+      }
+    });
+
+    // Clean up the subscription on unmount
+    return () => unsubscribe();
   }, []);
+
+  if (isLogged === null) {
+    // Vous pouvez afficher un écran de chargement ici
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>

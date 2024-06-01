@@ -34,10 +34,8 @@ const Login = ({ navigation }) => {
       <ImageBackground source={image} style={{ width: "auto", height: 900 }} resizeMode="cover">
         <View style={styles.display}>
           <View style={styles.header}>
-            <Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>Connexion |</Text>
-            <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>Inscription</Text>
+            <Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>CONNEXION</Text>
           </View>
-          <Text style={styles.p}>Veillez renseigner votre numéro téléphonique</Text>
         </View>
         <View style={styles.display}>
           <View style={styles.input}>
@@ -46,6 +44,9 @@ const Login = ({ navigation }) => {
             <TouchableOpacity onPress={signin} style={styles.buttons}>
               <Text style={styles.textButton}>Se connecter</Text>
             </TouchableOpacity>
+            <View>
+              <Text style={styles.p}>Pas encore de compte?<Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}> Inscrivez vous</Text></Text>
+            </View>
           </View>
         </View>
         <Modal animationType='fade' transparent={true} visible={phone}>
@@ -69,9 +70,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inscriptionColor: {
-    color: "#4E4E4E",
-    fontSize: 26,
-    fontWeight: "bold",
+    color: "#FFA012",
+    fontSize: 18,
   },
   connexionColor: {
     color: "#FFA012",
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   header: {
-    marginTop: 150,
-    justifyContent: "space-around",
+    marginTop: 250,
+    alignItems: "center",
     flexDirection: "row",
-    width: 290,
-    height: 30,
+    width: 330,
+    height: 50,
   },
   p: {
-    width: 272,
+    width: '100%',
     height: 37,
     textAlign: "center",
     fontSize: 16,
@@ -95,11 +95,12 @@ const styles = StyleSheet.create({
   },
   display: {
     alignItems: "center",
+    // marginTop:50
   },
   input: {
     width: 330,
     height: 50,
-    marginTop: 115,
+    marginTop: 50,
     borderRadius: 8,
     marginBottom: -80,
   },
