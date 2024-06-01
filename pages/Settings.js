@@ -23,21 +23,21 @@ const Settings = ({navigation}) => {
 
   }
 
-  const getInfo = async() =>{
-    const docRef =  doc(db, 'Store', userId)
-    try {
-      const docSnap = await getDocFromCache(docRef)
-      if (docSnap.exists()) {
-        setDatas(docSnap.data())
-        console.log("Document data:", docSnap.data());
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
-      }
-    }catch(error){
+  // const getInfo = async() =>{
+  //   const docRef =  doc(db, 'Store', userId)
+  //   try {
+  //     const docSnap = await getDocFromCache(docRef)
+  //     if (docSnap.exists()) {
+  //       setDatas(docSnap.data())
+  //       // console.log("Document data:", docSnap.data());
+  //     } else {
+  //       // docSnap.data() will be undefined in this case
+  //       console.log("No such document!");
+  //     }
+  //   }catch(error){
 
-    }
-  }
+  //   }
+  // }
 
   return (
     <View style={{height:'100%', flex:1}}>

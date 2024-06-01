@@ -7,14 +7,14 @@ import Icone from 'react-native-vector-icons/EvilIcons';
 import IconeFeather from 'react-native-vector-icons/Feather';
 import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeEntypo from 'react-native-vector-icons/Entypo';
-import { app, db, collection, updateDoc, addDoc, query, getDocs, where, auth, doc } from '../firebase/configs';
+import { app, db, collection, updateDoc, addDoc, query, getDocs, where, auth, doc, deleteDoc } from '../firebase/configs';
 import Message from '../components/customers/Message';
 
 const Services = ({ navigation }) => {
     const [create, setCreate] = useState(false);
     const [modify, setModify] = useState(false);
     const [deleted, setDeleted] = useState(false);
-    const [details, setDetails] = useState(null);  // Change to store details object
+    const [details, setDetails] = useState(null);
     const [service, setService] = useState('');
     const [cost, setCost] = useState('');
     const [description, setDescription] = useState('');
@@ -55,7 +55,7 @@ const Services = ({ navigation }) => {
     const createService = async () => {
         try {
             const userId = auth.currentUser.uid;
-            const docRef = await addDoc(collection(db, "services"), {
+            await addDoc(collection(db, "services"), {
                 id_prestataire: userId,
                 service: service,
                 cost: cost,
@@ -98,7 +98,7 @@ const Services = ({ navigation }) => {
 
     const modifyService = async () => {
         try {
-            const serviceDoc = doc(db, 'services', details.id);  // Use details.id to get the document ID
+            const serviceDoc = doc(db, 'services', details.id);
             await updateDoc(serviceDoc, {
                 service: service,
                 cost: cost,
@@ -112,9 +112,14 @@ const Services = ({ navigation }) => {
         }
     }
 
-    const confirmDelete = () => {
-        // Implement delete logic here
-        // setDeleted(false) should be called after deletion is confirmed
+    const confirmDelete = async () => {
+        try {
+            await deleteDoc(doc(db, 'services', details.id));
+            setDeleted(false);
+            printData();
+        } catch (error) {
+            console.log('Message:', error);
+        }
     }
 
     return (
@@ -131,7 +136,7 @@ const Services = ({ navigation }) => {
                         <Text style={styles.titres}>Ajouter un service</Text>
                         <View style={styles.first_inputs}>
                             <View style={styles.box_image}>
-                                {image && <Image style={styles.add_image} source={{ uri: image }} />}
+                                {image ? (<Image style={styles.add_image} source={{ uri: image }} />) :(<Image style={styles.add_image} />)}
                                 <Pressable style={styles.upload} onPress={selectPhoto}>
                                     <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
                                 </Pressable>
@@ -169,7 +174,10 @@ const Services = ({ navigation }) => {
                                 <Text>{d.cost} XOF</Text>
                                 <Text>
                                     <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
-                                    <IconeAntDesign name='delete' onPress={() => setDeleted(!deleted)} size={20} color='red' />
+                                    <IconeAntDesign name='delete' onPress={() => {
+                                        setDetails(d); // Set the details of the item to be deleted
+                                        setDeleted(true);
+                                    }} size={20} color='red' />
                                 </Text>
                             </View>
                         </View>
@@ -215,7 +223,7 @@ const Services = ({ navigation }) => {
                     <View style={styles.model}>
                         <Text>Voulez-vous supprimer ce service?</Text>
                         <View style={styles.buttonsContainer}>
-                            <Pressable style={styles.btn_annulation} onPress={() => setDeleted(!deleted)}>
+                            <Pressable style={styles.btn_annulation} onPress={() => setDeleted(false)}>
                                 <Text style={styles.buttonText}>Non</Text>
                             </Pressable>
                             <Pressable style={styles.btn_confirmation} onPress={confirmDelete}>
@@ -385,7 +393,9 @@ const styles = StyleSheet.create({
     },
     box_image: {
         flexDirection: 'row',
-        width: 500
+        width: 500,
+        alignItems:'flex-end',
+        // justifyContent:'flex-end'
     },
     upload: {
         width: 80,

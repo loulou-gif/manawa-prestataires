@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, addDoc,updateDoc, getDocs, query, where, doc,getDocFromCache, getDoc, setDoc} from "firebase/firestore";
+import { getFirestore, collection, addDoc,updateDoc,deleteDoc, getDocs, query, where, doc,getDocFromCache, getDoc, setDoc} from "firebase/firestore";
 import { getStorage, ref  } from "firebase/storage";
 import { getAuth, RecaptchaVerifier , signOut, signInWithPhoneNumber, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -48,5 +48,6 @@ export {
       auth, 
       RecaptchaVerifier, 
       signInWithPhoneNumber,
-      getDocFromCache
+      getDocFromCache,
+      deleteDoc
     }

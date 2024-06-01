@@ -39,7 +39,7 @@ const StoreHeaderAperçu = ({navigation}) => {
 
   return (
     <View>
-      <Image style={styles.image} />
+      <Image style={styles.image} source={require('../../assets/images/background/background.png')}  />
       <View style={styles.bottom}>
         <View style={styles.flex}>
             {datas.logoUri ? (<Image style={styles.profil} source={{uri: datas.logoUri}} />): <Image style={styles.profil} />}
