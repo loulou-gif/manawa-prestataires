@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput } from 'react-native';
+import { View, Text, Pressable, Image, StyleSheet, ScrollView, Modal, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import Header from '../components/customers/Header';
@@ -172,13 +172,17 @@ const Services = ({ navigation }) => {
                             </View>
                             <View>
                                 <Text>{d.cost} XOF</Text>
-                                <Text>
-                                    <IconeFeather name='edit' onPress={() => handleModalModify(d)} size={16} />
-                                    <IconeAntDesign name='delete' onPress={() => {
-                                        setDetails(d); // Set the details of the item to be deleted
-                                        setDeleted(true);
-                                    }} size={20} color='red' />
-                                </Text>
+                                <View style={styles.icone}>
+                                    <TouchableOpacity>
+                                        <IconeAntDesign name='delete' onPress={() => {
+                                            setDetails(d); // Set the details of the item to be deleted
+                                            setDeleted(true);
+                                        }} size={20} color='red' />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <IconeFeather name='edit' onPress={() => handleModalModify(d)} color='orange' size={20} />
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                         {modify && details && details.id === d.id && 
@@ -424,6 +428,11 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: -30,
         alignItems: 'center'
+    },
+    icone:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-around',
     }
 });
 
