@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity, M
 import React, { useState } from 'react';
 import IndicatorSearch from '../components/customers/indicatorSearch';
 import { auth, signInWithEmailAndPassword, db, doc, getDoc } from '../firebase/configs';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Login = ({ navigation }) => {
   const image = require("../assets/images/background/third.png");
@@ -31,10 +32,10 @@ const Login = ({ navigation }) => {
 
   return (
     <View>
-      <ImageBackground source={image} style={{ width: "auto", height: 900 }} resizeMode="cover">
+      <ImageBackground source={image} style={{ width: scale(350), height: scale(740) }} resizeMode="cover">
         <View style={styles.display}>
           <View style={styles.header}>
-            <Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}>CONNEXION</Text>
+            <Text style={styles.connexionColor}>CONNEXION</Text>
           </View>
         </View>
         <View style={styles.display}>
@@ -66,24 +67,24 @@ const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   h1: {
-    fontSize: 26,
+    fontSize: scale(26),
     fontWeight: "bold",
   },
   inscriptionColor: {
     color: "#FFA012",
-    fontSize: 18,
+    fontSize: scale(18),
   },
   connexionColor: {
     color: "#FFA012",
-    fontSize: 26,
+    fontSize: scale(26),
     fontWeight: "bold",
   },
   header: {
-    marginTop: 250,
+    marginTop: scale(175),
     alignItems: "center",
     flexDirection: "row",
-    width: 330,
-    height: 50,
+    width: verticalScale(260),
+    height:scale(50),
   },
   p: {
     width: '100%',
@@ -97,12 +98,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // marginTop:50
   },
-  input: {
-    width: 330,
-    height: 50,
-    marginTop: 50,
+  input: { 
+    width: scale(300),
+    height: scale(50),
+    marginTop: scale(50),
     borderRadius: 8,
-    marginBottom: -80,
+    marginBottom: scale(-80),
   },
   inputs: {
     width: 330,
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
   },
   phone: {
     width: '100%',
-    height: 50,
+    height: scale(50),
     backgroundColor: 'white',
     flexDirection: 'row',
     paddingLeft: '5%',
@@ -124,17 +125,17 @@ const styles = StyleSheet.create({
     marginBottom: '5%'
   },
   indicator: {
-    width: 75,
+    width: scale(75),
     borderRightWidth: 1,
-    height: 40,
+    height: scale(40),
     borderColor: '#ABA9A9',
     justifyContent: 'center',
     alignItems: 'center'
   },
   phone_input: {
-    width: 255,
-    height: 50,
-    paddingLeft: 10,
+    width: scale(255),
+    height: scale(50), 
+    paddingLeft: scale(10),
   },
   box: {
     width: '70%',
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
   },
   indicators: {
     width: '100%',
-    height: 50,
+    height: scale(50),
   },
   indic: {
     width: '100%',
@@ -165,11 +166,11 @@ const styles = StyleSheet.create({
   },
   textButton: {
     color: "#fff",
-    fontSize: 18
+    fontSize: scale(18)
   },
   buttons: {
     backgroundColor: "#DE9F42",
-    height: 50,
+    height: scale(50),
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',

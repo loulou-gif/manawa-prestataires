@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Button, ImageBackground, TextInput, Pressable, 
 import IndicatorSearch from '../components/customers/indicatorSearch.js';
 import {app, auth, createUserWithEmailAndPassword} from '../firebase/configs.js'
 import Recaptcha from 'react-native-recaptcha-v3';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Signup = ({navigation}) => {
   const image = require("../assets/images/background/second.png");
@@ -32,9 +33,8 @@ const Signup = ({navigation}) => {
       <ImageBackground source={image} style={styles.background} resizeMode="cover">
         <View style={styles.display} >
           <View style={styles.header}>
-            <Text onPress={() => navigation.navigate("Signup")} style={styles.inscriptionColor}>INCSRIPTION</Text>
+            <Text style={styles.inscriptionColor}>INSCRIPTION</Text>
           </View>
-          {/* <Text style={styles.first_p}>Veillez renseigner le formulaire ci-dessous.</Text> */}
         </View>
         <View style={styles.box_inputs}  >
             <View style={styles.input}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   inscriptionColor:{
     color: "#fff",
-    fontSize: 30,
+    fontSize: scale(30),
     fontWeight:"bold",
   },
   connexionColor:{
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     // marginTop: 150,
     justifyContent:"center",
     // flexDirection:"row",
-    width:330,
-    height:50,
+    width:verticalScale(260),
+    height:scale(50),
     // borderWidth:1,
   },
   first_p:{
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   display:{
     alignItems:"center",
-    marginTop:'-70%'
+    marginTop:scale(-230)
   },
   text:{
     alignItems:"center",
@@ -120,11 +120,11 @@ const styles = StyleSheet.create({
   input:{
     // borderWidth:1,
     width:'100%',
-    height:50,
+    height:scale(50),
     // backgroundColor: "#E5E5E5",
-    marginTop: 50,
+    marginTop: scale(50),
     borderRadius: 8,
-    marginBottom:10,
+    marginBottom:scale(10),
   },
   inputs:{
     // borderWidth:1,
@@ -148,18 +148,18 @@ const styles = StyleSheet.create({
   },
   textButton:{
     color: "#fff",
-    fontSize:18
+    fontSize:scale(18)
   },
   buttons:{
     backgroundColor: "#DE9F42",
-    height:50,
+    height:scale(45),
     borderRadius:8,
     alignItems:'center',
     justifyContent:'center',
   },
   phone:{
-    width:330,
-    height:50,
+    width:scale(300),
+    height:scale(50),
     backgroundColor:'white',
     flexDirection:'row',
     // padding:5,
@@ -169,18 +169,18 @@ const styles = StyleSheet.create({
     marginBottom:'5%'
   },
   indicator:{
-    width:75,
+    width:scale(75),
     borderRightWidth:1,
-    height:40,
+    height:scale(40),
     borderColor:'#ABA9A9',
     justifyContent:'center',
     alignItems:'center'
   },
   phone_input:{
     width:'100%',
-    height:50,
+    height:scale(50),
     // borderWidth:1,
-    paddingLeft:10,
+    paddingLeft:scale(10),
   },
   box:{
     width:'70%',
@@ -196,12 +196,12 @@ const styles = StyleSheet.create({
   },
   indicators:{
     width:'100%',
-    height:50,
+    height:scale(50),
     // borderWidth:1,
   },
   indic:{
     width:'100%',
-    height:50,
+    height:scale(50),
     borderBottomWidth:1,
     justifyContent:'center',
     paddingLeft:25,
@@ -211,12 +211,12 @@ const styles = StyleSheet.create({
     color:'#ABA9A9'
   },
   Card:{
-    height:'100%',
-    width:'100%'
+    height:scale(740),
+    width:scale(350)
   },
   background:{
-    width:"100%",
-    height:900,
+    width:scale(350),
+    height:scale(740),
     alignItems:'center',
     justifyContent:'center',
   }
