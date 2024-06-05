@@ -2,20 +2,21 @@ import {StyleSheet,View ,Text,Button,ImageBackground, Pressable, TouchableOpacit
 import * as Font from 'expo-font';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 const Start = ({navigation}) => {
     const image = require("../assets/images/background/first.png");
   return (
     <View style={styles.container}>
       <View>
-        <ImageBackground source={image} style={{width: "auto",height: '100%'}} resizeMode="cover">
+        <ImageBackground source={image} style={{width: "auto", height: scale(740)}} >
             <View style={styles.first}>
               <View style={styles.second}>
                   <Text style={styles.textStyle}>A CHACUN SON <Text style={styles.text}>MANAWA</Text></Text>
               </View>
               <View style={styles.boutton}>
                 <TouchableOpacity onPress={()=> navigation.push("Signup")} style={styles.buttons}>
-                  <Text style={styles.textButton}>COMMENCER</Text>
+                  <Text style={styles.textButton}>COMMENCER <AntDesign name='arrowright' size={18} /> </Text>
                 </TouchableOpacity>  
               </View>
             </View>
@@ -32,10 +33,10 @@ const styles = StyleSheet.create({
       // padding: 20,
     },
     textStyle:{
-        fontSize: 20,
+        fontSize: scale(20),
         color: "#E5E5E5",
-        marginLeft: 10,
-        marginTop: 100,
+        marginLeft: scale(10),
+        // marginTop: scale(100),
         fontWeight:"bold",
     },
     row:{
@@ -44,65 +45,41 @@ const styles = StyleSheet.create({
     },
     text:{
       fontWeight:"bold",
-      fontSize: 50
+      fontSize: scale(50)
     },
     first:{
       width: '100%',
-      height: '100%',
-      borderRadius:150,
-      // borderWidth:1 ,
-      justifyContent:'center',
+      height: scale(730),
+      justifyContent:'space-between',
     },
     second:{
-      width:"65%",
-      height:'40%',
+      width:scale(250),
+      height:scale(200),
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: "center",
       alignItems:'center',
-      marginTop: '40%',
-      // borderWidth:1 
-    },
-    // third:{
-    //   height:200,
-    //    borderRadius:50,
-    //   borderRadius:150,
-    //   marginLeft:-80,
-    //   marginTop: -10,
-    //    width:250
-    // },
-    fourth:{
-      height:200,
-       borderRadius:50,
-      borderRadius:150,
-      marginLeft:-80,
-      marginTop: -10,
-       width:200
-    },
-    fith:{
-      width: 50,
-      height: 90,
-      borderTopRightRadius:150,
-      marginTop:-10,
-      borderBottomRightRadius:100,
-      marginLeft:-18 
+      marginTop: scale(100),
+      // borderWidth:1,
+      alignItems:'center' 
     },
     boutton:{
       width: "100%",
       alignItems: "flex-end",
-      margin: 15,
+      // margin: 15,
       // borderWidth:1,
-      height:'40%',
-      alignContent:'flex-end',
-      paddingTop:'70%'  
+      height:scale(50),
+      // alignContent:'flex-end',
+      // paddingTop:'70%'  
     },
     buttons:{
     backgroundColor: "#DE9F42",
-    height:'75%',
-    width:'40%',
+    height:scale(40),
+    width:scale(150),
     borderRadius:8,
     alignItems:'center',
     justifyContent:'center',
+    marginRight:scale(25)
   },
   textButton:{
     color: "#fff",
