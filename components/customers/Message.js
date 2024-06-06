@@ -5,6 +5,7 @@ import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommu
 import IconeIonicons from 'react-native-vector-icons/Ionicons';
 import Sms from './Sms';
 import { sms } from '../../data/sms'; // Assurez-vous que cette importation est correcte
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Message = ({ navigation }) => {
     const [message, setMessage] = useState(false);
@@ -55,13 +56,13 @@ const styles = StyleSheet.create({
     },
     circle: {
         backgroundColor: '#7A4D09',
-        width: 60,
-        height: 60,
-        borderRadius: 30,
+        width: scale(55),
+        height: verticalScale(50),
+        borderRadius: scale(30),
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 30,
-        marginLeft: 340,
+        marginLeft: scale(280),
     },
     icone: {
         color: 'white',

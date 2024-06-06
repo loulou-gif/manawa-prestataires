@@ -1,6 +1,7 @@
 // SearchBar.js
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const SearchBar = ({ onChangeText }) => {
   const [searchPhrase, setSearchPhrase] = useState("");
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
   },
   input: {
-    height: 40,
+    height: verticalScale(40),
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,

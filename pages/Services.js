@@ -9,6 +9,7 @@ import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeEntypo from 'react-native-vector-icons/Entypo';
 import { app, db, collection, updateDoc, addDoc, query, getDocs, where, auth, doc, deleteDoc } from '../firebase/configs';
 import Message from '../components/customers/Message';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Services = ({ navigation }) => {
     const [create, setCreate] = useState(false);
@@ -127,7 +128,7 @@ const Services = ({ navigation }) => {
             <Header />
             <StoreHeader navigation={navigation} />
             <Pressable onPress={handleVisible} style={styles.button}>
-                <Icone name='plus' size={20} style={{ marginTop: 6, marginLeft: 2, color: '#fff' }} />
+                <Icone name='plus' size={20} style={{ marginTop: verticalScale(6), marginLeft: scale(6), color: '#fff' }} />
                 <Text style={styles.btn_text}> Ajouter un service </Text>
             </Pressable>
             <Modal animationType="fade" transparent={true} visible={create}>
@@ -192,7 +193,7 @@ const Services = ({ navigation }) => {
                                         <Text style={styles.titres}>Modifier le service</Text>
                                         <View style={styles.first_inputs}>
                                             <View style={styles.box_image}>
-                                                {image && <Image style={styles.add_image} source={{ uri: image }} />}
+                                                {image ? (<Image style={styles.add_image} source={{ uri: image }} />) : (<Image style={styles.add_image} />)}
                                                 <Pressable style={styles.upload} onPress={selectPhoto}>
                                                     <Text style={styles.buttonText}><IconeEntypo name="upload" size={20} />Image</Text>
                                                 </Pressable>
@@ -251,7 +252,8 @@ const styles = StyleSheet.create({
         borderColor: '#ABA9A9',
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     button: {
         backgroundColor: "#DE9F42",
@@ -269,20 +271,20 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     title: {
-        fontSize: 14,
+        fontSize: scale(12),
         color: "black",
-        width: 150
+        width: scale(150),
     },
     description: {
-        fontSize: 12,
+        fontSize: scale(10),
         color: "#ABA9A9",
     },
     price: {
         color: 'black',
     },
     image: {
-        width: 60,
-        height: 50,
+        width: scale(60),
+        height: verticalScale(45),
         backgroundColor: '#ABA9A9',
         borderRadius: 8,
         marginLeft: 9
@@ -322,15 +324,17 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     add_comments: {
-        width: 230,
-        height: 50,
-        marginTop: 20,
-        marginLeft: 20
+        width: scale(200),
+        height: verticalScale(40),
+        marginTop: verticalScale(20),
+        marginLeft: scale(20)
     },
     add_comment: {
-        width: 240,
-        height: 50,
-        marginLeft: 20
+        width: scale(180),
+        height: verticalScale(50),
+        // marginLeft: -20,
+        alignItems:'flex-start',
+        // borderWidth:1
     },
     add_description: {
         width: 310,
@@ -341,43 +345,44 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     add_cost: {
-        width: 300,
-        height: 40,
+        width: scale(255),
+        height: verticalScale(35),
         marginTop: 10,
         borderBottomWidth: 1,
         borderColor: '#ABA9A9',
+        paddingLeft:10,
     },
     add_image: {
-        width: 200,
-        height: 130,
+        width: scale(190),
+        height: verticalScale(100),
         borderWidth: 1,
         borderColor: '#ABA9A9',
         borderRadius: 8,
     },
     add_name: {
-        width: 300,
-        height: 40,
+        width: scale(255),
+        height: verticalScale(35),
         borderBottomWidth: 1,
         borderColor: '#ABA9A9',
         marginTop: 10,
+        paddingLeft:10,
     },
     create: {
         alignItems: 'center',
-        alignContent: 'center',
-        paddingTop: 200,
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
         height: '100%',
     },
     first_inputs: {
         flexDirection: 'column',
-        width: 350,
+        width: scale(350),
         marginLeft: 20,
         justifyContent: 'center',
     },
     seconds_input: {},
     second_box: {
-        width: 350,
-        height: 430,
+        width: scale(300),
+        height: verticalScale(350),
         marginTop: -10,
         marginBottom: 20,
         paddingTop: 20,
@@ -390,19 +395,20 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     titres: {
-        fontSize: 20,
+        fontSize: verticalScale(20),
         color: '#47300D',
         textAlign: 'center',
         marginBottom: 20
     },
     box_image: {
         flexDirection: 'row',
-        width: 500,
+        width: scale(280),
         alignItems:'flex-end',
+        // borderWidth:1
         // justifyContent:'flex-end'
     },
     upload: {
-        width: 80,
+        width: scale(65),
         height: 30,
         backgroundColor: '#FFA012',
         margin: 8,
@@ -420,7 +426,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginTop: -20,
         marginBottom: 5,
-        width: 310,
+        width: scale(310),
         color: '#ABA9A9'
     },
     files: {
