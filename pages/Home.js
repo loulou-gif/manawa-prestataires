@@ -12,7 +12,7 @@ import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommu
 import IconeFeather from 'react-native-vector-icons/Feather'
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import SearchBar from '../components/customers/SearchBar';
-import { scale } from 'react-native-size-matters';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Home = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false); 
@@ -67,12 +67,12 @@ const Home = ({navigation}) => {
                     (<View style={styles.container}>
                         {filteredStore.map((data) => (
                             <View style={styles.box} key={data.id}>
-                                <Icone key={data.id} name='dots-three-horizontal' onPress={() => handleInfoFacture(data)} size={16} color="black" style={{ textAlign: "right", width: 150, marginTop: -5, marginRight: -5 }} />
+                                <Icone key={data.id} name='dots-three-horizontal' onPress={() => handleInfoFacture(data)} style={{ textAlign: "right", width: scale(150), marginRight: scale(15) }} />
                                 <View style={styles.buttonsContainer}>
                                     <Image style={styles.images} source={data.image} />
                                 </View>
                                 <View style={styles.details}>
-                                    <View>
+                                    <View style={styles.preview_details}>
                                         <Text style={styles.text}><Text style={styles.bold}>Service:</Text> {data.name}</Text>
                                         <Text style={styles.text}><Text style={styles.bold}>Date:</Text> {data.date}</Text>
                                         <Text style={styles.text}><Text style={styles.bold}>Coût:</Text> {data.price}</Text>
@@ -84,27 +84,28 @@ const Home = ({navigation}) => {
                                 </View>
                                 <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
                                     <View style={styles.backgroundModal}>
-                                        {selectedUserData && <View style={styles.model_info}>
-                                        <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:10, marginTop:10, textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
-                                        <View style={styles.box_info}>
-                                            <View style={styles.circle}>
-                                                <Text style={styles.circle_text}>JK</Text>
+                                        {selectedUserData &&
+                                        <View style={styles.model_info}>
+                                            <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:10, marginTop:10, textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
+                                            <View style={styles.box_info}>
+                                                <View style={styles.circle}>
+                                                    <Text style={styles.circle_text}>JK</Text>
+                                                </View>
+                                                <View style={styles.info}>
+                                                    <Text style={styles.name}>{selectedUserData.client}</Text>
+                                                    <Text style={styles.id}>ID client: {selectedUserData.IDclient}</Text>
+                                                    <Text style={styles.contact}>Contact: {selectedUserData.contactClient}</Text>
+                                                </View>
+                                                <View style={{ marginRight:10}}>
+                                                    <IconeFontAwesome size={20} name='download'/>
+                                                </View>
                                             </View>
-                                            <View style={styles.info}>
-                                                <Text style={styles.name}>{selectedUserData.client}</Text>
-                                                <Text style={styles.id}>ID client: {selectedUserData.IDclient}</Text>
-                                                <Text style={styles.contact}>Contact: {selectedUserData.contactClient}</Text>
-                                            </View>
-                                            <View style={{ marginRight:10}}>
-                                                <IconeFontAwesome size={20} name='download'/>
-                                            </View>
-                                        </View>
                                             <DataTable style={styles.table}>
                                                 <DataTable.Header style={styles.table_title}>
                                                     <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Service</Text></DataTable.Title>
                                                     <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>{selectedUserData.name}</Text></DataTable.Title>
                                                 </DataTable.Header>
-                                                <DataTable.Row >
+                                                <DataTable.Row style={styles.second_row_table}>
                                                     <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Durée du service </Text></DataTable.Cell>
                                                     <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>{selectedUserData.durée}</Text></DataTable.Cell>
                                                 </DataTable.Row>
@@ -126,7 +127,7 @@ const Home = ({navigation}) => {
                                                 </DataTable.Row>
                                             </DataTable>
                                             <View style={styles.map}>
-                                            <Image style={styles.map} source={require('../assets/images/maps/map.png')} />
+                                                <Image style={styles.map} source={require('../assets/images/maps/map.png')} />
                                             </View>
                                             <View style={styles.buttonsContainer_info_model}>
                                                 <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
@@ -181,27 +182,28 @@ const Home = ({navigation}) => {
                                     </View>
                                     <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
                                         <View style={styles.backgroundModal}>
-                                            {selectedUserData && <View style={styles.model_info}>
-                                            <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:scale(10), marginTop:scale(10), textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
-                                            <View style={styles.box_info}>
-                                                <View style={styles.circle}>
-                                                    <Text style={styles.circle_text}>JK</Text>
+                                            {selectedUserData && 
+                                            <View style={styles.model_info}>
+                                                <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:scale(10), marginTop:scale(10), textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
+                                                <View style={styles.box_info}>
+                                                    <View style={styles.circle}>
+                                                        <Text style={styles.circle_text}>JK</Text>
+                                                    </View>
+                                                    <View style={styles.info}>
+                                                        <Text style={styles.name}>{selectedUserData.client}</Text>
+                                                        <Text style={styles.id}>ID client: {selectedUserData.IDclient}</Text>
+                                                        <Text style={styles.contact}>Contact: {selectedUserData.contactClient}</Text>
+                                                    </View>
+                                                    <View style={{ marginRight:scale(15)}}>
+                                                        <IconeFontAwesome size={20} name='download'/>
+                                                    </View>
                                                 </View>
-                                                <View style={styles.info}>
-                                                    <Text style={styles.name}>{selectedUserData.client}</Text>
-                                                    <Text style={styles.id}>ID client: {selectedUserData.IDclient}</Text>
-                                                    <Text style={styles.contact}>Contact: {selectedUserData.contactClient}</Text>
-                                                </View>
-                                                <View style={{ marginRight:scale(15)}}>
-                                                    <IconeFontAwesome size={20} name='download'/>
-                                                </View>
-                                            </View>
                                                 <DataTable style={styles.table}>
                                                     <DataTable.Header style={styles.table_title}>
                                                         <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>Service</Text></DataTable.Title>
                                                         <DataTable.Title style={styles.table_text_title}><Text style={styles.table_text_title}>{selectedUserData.name}</Text></DataTable.Title>
-                                                    </DataTable.Header>
-                                                    <DataTable.Row >
+                                                    </DataTable.Header >
+                                                    <DataTable.Row style={styles.second_row_table} >
                                                         <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>Durée du service </Text></DataTable.Cell>
                                                         <DataTable.Cell style={styles.text_row}><Text style={styles.text_row}>{selectedUserData.durée}</Text></DataTable.Cell>
                                                     </DataTable.Row>
@@ -223,7 +225,7 @@ const Home = ({navigation}) => {
                                                     </DataTable.Row>
                                                 </DataTable>
                                                 <View style={styles.map}>
-                                                <Image style={styles.map} source={require('../assets/images/maps/map.png')} />
+                                                    <Image style={styles.map} source={require('../assets/images/maps/map.png')} />
                                                 </View>
                                                 <View style={styles.buttonsContainer_info_model}>
                                                     <Pressable style={styles.btn_annulation} onPress={() =>setAnnul(!annul)}><Text style={styles.buttonText}>Non </Text></Pressable>
@@ -273,7 +275,7 @@ const styles = StyleSheet.create({
         marginTop: scale(10),
     },
     box: {
-        width: '45%',
+        width: scale(157),
         margin: '2.5%',
         borderWidth: 1,
         borderColor: '#ABA9A9',
@@ -289,6 +291,10 @@ const styles = StyleSheet.create({
     details: {
         alignItems: 'center',
     },
+    preview_details:{
+        // borderWidth:1,
+        // width:scale(130),
+    },
     text: {
         fontSize: scale(10),
         color: "#ABA9A9",
@@ -301,20 +307,21 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: verticalScale(10),
+        marginBotto: verticalScale(10),
     },
     btn_annulation: {
         backgroundColor: '#FFA012',
-        width: 75,
-        height: 30,
+        width: scale(65),
+        height: verticalScale(25),
         alignItems: 'center',
         justifyContent: 'center',
         margin: 5
     },
     btn_confirmation: {
         backgroundColor: '#47300D',
-        width: 75,
-        height: 30,
+        width: scale(65),
+        height: verticalScale(25),
         alignItems: 'center',
         justifyContent: 'center',
         margin: 5
@@ -328,29 +335,25 @@ const styles = StyleSheet.create({
     },
     model:{
         width:"100%",
-        height:100,
+        height:verticalScale(150),
         backgroundColor:'#fff',
         alignItems: 'center',
-        marginTop:350,
-        marginLeft:60,
-        paddingTop:10,
-        shadowColor:'black',
-        shadowOffset: { width: 10, height: 10 },
-        shadowOpacity: 0.8,
-        shadowRadius: 1,
+        justifyContent:'center',
+        width:scale(250)
     },
     model_info:{ 
         height:scale(500),
-        marginTop:scale(100),
+        // marginTop:scale(100),
         backgroundColor:'#fff',
         width:scale(340),
-        marginLeft:5
+        flexDirection:'column'
     },
     table:{
-        marginTop:10,
+        marginTop:verticalScale(10),
         marginLeft:10,
         width:scale(320)
-    },circle:{
+    },
+    circle:{
         width:scale(80),
         height:scale(80),
         borderRadius:scale(50),
@@ -422,26 +425,29 @@ const styles = StyleSheet.create({
         marginTop:-10,
     },
     text_row:{
-        fontSize:scale(15)
+        fontSize:scale(12), 
     },
     second_text_row:{
         fontSize:15,
         color:'#fff'
     },
     map:{
-        width:375,
-        height:100,
+        width:scale(320),
+        height:verticalScale(100),
         marginLeft:5,
-        marginTop:50,
+        marginTop:verticalScale(35),
         marginBottom:50
     },
     backgroundModal:{
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         height:scale(730),
+        flexDirection:'column',
+        justifyContent:'space-around',
+        alignItems:'center'
     },
     Icone:{
         // marginTop:20,
-        fontSize:25,
+        fontSize:scale(25),
         color:'orange',
         fontWeight:'bold',
         marginRight:5
@@ -449,7 +455,7 @@ const styles = StyleSheet.create({
     box_icone:{
         // borderWidth:1,
         justifyContent:"center",
-        height:40,
+        height:scale(40),
         justifyContent:'center',
         alignItems:'flex-end',
         alignSelf:'flex-end',
