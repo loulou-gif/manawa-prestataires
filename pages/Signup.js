@@ -48,7 +48,7 @@ const Signup = ({navigation}) => {
               <View style={styles.phone}>
                 <TextInput style={styles.phone_input} value={password} secureTextEntry={true} onChangeText={(text)=> setPassword(text)} placeholder='Mot de passe' />
               </View>
-                <Pressable style={styles.buttons} onPress={signup}><Text style={styles.textButton}>SUIVANT</Text></Pressable>
+                <Pressable style={styles.buttons} onPress={signup}><Text style={styles.textButton}>S'INSCRIRE</Text></Pressable>
                 
               <View style={styles.text}>
                 <Text style={styles.p}>Déjà un compte?<Text onPress={() => navigation.navigate("Login")} style={styles.connexionColor}> Connectez-vous</Text></Text>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   connexionColor:{
     color: "#FFA012",
-    fontSize: 18,
+    fontSize: scale(16),
   },
   header:{
     // marginTop: 150,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     width:272,
     height:37,
     textAlign:"center",
-    fontSize:16,
+    fontSize:scale(14), 
     color:"#E5E5E5",
     marginTop:10,
   },
@@ -113,6 +113,8 @@ const styles = StyleSheet.create({
   },
   text:{
     alignItems:"center",
+    height:'auto',
+    // borderWidth:1,
   },
   box_inputs:{
     alignItems:"center",

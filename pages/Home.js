@@ -10,7 +10,9 @@ import InfoStoreBare from '../components/customers/InfoStoreBar';
 import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 // import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import IconeFeather from 'react-native-vector-icons/Feather'
+import IconeEntypo from 'react-native-vector-icons/Entypo'
 import SearchBar from '../components/customers/SearchBar';
+import { scale } from 'react-native-size-matters';
 
 const Home = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false); 
@@ -50,13 +52,13 @@ const Home = ({navigation}) => {
                     columns ?
                     (
                         <TouchableOpacity style={styles.box_icone} onPress={handleVisible}>
-                            <IconeFeather style={styles.Icone} name='credit-card' size={30}/>
+                            <IconeEntypo style={styles.Icone} name='grid' size={30}/>
                         </TouchableOpacity>
                     )
                     :
                     (
                         <TouchableOpacity style={styles.box_icone} onPress={handleVisible}>
-                            <IconeFeather style={styles.Icone} name='columns' size={30}/>
+                            <IconeFontAwesome style={styles.Icone} name='th-list' size={30}/>
                         </TouchableOpacity>
                     )
                 }
@@ -180,7 +182,7 @@ const Home = ({navigation}) => {
                                     <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => { Alert.alert('Modal has been closed.'); setModalVisible(!modalVisible); }}>
                                         <View style={styles.backgroundModal}>
                                             {selectedUserData && <View style={styles.model_info}>
-                                            <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:10, marginTop:10, textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
+                                            <Pressable   onPress={() => setModalVisible(!modalVisible)}><Text style={{marginRight:scale(10), marginTop:scale(10), textAlign:'right'}}><IconeAntDesign name='closecircleo' size={26}/></Text></Pressable>
                                             <View style={styles.box_info}>
                                                 <View style={styles.circle}>
                                                     <Text style={styles.circle_text}>JK</Text>
@@ -190,7 +192,7 @@ const Home = ({navigation}) => {
                                                     <Text style={styles.id}>ID client: {selectedUserData.IDclient}</Text>
                                                     <Text style={styles.contact}>Contact: {selectedUserData.contactClient}</Text>
                                                 </View>
-                                                <View style={{ marginRight:10}}>
+                                                <View style={{ marginRight:scale(15)}}>
                                                     <IconeFontAwesome size={20} name='download'/>
                                                 </View>
                                             </View>
@@ -268,7 +270,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: scale(10),
     },
     box: {
         width: '45%',
@@ -288,9 +290,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        fontSize: 12,
+        fontSize: scale(10),
         color: "#ABA9A9",
-        marginBottom: 5,
+        marginBottom: scale(5),
 
     },
     bold: {
@@ -337,68 +339,70 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 1,
     },
-    model_info:{
-        height:650,
-        marginTop:100,
+    model_info:{ 
+        height:scale(500),
+        marginTop:scale(100),
         backgroundColor:'#fff',
-        width:400,
+        width:scale(340),
         marginLeft:5
     },
     table:{
         marginTop:10,
         marginLeft:10,
-        width:375
+        width:scale(320)
     },circle:{
-        width:100,
-        height:100,
-        borderRadius:50,
+        width:scale(80),
+        height:scale(80),
+        borderRadius:scale(50),
         backgroundColor:'#7A4D09',
-        marginTop:10,
-        marginLeft:20
+        marginTop:scale(5),
+        marginLeft:scale(5),
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     circle_text:{
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 30,
-        textAlign:'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // margin: scale(20),
+        // textAlign:'center',
         color:'#fff',
-        fontSize:25
+        fontSize:scale(20)
     },
     name:{
-        fontSize:20,
-        marginLeft:20,
+        fontSize:scale(16),
+        marginLeft:scale(16),
         color:'#47300D'
     },
     info:{
-        width:205,
-        marginLeft:10
+        width:scale(185),
+        marginLeft:scale(5)
     },
     id:{
-        fontSize:15,
+        fontSize:scale(12),
         color:'#8C8B8B',
-        marginLeft:20
+        marginLeft:scale(16)
     },
     contact:{
-        fontSize:15,
+        fontSize:scale(12),
         color:'#8C8B8B',
-        marginLeft:20
+        marginLeft:scale(16)
     },
     table_title:{
         backgroundColor:'#715D3E',
-        height:35,
+        height:scale(30),
         opacity:0.7
     },
     table_text_title:{
         color:'white',
-        marginTop:-10,
-        fontSize:16
+        marginTop:scale(-8),
+        fontSize:scale(13)
     },
     box_info:{
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 5,
     },
@@ -418,7 +422,7 @@ const styles = StyleSheet.create({
         marginTop:-10,
     },
     text_row:{
-        fontSize:15
+        fontSize:scale(15)
     },
     second_text_row:{
         fontSize:15,
@@ -433,7 +437,7 @@ const styles = StyleSheet.create({
     },
     backgroundModal:{
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        height:900,
+        height:scale(730),
     },
     Icone:{
         // marginTop:20,
@@ -452,10 +456,10 @@ const styles = StyleSheet.create({
         width:'10%'
     },
     second_images:{
-        width:70,
-        height:70,
+        width:scale(60),
+        height:scale(60),
         borderRadius:8,
-        marginRight:20
+        marginRight:scale(10)
     },
     second_box:{
         flexDirection:'row',

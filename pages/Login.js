@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   inscriptionColor: {
     color: "#FFA012",
-    fontSize: scale(18),
+    fontSize: scale(16),
   },
   connexionColor: {
     color: "#FFA012",
@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
   },
   p: {
     width: '100%',
-    height: 37,
+    height: scale(37),
     textAlign: "center",
-    fontSize: 16,
+    fontSize: scale(14),
     color: "#4E4E4E",
     marginTop: 10,
   },
