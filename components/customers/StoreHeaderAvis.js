@@ -4,6 +4,7 @@ import IconeFeather from 'react-native-vector-icons/Feather'
 import { TextInput } from 'react-native-paper'
 import StoreEdit from './StoreEdit'
 import {doc, db, getDoc, getDocFromCache, auth} from '../../firebase/configs'
+import { scale } from 'react-native-size-matters'
 
 const StoreHeaderAvis = ({navigation}) => {
     const userId = auth.currentUser.uid
@@ -39,7 +40,7 @@ const StoreHeaderAvis = ({navigation}) => {
 
   return (
     <View>
-      <Image style={styles.image} source={require('../../assets/images/background/background.png')}  />
+      <Image style={styles.image} source={require('../../assets/images/background/background.png')} />
       <View style={styles.bottom}>
         <View style={styles.flex}>
             {datas.logoUri ? (<Image style={styles.profil} source={{uri: datas.logoUri}} />): <Image style={styles.profil} />}
@@ -75,15 +76,15 @@ const styles = StyleSheet.create({
     },
     state:{
         color:"green",
-        fontSize:12,
+        fontSize:scale(12),
     },
     title:{
-        fontSize:20,
+        fontSize:scale(18),
     },
     flex:{
         flexDirection: "row",
         justifyContent:"space-evenly",
-        width:250,
+        width:scale(250),
         marginTop:15,
         marginBottom:5,
     },
@@ -102,10 +103,10 @@ const styles = StyleSheet.create({
         marginBottom:50,
     },
     menu:{
-        fontSize:16,
+        fontSize:scale(14),
     },
     cursor:{
-        fontSize:16,
+        fontSize:scale(14),
         color:"#DE9F42",
     },
     icone:{

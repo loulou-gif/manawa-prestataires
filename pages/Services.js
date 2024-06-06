@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: "#DE9F42",
         marginLeft: 9,
-        width: 150,
+        width: scale(140),
         height: 30,
         margin: 10,
         borderRadius: 8,

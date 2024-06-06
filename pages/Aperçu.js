@@ -10,6 +10,7 @@ import StoreHeaderAperçu from '../components/customers/StoreHeaderAperçu';
 import * as ImagePicker from 'expo-image-picker';
 import { app, db, collection, addDoc, getFirestore, auth } from '../firebase/configs';
 import Message from '../components/customers/Message';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Aperçu = ({ navigation }) => {
     const [create, setCreate] = useState(false);
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#DE9F42',
         marginLeft: 9,
-        width: 150,
+        width: scale(140),
         height: 30,
         margin: 10,
         borderRadius: 8,
@@ -191,8 +192,8 @@ const styles = StyleSheet.create({
     },
     def: {
         backgroundColor: '#7A4D09',
-        width: 380,
-        height: 115,
+        width: scale(320),
+        height: verticalScale(90),
         padding: 10,
         borderRadius: 8,
         justifyContent: 'center',
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     },
     def_text: {
         color: '#fff',
-        width: 300,
+        width: scale(250),
         fontSize: 15,
     },
     light: {
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     },
     center: {
         alignItems: 'center',
-        marginTop: 15,
+        marginTop: scale(10),
     },
     add_comments: {
         width: 350,
