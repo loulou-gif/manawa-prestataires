@@ -4,6 +4,7 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { auth, db, doc, getDoc, setDoc } from '../../firebase/configs'; // Importez correctement vos configurations Firebase
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const ModifyStore = ({ navigation }) => {
   const userId = auth.currentUser.uid; // Obtenez l'ID de l'utilisateur connecté
@@ -140,31 +141,32 @@ const ModifyStore = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   background: {
-    height: 170,
+    height: verticalScale(150),
     borderBottomWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'grey'
+    borderColor: '#D9D9D9'
   },
   profil: {
-    height: 100,
-    width: 100,
+    height: verticalScale(100),
+    width: scale(100),
     borderColor: 'grey',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    backgroundColor: 'grey'
+    backgroundColor: '#D9D9D9'
   },
   forms: {
-    height: 400,
+    height: scale(350),
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center', 
+    // borderWidth: 1,
   },
   input: {
     borderWidth: 1,
     width: '90%',
-    height: 40,
+    height: verticalScale(40),
     borderRadius: 8,
-    borderColor: 'grey',
+    borderColor: '#D9D9D9',
     paddingLeft: 10
   },
   label: {
@@ -178,12 +180,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'orange',
-    height: 40,
+    height: verticalScale(40),
     borderRadius: 8
   },
   btn_text: {
     color: '#fff',
-    fontSize: 18
+    fontSize: scale(16)
   },
   horaire: {
     flexDirection: 'row',
@@ -194,9 +196,9 @@ const styles = StyleSheet.create({
   time: {
     borderWidth: 1,
     width: '45%',
-    height: 40,
+    height: verticalScale(40),
     borderRadius: 8,
-    borderColor: 'grey',
+    borderColor: '#D9D9D9',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -204,13 +206,13 @@ const styles = StyleSheet.create({
     color: 'grey',
     borderWidth: 1,
     padding: 5,
-    borderRadius: 8,
+    borderRadius: 20,
     borderColor: 'grey',
     backgroundColor: 'rgba(255, 255, 255, 0.8)'
   },
   title: {
     marginTop: 5,
-    fontSize: 16,
+    fontSize: scale(15),
     fontWeight: 'bold'
   }
 });

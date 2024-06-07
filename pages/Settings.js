@@ -8,6 +8,7 @@ import IconeMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommu
 import IconeEntypo from 'react-native-vector-icons/Entypo'
 import IconeAntDesign from 'react-native-vector-icons/AntDesign'
 import {signOut, auth, db, collection, getDoc, getDocFromCache} from '../firebase/configs'
+import { scale } from 'react-native-size-matters'
 
 const Settings = ({navigation}) => {
   const userId = auth.currentUser.uid;
@@ -84,22 +85,22 @@ const Settings = ({navigation}) => {
 const styles  = StyleSheet.create({
   stat:{
     marginTop:10,
-    width:400,
+    width:scale(350),
     borderBottomWidth:1,
     borderColor:'#D9D9D9'
   },
   line:{
     margin:10,
-    fontSize:20,
+    fontSize:scale(16),
     color:'#47300D',
-    width:180,
+    width:scale(160),
     paddingLeft:10,
   },
   lines:{
     margin:10,
-    fontSize:18,
+    fontSize:scale(14),
     color:'#8C8B8B',
-    width:180,
+    width:scale(160),
     textAlign:'right',
     paddingRight:20,
   },
@@ -108,7 +109,7 @@ const styles  = StyleSheet.create({
   },
   settings:{
     marginTop:10,
-    width:400,
+    width:scale(350),
   },
   options:{
     margin:10,

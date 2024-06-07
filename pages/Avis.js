@@ -4,6 +4,7 @@ import Header from '../components/customers/Header'
 // import StoreHeader from '../components/customers/StoreHeader'
 import StoreHeaderAvis from '../components/customers/StoreHeaderAvis'
 import { avis, Iconestyles } from '../data/Avis'
+import { scale, verticalScale } from 'react-native-size-matters'
 
 const Avis = ({navigation}) => {
   const avisWithAlias = avis.map(data => ({
@@ -36,38 +37,43 @@ const Avis = ({navigation}) => {
 const styles= StyleSheet.create({
   circle:{
     backgroundColor:'#7A4D09',
-    width:60,
-    height:60,
+    width:scale(50),
+    height:verticalScale(45),
     borderRadius:30,
     alignItems:'center',
+    justifyContent:'center'
   },
   card:{
     borderWidth:1,
     borderColor:'#D9D9D9',
     flexDirection:'row',
     padding:10,
+    justifyContent:'center',
+    alignItems:'center'
   },
   text:{
-    width:200,
+    width:scale(210),
     marginLeft:20,
+    // borderWidth:1
   },
   name:{
     color:'#47300D',
-    fontSize:20,
+    fontSize:scale(16),
   },
   comment:{
     fontSize:12,
     color:'#8C8B8B',
-    width:200,
-    height:50
+    width:scale(210),
+    height:verticalScale(35),
+    // borderWidth:1
   },
   stars:{
-    marginTop:10
+    // marginTop:10
   },
   alias:{
     color:'white',
-    fontSize:18,
-    marginTop:15
+    fontSize:scale(14),
+    // marginTop:15
   }
 })
 
