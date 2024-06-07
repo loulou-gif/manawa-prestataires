@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from 'react-na
 import React, { useState } from 'react';
 import { sms } from '../../data/sms';
 import Conversation from './Conversation';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 // Fonction pour tronquer le texte
 const truncateText = (text, length) => {
@@ -52,12 +53,12 @@ const styles = StyleSheet.create({
     borderColor: '#ABA9A9',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    height: 80,
+    height: verticalScale(70),
     alignItems: 'center',
   },
   image: {
-    width: 50,
-    height: 50,
+    width: scale(45),
+    height: verticalScale(45),
     backgroundColor: '#ABA9A9',
     borderRadius: 25,
     marginLeft: 20,
@@ -72,13 +73,13 @@ const styles = StyleSheet.create({
     color: '#ABA9A9',
   },
   time_box: {
-    width: 80,
+    width: scale(75),
     alignItems: 'center',
-    height: 40,
+    height: verticalScale(40),
     justifyContent: 'flex-end',
   },
   time: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: '#ABA9A9',
   },
   info: {

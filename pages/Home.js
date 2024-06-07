@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
         width: scale(157),
         margin: '2.5%',
         borderWidth: 1,
-        borderColor: '#ABA9A9',
+        borderColor: '#D9D9D9',
         padding: 15,
         alignItems: "center",
     },
@@ -471,10 +471,10 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         width:'100%',
         borderBottomWidth:1,
-        height:100,
+        height:verticalScale(80),
         alignItems:'center',
         paddingLeft:10,
-        borderColor:'grey'
+        borderColor:'#D9D9D9'
     },
     second_details:{
         flexDirection:'row',

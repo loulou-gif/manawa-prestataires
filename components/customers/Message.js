@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     modal: {
-        height: '635%',
+        height: verticalScale(1200),
         backgroundColor: 'rgba(0,0,0, 0.3)',
     },
     all_conversation: {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: 50,
+        height: verticalScale(50),
         backgroundColor: '#7A4D09',
         flexDirection: 'row',
         alignItems: 'center',
@@ -88,17 +88,17 @@ const styles = StyleSheet.create({
     },
     back_header: {
         color: 'white',
-        fontSize: 20,
+        fontSize: scale(20),
         marginLeft: 10,
         marginRight: 20,
     },
     text_header: {
         color: 'white',
-        fontSize: 20,
+        fontSize: scale(18),
     },
     noConversations: {
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: scale(18),
         color: '#7A4D09',
         marginTop: 20,
     },
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     text_notif:{
         color:'white',
         fontWeight:'bold',
-        fontSize:18,
+        fontSize:scale(16),
     },
 });
 
