@@ -4,7 +4,8 @@ import IconeFeather from 'react-native-vector-icons/Feather';
 import IconeAntDesign from 'react-native-vector-icons/AntDesign';
 import IconeEntypo from 'react-native-vector-icons/Entypo';
 import * as ImagePicker from 'expo-image-picker';
-import { app, db, collection, addDoc, getDocs, query, where, auth, deleteDoc, doc } from '../../firebase/configs';
+import { app, db, collection, addDoc, getDocs, query, where, auth, deleteDoc, doc, updateDoc } from '../../firebase/configs';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const Aperçus = ({ navigation }) => {
     const [deleted, setDeleted] = useState(false);
@@ -16,19 +17,22 @@ const Aperçus = ({ navigation }) => {
     const [apercuData, setApercuData] = useState([]);
 
     const confirmDelete = async () => {
-        if (!details) return; // Assurez-vous que les détails sont définis
+        if (!details) return;
 
         try {
-            await deleteDoc(doc(db, 'services', details.id));
+            await deleteDoc(doc(db, 'aperçu', details.id));
             setDeleted(false);
             printData();
         } catch (error) {
-            console.log('Message:', error);
+            console.error('Message:', error);
         }
     };
 
     const handleModalModify = (detail) => {
         setDetails(detail);
+        setClient(detail.client);
+        setComment(detail.comment);
+        setPhoto(detail.imageUrl);
         setModify(true);
     };
 
@@ -39,29 +43,37 @@ const Aperçus = ({ navigation }) => {
         });
 
         if (!result.cancelled) {
-            setPhoto(result.uri); // Mettre à jour l'URI de la photo
+            setPhoto(result.uri);
         } else {
-            alert('Aucune photo sélectionnée.');
+            Alert.alert('Aucune photo sélectionnée.');
         }
     };
 
     const modifyAperçu = async () => {
+        if (!client || !comment) {
+            Alert.alert('Veuillez remplir tous les champs.');
+            return;
+        }
+
+        const updatedPhoto = photo ? photo : details.imageUrl; // Utiliser l'image actuelle si aucune nouvelle image n'est sélectionnée
+
         try {
-            const docRef = await addDoc(collection(db, 'aperçu'), {
+            const userId = auth.currentUser.uid;
+            await updateDoc(doc(db, 'aperçu', details.id), {
+                id_prestataire: userId,
                 client: client,
                 comment: comment,
-                image: photo, // Utiliser l'URI de la photo
+                image: updatedPhoto,
             });
-            console.log('Document written with ID: ', docRef.id);
 
-            // Mettre à jour les détails et vider les champs
             setDetails(null);
             setClient('');
             setComment('');
+            setPhoto('');
             setModify(false);
-            printData(); // Rafraîchir les données après modification
+            printData();
         } catch (e) {
-            console.error('Error adding document: ', e);
+            console.error('Error updating document: ', e);
         }
     };
 
@@ -73,12 +85,11 @@ const Aperçus = ({ navigation }) => {
             const apercu = [];
             querySnapshot.forEach((doc) => {
                 const { client, comment, image } = doc.data();
-                const imageUrl = image;
-                apercu.push({ id: doc.id, client, comment, imageUrl });
+                apercu.push({ id: doc.id, client, comment, imageUrl: image });
             });
             setApercuData(apercu);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 
@@ -89,119 +100,104 @@ const Aperçus = ({ navigation }) => {
     return (
         <ScrollView>
             {apercuData.map((data) => (
-                <View key={data.id}>
-                    <View style={styles.box}>
-                        <Image style={styles.image} source={{ uri: data.imageUrl }} />
-                        <View style={styles.box_text}>
-                            <Text style={styles.name}>{data.client}</Text>
-                            <Text style={styles.comment}>{data.comment}</Text>
-                            <View style={styles.icone}>
-                                <IconeFeather
-                                    name="edit"
-                                    onPress={() => handleModalModify(data)}
-                                    size={20}
+                <View key={data.id} style={styles.box}>
+                    <Image style={styles.image} source={{ uri: data.imageUrl }} />
+                    <View style={styles.box_text}>
+                        <Text style={styles.name}>{data.client}</Text>
+                        <Text style={styles.comment}>{data.comment}</Text>
+                        <View style={styles.icone}>
+                            <IconeFeather name="edit" onPress={() => handleModalModify(data)} size={20} />
+                            <IconeAntDesign name="delete" onPress={() => { setDetails(data); setDeleted(true); }} size={20} color="red" />
+                        </View>
+                    </View>
+                </View>
+            ))}
+
+            {modify && details && (
+                <Modal animationType="fade" transparent={true} visible={modify}>
+                    <View style={styles.create}>
+                        <View style={styles.second_box}>
+                            <Text style={styles.titres}>Modifier un Aperçu</Text>
+                            <View style={styles.first_inputs}>
+                                <View style={styles.box_image}>
+                                    <Image style={styles.add_image} source={{ uri: photo ? photo : details.imageUrl }} />
+                                    <Pressable style={styles.upload} onPress={selectPhoto}>
+                                        <Text style={styles.buttonText}>
+                                            <IconeEntypo name="upload" size={20} /> Image
+                                        </Text>
+                                    </Pressable>
+                                </View>
+                                <View style={styles.seconds_input}>
+                                    <TextInput
+                                        style={styles.add_name}
+                                        onChangeText={(text) => setClient(text)}
+                                        placeholder="Nom du client"
+                                        value={client}
+                                    />
+                                </View>
+                            </View>
+                            <View style={styles.add_comments}>
+                                <Text style={styles.labelle}>Description du service</Text>
+                                <TextInput
+                                    style={styles.add_comment}
+                                    multiline={true}
+                                    onChangeText={(text) => setComment(text)}
+                                    placeholder="Commentaire"
+                                    value={comment}
                                 />
-                                <IconeAntDesign
-                                    name="delete"
-                                    onPress={() => {
-                                        setDetails(data);
-                                        setDeleted(true);
-                                    }}
-                                    size={20}
-                                    color="red"
-                                />
+                            </View>
+                            <View style={styles.buttonsContainer2}>
+                                <Pressable onPress={() => setModify(false)} style={styles.btn_annulation}>
+                                    <Text style={styles.buttonText}>Annuler</Text>
+                                </Pressable>
+                                <Pressable onPress={modifyAperçu} style={styles.btn_confirmation}>
+                                    <Text style={styles.buttonText}>Modifier</Text>
+                                </Pressable>
                             </View>
                         </View>
                     </View>
+                </Modal>
+            )}
 
-                    <Modal animationType="fade" transparent={true} visible={modify}>
-                        {details && (
-                            <View style={styles.create}>
-                                <View style={styles.second_box}>
-                                    <Text style={styles.titres}>Modifier un Aperçu</Text>
-                                    <View style={styles.first_inputs}>
-                                        <View style={styles.box_image}>
-                                            {photo ? (
-                                                <Image style={styles.add_image} source={{ uri: photo }} />
-                                            ) : (
-                                                <Image style={styles.add_image} source={{ uri: details.imageUrl }} />
-                                            )}
-                                            <Pressable style={styles.upload} onPress={selectPhoto}>
-                                                <Text style={styles.buttonText}>
-                                                    <IconeEntypo name="upload" size={20} /> Image
-                                                </Text>
-                                            </Pressable>
-                                        </View>
-                                        <View style={styles.seconds_input}>
-                                            <TextInput
-                                                style={styles.add_name}
-                                                onChangeText={(text) => setClient(text)}
-                                                placeholder="Nom du client"
-                                                defaultValue={details.client}
-                                            />
-                                        </View>
-                                    </View>
-                                    <View style={styles.add_comments}>
-                                        <Text style={styles.labelle}>Description du service</Text>
-                                        <TextInput
-                                            style={styles.add_comment}
-                                            multiline={true}
-                                            onChangeText={(text) => setComment(text)}
-                                            placeholder="Commentaire"
-                                            defaultValue={details.comment}
-                                        />
-                                    </View>
-                                    <View style={styles.buttonsContainer2}>
-                                        <Pressable onPress={() => setModify(false)} style={styles.btn_annulation}>
-                                            <Text style={styles.buttonText}>Annuler</Text>
-                                        </Pressable>
-                                        <Pressable onPress={modifyAperçu} style={styles.btn_confirmation}>
-                                            <Text style={styles.buttonText}>Modifier</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            </View>
-                        )}
-                    </Modal>
-
-                    <Modal animationType="fade" transparent={true} visible={deleted}>
-                        <View style={styles.models}>
-                            <View style={styles.model}>
-                                <Text>Voulez-vous supprimer ce service?</Text>
-                                <View style={styles.buttonsContainer}>
-                                    <Pressable style={styles.btn_annulation} onPress={() => setDeleted(false)}>
-                                        <Text style={styles.buttonText}>Non</Text>
-                                    </Pressable>
-                                    <Pressable style={styles.btn_confirmation} onPress={confirmDelete}>
-                                        <Text style={styles.buttonText}>Oui</Text>
-                                    </Pressable>
-                                </View>
+            {deleted && (
+                <Modal animationType="fade" transparent={true} visible={deleted}>
+                    <View style={styles.models}>
+                        <View style={styles.model}>
+                            <Text>Voulez-vous supprimer ce service?</Text>
+                            <View style={styles.buttonsContainer}>
+                                <Pressable style={styles.btn_annulation} onPress={() => setDeleted(false)}>
+                                    <Text style={styles.buttonText}>Non</Text>
+                                </Pressable>
+                                <Pressable style={styles.btn_confirmation} onPress={confirmDelete}>
+                                    <Text style={styles.buttonText}>Oui</Text>
+                                </Pressable>
                             </View>
                         </View>
-                    </Modal>
-                </View>
-            ))}
+                    </View>
+                </Modal>
+            )}
         </ScrollView>
     );
 };
+
 
 const styles = StyleSheet.create({
     box_text: {
         paddingTop: 10,
     },
     image: {
-        width: 120,
-        height: 120,
+        width: scale(80),
+        height: verticalScale(80),
         borderRadius: 8,
     },
     name: {
-        fontSize: 18,
+        fontSize: scale(16),
         color: '#47300D',
     },
     comment: {
         color: '#ABA9A9',
-        fontSize: 14,
-        width: 230,
+        fontSize: scale(12),
+        width: scale(200),
     },
     box: {
         padding: 10,
@@ -213,7 +209,7 @@ const styles = StyleSheet.create({
     icone: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 50,
+        width: scale(50),
     },
     buttonsContainer: {
         flexDirection: 'row',
@@ -221,16 +217,16 @@ const styles = StyleSheet.create({
     },
     btn_annulation: {
         backgroundColor: '#FFA012',
-        width: 75,
-        height: 30,
+        width: scale(75),
+        height: verticalScale(25),
         alignItems: 'center',
         justifyContent: 'center',
         margin: 5,
     },
     btn_confirmation: {
         backgroundColor: '#47300D',
-        width: 75,
-        height: 30,
+        width: scale(75),
+        height: verticalScale(25),
         alignItems: 'center',
         justifyContent: 'center',
         margin: 5,
@@ -239,8 +235,8 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     model: {
-        width: 300,
-        height: 100,
+        width: scale(300),
+        height: verticalScale(100),
         backgroundColor: '#fff',
         alignItems: 'center',
         paddingTop: 10,
@@ -253,57 +249,60 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     add_comments: {
-        width: 350,
+        width: scale(300),
         height: 50,
         marginTop: 30,
         alignItems: 'center',
     },
     add_comment: {
-        width: 310,
-        height: 90,
+        width: scale(290),
+        height: verticalScale(50),
         borderWidth: 1,
         borderColor: '#ABA9A9',
         borderRadius: 8,
         paddingLeft: 10,
+        marginLeft:30
     },
     add_image: {
-        width: 230,
-        height: 120,
+        width: scale(200),
+        height: verticalScale(100),
         borderWidth: 1,
         borderColor: '#ABA9A9',
         borderRadius: 8,
     },
     add_name: {
-        width: 300,
-        height: 40,
+        width: scale(280),
+        height: verticalScale(35),
         borderBottomWidth: 1,
         borderColor: '#ABA9A9',
         marginTop: 10,
     },
     create: {
         alignItems: 'center',
-        paddingTop: 200,
         backgroundColor: 'rgba(0, 0, 0, 0.2)',
         height: '100%',
+        justifyContent:'center'
     },
     first_inputs: {
         flexDirection: 'column',
-        width: 350,
+        width: scale(320),
         justifyContent: 'center',
+        // borderWidth: 1,
     },
     seconds_input: {
         justifyContent:'center',
         alignItems:'center'
     },
     second_box: {
-        width: 350,
-        height: 430,
+        width: scale(320),
+        height: verticalScale(350),
         marginTop: 10,
         marginBottom: 20,
         borderWidth: 1,
         borderColor: '#ABA9A9',
         paddingTop: 20,
         backgroundColor: '#fff',
+        borderBottomWidth: 1,
     },
     buttonsContainer2: {
         flexDirection: 'row',
@@ -320,7 +319,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginTop: -20,
         marginBottom: 5,
-        width: 310,
+        width: scale(265),
         color: '#ABA9A9',
     },
     box_image: {
@@ -330,11 +329,10 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     upload: {
-        width: 75,
-        height: 30,
+        width: scale(70),
+        height: verticalScale(25),
         backgroundColor: '#FFA012',
         margin: 8,
-        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
     },

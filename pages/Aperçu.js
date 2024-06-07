@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
         borderColor: '#ABA9A9',
     },
     add_image: {
-        width: 230,
-        height: 120,
+        width: scale(200),
+        height: verticalScale(100),
         borderWidth: 1,
         borderColor: '#ABA9A9',
         borderRadius: 8,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     titres: {
-        fontSize: 20,
+        fontSize: scale(16),
         color: '#47300D',
         textAlign: 'center',
         marginBottom: 20,
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     },
     box_image: {
         flexDirection: 'row',
-        width: '100%',
+        width: scale(275),
         alignItems:'flex-end',
         // borderWidth:1
     },
