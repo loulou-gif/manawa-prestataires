@@ -39,7 +39,7 @@ const InfoStoreBare = ({navigation}) => {
                 (<Image style={styles.profil}  />)  
             }
             <View styles={styles.text}>
-                <Text style={styles.title}>{datas.name ? datas.name: 'Nom de la boutique'} </Text>
+                <Text style={styles.title}>{datas.name ? datas.name: 'Nom de la boutique'} {console.log(datas.logoUri)} </Text>
                 <Text style={styles.state}>
                     Ouvert ({datas.openingTime ? formatTime(datas.openingTime) : '09:00'} - {datas.closingTime ? formatTime(datas.closingTime) : '20:30'})
                 </Text>

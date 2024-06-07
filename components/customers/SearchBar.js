@@ -15,7 +15,7 @@ const SearchBar = ({ onChangeText }) => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Search..."
+        placeholder="Recherche..."
         value={searchPhrase}
         onChangeText={handleSearch}
       />
